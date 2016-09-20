@@ -4,7 +4,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1393</x>
+      <x>1197</x>
       <y>0</y>
       <w>224</w>
       <h>175</h>
@@ -30,7 +30,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>525</x>
+      <x>329</x>
       <y>413</y>
       <w>203</w>
       <h>84</h>
@@ -50,7 +50,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1099</x>
+      <x>903</x>
       <y>259</y>
       <w>182</w>
       <h>84</h>
@@ -68,7 +68,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1176</x>
+      <x>980</x>
       <y>168</y>
       <w>357</w>
       <h>105</h>
@@ -79,7 +79,7 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1421</x>
+      <x>1225</x>
       <y>413</y>
       <w>287</w>
       <h>315</h>
@@ -118,7 +118,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1183</x>
+      <x>987</x>
       <y>336</y>
       <w>406</w>
       <h>91</h>
@@ -129,7 +129,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>609</x>
+      <x>413</x>
       <y>378</y>
       <w>595</w>
       <h>49</h>
@@ -140,10 +140,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1092</x>
+      <x>896</x>
       <y>567</y>
       <w>266</w>
-      <h>126</h>
+      <h>154</h>
     </coordinates>
     <panel_attributes>Inventory
 --
@@ -153,6 +153,8 @@
 +~Inventory()
 +get_equipped(result: std::vector&lt;Item*&gt;&amp;): size_t
 +get_equipped(index: const size_t&amp;, result: Item*&amp;): size_t
++get_bonuses(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_bonuses(index: const size_t&amp;): size_t
 +set_equipped(value: const: std::vector&lt;Item*&gt;&amp;): size_t
 +set_equipped(index: const size_t&amp;, value: Item*): size_t
 +what(result: std::string&amp;): size_t
@@ -162,7 +164,7 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1351</x>
+      <x>1155</x>
       <y>623</y>
       <w>84</w>
       <h>28</h>
@@ -175,7 +177,7 @@ m2=1..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1029</x>
+      <x>833</x>
       <y>623</y>
       <w>77</w>
       <h>28</h>
@@ -188,13 +190,14 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>707</x>
+      <x>511</x>
       <y>567</y>
       <w>329</w>
-      <h>273</h>
+      <h>329</h>
     </coordinates>
     <panel_attributes>Mercenary
 --
+#experience: std::vector&lt;size_t&gt;
 #task_stats: std::vector&lt;size_t&gt;
 #recruitment_stats: std::vector&lt;size_t&gt;
 #history: std::vector&lt;size_t&gt;
@@ -202,6 +205,8 @@ m2=1</panel_attributes>
 --
 +Mercenary()
 /+~Mercenary()/
++get_experience(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_experience(index: const size_t&amp;): size_t
 +get_task_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
 +get_task_stats(index: const size_t&amp;): size_t
 +get_recruitment_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
@@ -209,6 +214,8 @@ m2=1</panel_attributes>
 +get_history(result: std::vector&lt;size_t&gt;&amp;): size_t
 +get_history(index: const size_t&amp;): size_t
 +get_equipment(): Inventory&amp;
++set_experience(value: const std::vector&lt;size_t&gt;&amp;): size_t
++set_experience(index: const size_t&amp;, value: const size_t&amp;): size_t
 +set_task_stats(value: const: std::vector&lt;size_t&gt;&amp;): size_t
 +set_task_stats(index: const size_t&amp;, value: const size_t&amp;): size_t
 +set_recruitment_stats(value: const std::vector&lt;size_t&gt;&amp;): size_t
@@ -223,7 +230,7 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>609</x>
+      <x>413</x>
       <y>490</y>
       <w>280</w>
       <h>91</h>
@@ -234,7 +241,7 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>196</x>
+      <x>0</x>
       <y>567</y>
       <w>364</w>
       <h>238</h>
@@ -266,7 +273,7 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>371</x>
+      <x>175</x>
       <y>525</y>
       <w>259</w>
       <h>56</h>
