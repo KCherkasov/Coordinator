@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1.1">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1393</x>
+      <y>0</y>
+      <w>224</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>/GameObject/
+--
+#own_id: size_t
+#name: std::string
+#description:: std::string
+--
++GameObject()
+/+~GameObject()/
++get_own_id(): size_t
++get_name(result: std::string&amp;): size_t
++get_description(result: std::string&amp;): size_t
++set_own_id(value: const size_t&amp;): size_t
++set_name(value: const std::string&amp;): size_t
++set_description(value: const std::string&amp;): size_t
+/+what(result: std::string&amp;): size_t/
+/+update(): size_t/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>525</x>
+      <y>413</y>
+      <w>203</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>/GameCharacter/
+--
+#faction_id: ssize_t
+--
++GameCharacter()
+/+~GameCharacter()/
++get_faction_id(): ssize_t
++set_faction_id(value: const ssize_t&amp;): size_t
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1099</x>
+      <y>259</y>
+      <w>182</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>/LevelableObject/
+--
+#level: size_t
+--
++LevelableObject()
+/+~LevelableObject()/
++get_level(): size_t
++set_level(value: const size_t&amp;): size_t</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1176</x>
+      <y>168</y>
+      <w>357</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>490.0;10.0;490.0;80.0;10.0;80.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1421</x>
+      <y>413</y>
+      <w>287</w>
+      <h>315</h>
+    </coordinates>
+    <panel_attributes>Item
+--
+#owner_id: ssize_t
+#bonuses: std::vector&lt;size_t&gt;
+#slots: std::vector&lt;bool&gt;
+#kind: size_t
+#rarity: size_t
+#price: size_t
+--
++Item()
+/+~Item()/
++get_owner_id(): ssize_t
++get_bonuses(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_bonuses(index: const size_t&amp;): size_t
++get_slots(result: std::vector&lt;bool&gt;&amp;): size_t
++get_slots(index: const size_t&amp;): bool
++get_kind(): size_t
++get_rarity(): size_t
++get_price(): size_t
++set_owner_id(value: const ssize_t&amp;): size_t
++set_bonuses(value: const std::vector&lt;size_t&gt;&amp;): size_t
++set_bonuses(index: const size_t&amp;, value: const size_t&amp;): size_t
++set_slots(value: const std::vector&lt;bool&gt;&amp;): size_t
++set_slots(index: const size_t&amp;, value: const bool&amp;): size_t
++set_kind(value: const size_t&amp;): size_t
++set_rarity(value: const size_t&amp;): size_t
++set_price(value: const size_t&amp;): size_t
++what(result: std::string&amp;): size_t
++update(): size_t</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1183</x>
+      <y>336</y>
+      <w>406</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;560.0;70.0;560.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>609</x>
+      <y>378</y>
+      <w>595</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0;830.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1092</x>
+      <y>567</y>
+      <w>266</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>Inventory
+--
+#equipped: std::vector&lt;Item*&gt;
+--
++Inventory()
++~Inventory()
++get_equipped(result: std::vector&lt;Item*&gt;&amp;): size_t
++get_equipped(index: const size_t&amp;, result: Item*&amp;): size_t
++set_equipped(value: const: std::vector&lt;Item*&gt;&amp;): size_t
++set_equipped(index: const size_t&amp;, value: Item*): size_t
++what(result: std::string&amp;): size_t
++update(): size_t</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1351</x>
+      <y>623</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1..*</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1029</x>
+      <y>623</y>
+      <w>77</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>707</x>
+      <y>567</y>
+      <w>329</w>
+      <h>273</h>
+    </coordinates>
+    <panel_attributes>Mercenary
+--
+#task_stats: std::vector&lt;size_t&gt;
+#recruitment_stats: std::vector&lt;size_t&gt;
+#history: std::vector&lt;size_t&gt;
+#equipment: Inventory*
+--
++Mercenary()
+/+~Mercenary()/
++get_task_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_task_stats(index: const size_t&amp;): size_t
++get_recruitment_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_recruitment_stats(index: const size_t&amp;): size_t
++get_history(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_history(index: const size_t&amp;): size_t
++get_equipment(): Inventory&amp;
++set_task_stats(value: const: std::vector&lt;size_t&gt;&amp;): size_t
++set_task_stats(index: const size_t&amp;, value: const size_t&amp;): size_t
++set_recruitment_stats(value: const std::vector&lt;size_t&gt;&amp;): size_t
++set_recruitment_stats(index: const size_t&amp;, value: const size_t&amp;): size_t
++set_history(value: const std::vector&lt;size_t&gt;&amp;): size_t
++set_history(index: const size_t&amp;, value: const size_t&amp;): size_t
++set_equipment(value: Inventory*): size_t
++what(result: std::string&amp;): size_t
++update(): size_t</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>609</x>
+      <y>490</y>
+      <w>280</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;380.0;60.0;380.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>196</x>
+      <y>567</y>
+      <w>364</w>
+      <h>238</h>
+    </coordinates>
+    <panel_attributes>Enemy
+--
+#task_stats: std::vector&lt;size_t&gt;
+#loot_list: std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;
+#reward: std::vector&lt;size_t&gt;
+--
++Target()
+/+~Target()/
++get_task_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_task_stats(index: const size_t&amp;): size_t
++get_loot_list(result: std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;&amp;): size_t
++get_loot_list(index: const size_t&amp;, result: std::pair&lt;size_t, size_t&gt;&amp;): size_t
++get_reward(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_reward(index: const size_t&amp;): size_t
++set_task_stats(value: const std::vector&lt;size_t&gt;&amp;): size_t
++set_task_stats(index: const size_t&amp;, value: const size_t&amp;): size_t
++set_loot_list(value: const std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;&amp;): size_t
++set_loot_list(index: const size_t&amp;, value: const std::pair&lt;size_t, size_t&gt;&amp;): size_t
++set_reward(value: const std::vector&lt;size_t&gt;&amp;): size_t
++set_reward(index: const size_t&amp;, value: const size_t&amp;): size_t
++what(result: std::string&amp;): size_t
++update(): size_t</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>371</x>
+      <y>525</y>
+      <w>259</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0;350.0;10.0</additional_attributes>
+  </element>
+</diagram>
