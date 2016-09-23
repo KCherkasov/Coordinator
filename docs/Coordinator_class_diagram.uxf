@@ -1184,4 +1184,19 @@ bg=cyan
 group=0</panel_attributes>
     <additional_attributes/>
   </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>985</x>
+      <y>1060</y>
+      <w>80</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>Not the best decision,
+other ways to provide
+Event's derivatives
+with access to World's
+protected fields?</panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>
