@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const size_t& own_id): _own_id(own_id) {
+GameObject::GameObject(const size_t& own_id): _own_id(own_id), _head(NULL) {
   _name.clear();
   _description.clear();
 }
@@ -50,3 +50,33 @@ size_t GameObject::set_description(const std::string& value) {
   }
 }
 
+size_t GameObject::add_observer(Observer* new_observer) {
+  if (new_observer != NULL) {
+    new_observer->_next = _head;
+    _head = new_observer;
+    return RC_OK;
+  } else {
+    return RC_BAD_INPUT;
+  }
+}
+
+size_t GameObject::remove_observer(Observer* observer) {
+  if (observer == NULL) {
+    return RC_OK;
+  }
+  if (_head == observer) {
+    _head = observer->_next;
+    _observer->_next = NULL;
+    return RC_OK;
+  }
+  Observer* current = _head;
+  while (current != NULL) {
+    if (current->_next == observer) {
+      current->_next = observer->_next;
+      observer->_next = NULL;
+      return RC_OK;
+    }
+    current = current->_next;
+  }
+  return RC_NOT_FOUND;
+}

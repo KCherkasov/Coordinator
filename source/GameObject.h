@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Miscellaneous.h"
+#include "Messages.h"
 
 class GameObject {
   public:
@@ -18,8 +19,12 @@ class GameObject {
     size_t set_description(const std::string& value);
     virtual size_t what(std::string& result) = 0;
     virtual size_t update() = 0;
+    size_t add_observer(Observer* new_observer);
+    size_t remove_observer(Observer* observer);
   protected:
+    virtual size_t notify(Message* msg) = 0;
     size_t _own_id;
+    Observer* _head;
     std::string _name;
     std::string _description;
 };

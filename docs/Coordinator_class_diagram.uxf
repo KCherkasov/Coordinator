@@ -3,10 +3,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1813</x>
-      <y>224</y>
-      <w>224</w>
-      <h>175</h>
+      <x>1764</x>
+      <y>217</y>
+      <w>273</w>
+      <h>217</h>
     </coordinates>
     <panel_attributes>/GameObject/
 bg=cyan
@@ -14,15 +14,19 @@ bg=cyan
 #own_id: size_t
 #name: std::string
 #description:: std::string
+#head: Observer*
 --
 +GameObject()
 /+~GameObject()/
+#notify(message: Message*): size_t
 +get_own_id(): size_t
 +get_name(result: std::string&amp;): size_t
 +get_description(result: std::string&amp;): size_t
 +set_own_id(value: const size_t&amp;): size_t
 +set_name(value: const std::string&amp;): size_t
 +set_description(value: const std::string&amp;): size_t
++add_observer(Observer* new_observer): size_t
++remove_observer(Observer* observer): size_t
 /+what(result: std::string&amp;): size_t/
 /+update(): size_t/</panel_attributes>
     <additional_attributes/>
@@ -70,12 +74,12 @@ bg=cyan
     <id>Relation</id>
     <coordinates>
       <x>1918</x>
-      <y>392</y>
+      <y>427</y>
       <w>21</w>
-      <h>91</h>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -687,19 +691,19 @@ phase values</panel_attributes>
     <coordinates>
       <x>2030</x>
       <y>308</y>
-      <w>196</w>
+      <w>182</w>
       <h>168</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;150.0;10.0;150.0;220.0;260.0;220.0</additional_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0;150.0;220.0;240.0;220.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>2212</x>
-      <y>371</y>
-      <w>252</w>
-      <h>196</h>
+      <x>2198</x>
+      <y>357</y>
+      <w>287</w>
+      <h>210</h>
     </coordinates>
     <panel_attributes>Faction
 --
@@ -708,6 +712,7 @@ phase values</panel_attributes>
 --
 +Faction()
 /+~Faction()/
+#notify(entity: const GameObject*&amp;, message: Message*): size_t
 +get_influence(): size_t
 +get_relationship(): size_t
 +set_influence(value: const size_t&amp;): size_t
@@ -726,25 +731,25 @@ phase values</panel_attributes>
     <coordinates>
       <x>406</x>
       <y>259</y>
-      <w>1421</w>
+      <w>1372</w>
       <h>84</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>2010.0;10.0;10.0;10.0;10.0;100.0</additional_attributes>
+    <additional_attributes>1940.0;10.0;10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2457</x>
+      <x>2478</x>
       <y>497</y>
-      <w>546</w>
+      <w>525</w>
       <h>140</h>
     </coordinates>
     <panel_attributes>lt=-
 offers contracts to &gt;
 
 &lt; takes and completes contracts for </panel_attributes>
-    <additional_attributes>10.0;20.0;760.0;20.0;760.0;180.0</additional_attributes>
+    <additional_attributes>10.0;20.0;730.0;20.0;730.0;180.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -938,14 +943,14 @@ m1=1..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>2457</x>
+      <x>2478</x>
       <y>455</y>
-      <w>749</w>
+      <w>728</w>
       <h>973</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1..*</panel_attributes>
-    <additional_attributes>10.0;10.0;1050.0;10.0;1050.0;1370.0;770.0;1370.0</additional_attributes>
+    <additional_attributes>10.0;10.0;1020.0;10.0;1020.0;1370.0;740.0;1370.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -1099,7 +1104,7 @@ changes state &gt;</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1806</x>
+      <x>896</x>
       <y>0</y>
       <w>217</w>
       <h>105</h>
@@ -1117,18 +1122,18 @@ changes state &gt;</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1813</x>
-      <y>196</y>
-      <w>224</w>
+      <x>2037</x>
+      <y>245</y>
+      <w>147</w>
       <h>21</h>
     </coordinates>
-    <panel_attributes>                update() method pattern here</panel_attributes>
+    <panel_attributes>   update() method pattern</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>1568</x>
+      <x>658</x>
       <y>0</y>
       <w>203</w>
       <h>105</h>
@@ -1142,7 +1147,7 @@ group=0</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1568</x>
+      <x>658</x>
       <y>21</y>
       <w>203</w>
       <h>21</h>
@@ -1155,7 +1160,7 @@ group=0</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1568</x>
+      <x>658</x>
       <y>63</y>
       <w>203</w>
       <h>21</h>
@@ -1168,7 +1173,7 @@ group=0</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1568</x>
+      <x>658</x>
       <y>84</y>
       <w>203</w>
       <h>21</h>
@@ -1180,7 +1185,7 @@ group=0</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1568</x>
+      <x>658</x>
       <y>42</y>
       <w>203</w>
       <h>21</h>
@@ -1290,5 +1295,45 @@ m2=1</panel_attributes>
     </coordinates>
     <panel_attributes>   Type Object pattern here</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1729</x>
+      <y>49</y>
+      <w>357</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>/Observer/
+--
+#next: Observer*
+--
++Observer()
+/+~Observer()/
++on_notify(const GameObject*&amp; entity, message: Message*): size_t</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1967</x>
+      <y>119</y>
+      <w>56</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;friend&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1904</x>
+      <y>119</y>
+      <w>21</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
