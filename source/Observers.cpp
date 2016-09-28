@@ -11,7 +11,7 @@ Observer::~Observer() {
 }
 
 size_t Observer::on_die(Message*& msg) {
-  if (typeid(msg) == typeid(OnDieMessage*)) {
+  if (typeid(*msg) == typeid(OnDieMessage)) {
     OnDieMessage* on_die = dynamic_cast<OnDieMessage*>(msg);
     remove_observable(on_die->_sender);
     return OR_OK;
