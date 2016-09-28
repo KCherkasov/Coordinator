@@ -6,6 +6,9 @@ GameObject::GameObject(const size_t& own_id): _own_id(own_id), _head(NULL) {
 }
 
 GameObject::~GameObject() {
+  Message* last_breath = new OnDieMessage(this);
+  notify(last_breath);
+  delete last_breath;
   _head = NULL;
 }
 

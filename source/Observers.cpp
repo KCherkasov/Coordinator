@@ -10,6 +10,15 @@ Observer::~Observer() {
   }
 }
 
+size_t Observer::on_die(Message*& msg) {
+  if (typeid(msg) == typeid(OnDieMessage*)) {
+    OnDieMessage* on_die = dynamic_cast<OnDieMessage*>(msg);
+    remove_observable(on_die->_sender);
+    return OR_OK;
+  }
+  return OR_NOT_PROCESSED;
+}
+
 size_t Observer::add_observable(GameObject*& observable) {
   if (observable == NULL) {
     return RC_BAD_INPUT;
