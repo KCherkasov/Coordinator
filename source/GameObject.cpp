@@ -5,6 +5,25 @@ GameObject::GameObject(const size_t& own_id): _own_id(own_id), _head(NULL) {
   _description.clear();
 }
 
+GameObject::~GameObject() {
+  _head = NULL;
+}
+
+size_t GameObject::notify(Message*& msg) {
+  if (_head == NULL) {
+    return RC_NO_OBSERVERS;
+  }
+  if (msg == NULL) {
+    return RC_BAD_INPUT;
+  }
+  Observer* observer = _head;
+  while (observer != NULL) {
+    observer->on_notify(msg);
+    observer = observer->_next;
+  }
+  return RC_OK;
+}
+
 size_t GameObject::get_name(std::string& result) {
   result.clear();
   result = _name;

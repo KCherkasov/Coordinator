@@ -103,3 +103,48 @@ size_t TextStorage::get_merc_answer(const size_t& index, std::string& result) {
   }
 }
 
+size_t TextStorage::get_contract_answer(const size_t& index, std::string& result) {
+  if (index < _contract_answers.size()) {
+    result.clear();
+    result = _contract_answers[index][roll_dice(_contract_answers[index].size())];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::get_contract_reaction(const size_t& index, std::string& result) {
+  if (index < _contract_reactions.size()) {
+    result.clear();
+    result = _contract_reactions[index][roll_dice(_contract_reactions[index].size())];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::get_name(const bool& gender, std::string& result) {
+  std::string buffer;
+  buffer.clear();
+  if (gender == MALE_GENDER) {
+    get_male_name(roll_dice(_male_names.size()), buffer);
+  } else {
+    get_female_name(roll_dice(_female_names.size()), buffer);
+  }
+  buffer.append(" ");
+  result.clear();
+  result += buffer;
+  buffer.clear();
+  if (roll_dice() % 2 == 0) {
+    buffer.append("\"");
+    get_nickname(roll_dice(_nicknames.size()), buffer);
+    buffer.append("\" ");
+    result += buffer;
+    buffer.clear();
+  }
+  buffer = get_surnames(roll_dice(_surnames.size()), buffer);
+  result += buffer;
+  buffer.clear();
+  return RC_OK;
+}
+

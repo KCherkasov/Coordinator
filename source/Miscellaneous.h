@@ -11,13 +11,16 @@ const size_t SIZE_T_DEFAULT_VALUE = 0;
 const ssize_t SSIZE_T_DEFAULT_VALUE = -1;
 const bool BOOL_DEFAULT_VALUE = false;
 
+const bool MALE_GENDER = true;
+const bool FEMALE_GENDER = false;
+
 const size_t FREE_ID = 0;
 
 const size_t PERCENT_CAP = 100;
 
 const size_t START_LEVEL = 1;
 
-enum ResponseCodes { RC_OK, RC_EMPTY_STRING, RC_BAD_INDEX, RC_BAD_SIZE, RC_BAD_INPUT, RC_NOT_FOUND, RC_SIZE };
+enum ResponseCodes { RC_OK, RC_EMPTY_STRING, RC_BAD_INDEX, RC_BAD_SIZE, RC_BAD_INPUT, RC_NOT_FOUND, RC_NO_OBSERVERS, RC_SIZE };
 
 enum ItemRarity { IR_TRASH, IR_COMMON, IR_GOOD, IR_RARE, IR_EPIC, IR_LEGENDARY, IR_SIZE };
 enum ItemKinds { IK_CQB, IK_MELEE, IK_RANGED, IK_HEAVY, IK_EXPLOSIVES, IK_GEAR, IK_SIZE };
