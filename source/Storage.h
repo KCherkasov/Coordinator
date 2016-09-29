@@ -14,7 +14,9 @@ class TextStorage {
   public:
     TextStorage();
     ~TextStorage() {};
-    static size_t get_task_stat_name(const size_t& index, std::string& result);
+    static size_t get_enemy_stat_name(const size_t& index, std::string& result);
+    static size_t get_item_stat_name(const size_t& index, std::string& result);
+    static size_t get_merc_stat_name(const size_t& index, std::string& result);
     static size_t get_recruitment_stat_name(const size_t& index, std::string& result);
     static size_t get_merc_history_name(const size_t& index, std::string& result);
 
@@ -38,8 +40,10 @@ class TextStorage {
     static std::vector<std::string> _nicknames;
     static std::vector<std::string> _surnames;
 
-    static std::vector<std::string> _task_stat_names;
+    static std::vector<std::string> _enemy_stat_names;
     static std::vector<std::string> _recruitment_stat_names;
+    static std::vector<std::string> _merc_stat_names;
+    static std::vector<std::string> _item_stat_names;
     static std::vector<std::string> _item_rarity_names;
     static std::vector<std::string> _item_kind_names;
     static std::vector<std::string> _merc_history_names;

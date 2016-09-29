@@ -3,6 +3,7 @@
 
 #include "LevelableObject.h"
 #include "StorageEntities.h"
+#include "Storage.h"
 
 class Item: public LevelableObject {
   public:
@@ -59,9 +60,11 @@ class Item: public LevelableObject {
     size_t _kind;
     size_t _price;
     std::vector<size_t> _bonuses;
-    /std::vector<bool> _slots;
-    
+    std::vector<bool> _slots;
+
     static size_t _id;
+
+    size_t level_up();
 };
 
 #endif

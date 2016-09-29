@@ -32,9 +32,9 @@ Item::Item(const ItemTemplate& table, const size_t& level, const size_t& owner_i
   }
   _bonuses.clear();
   _bonuses = table._bonuses;
-  if (_bonuses.size() != TS_SIZE) {
+  if (_bonuses.size() != SI_SIZE) {
     _bonuses.clear();
-    _bonuses.resize(TS_SIZE);
+    _bonuses.resize(SI_SIZE);
     for (size_t i = 0; i < _bonuses.size(); ++i) {
       _bonuses[i] = SIZE_T_DEFAULT_VALUE;
     }
@@ -111,7 +111,7 @@ size_t Item::set_price(const size_t& value) {
 }
 
 size_t Item::set_bonuses(const std::vector<size_t>& value) {
-  if (value.size() == TS_SIZE) {
+  if (value.size() == SI_SIZE) {
     _bonuses.clear();
     _bonuses = value;
     return RC_OK;
@@ -149,8 +149,46 @@ size_t Item::set_slots(const size_t& index, const bool& value) {
 }
 
 size_t Item::what(std::string& result) {
+  size_t dashes_string = 0;
   result.clear();
-  
+  result += _name;
+  result.append("\n");
+  std::string buffer;
+  buffer.clear();
+  buffer.append("<");
+  for (size_t i = 0; i < _name.size() - 2; ++i) {
+    buffer.append("-");
+    ++dashes_string;
+  }
+  buffer.append(">\n");
+  result += buffer;
+  buffer.clear();
+  TextStorage::get_item_rarity_name(_rarity, buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("\t");
+  TextStorage::get_item_kind_name(_kind, buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("\n");
+  result.append("price: ");
+  convert_to_string<size_t>(_price, buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("\nStats:\n------\n");
+  for (size_t i = 0; i < _bonuses.size(); ++i) {
+    TextStorage::get_item_stat_name(i, buffer);
+    buffer.append(": ");
+    result += buffer;
+    buffer.clear();
+    convert_to_string<size_t>(_bonuses[i], buffer);
+    result += buffer;
+    result.append("\n");
+    buffer.clear();
+  }
+  result.append("------\n\"");
+  result += _description;
+  result.append("\"");
   return RC_OK;
 }
 

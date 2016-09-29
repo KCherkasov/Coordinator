@@ -1,22 +1,17 @@
-#ifndef MESSAGES_H
-#define MESSAGES_H
+#ifndef GAME_MESSAGES_H
+#define GAME_MESSAGES_H
 
 #include <string>
 #include <vector>
 
 #include "GameObject.h"
-#include "Miscellaneous.h"
 
 class Message {
   public:
-    Message() {}
-    virtual ~Message() {}
-};
-
-class OnDieMessage: public Message {
-  public: 
-    OnDieMessage(GameObject* sender): Message() { _sender = sender; }
-    virtual ~OnDieMessage() { _sender = NULL; }
+    Message(GameObject* sender = NULL): _sender(sender) {}
+    virtual ~Message() { _sender = NULL; }
+    GameObject* sender() { return _sender; }
+  protected:
     GameObject* _sender;
 };
 

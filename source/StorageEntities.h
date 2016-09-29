@@ -20,7 +20,7 @@ struct ItemTemplate {
     if (!_name.empty()) {
       _name.clear();
     }
-    _name = _rhs._name;
+    _name = rhs._name;
     if (!_description.empty()) {
       _description = rhs._description;
     }
@@ -44,7 +44,7 @@ struct ItemTemplate {
 struct MercSpecTemplate {
   std::string _name;
   std::string _description;
-  std::vector<size_t> _base_task_stats;
+  std::vector<size_t> _base_merc_stats;
 
   MercSpecTemplate& operator = (const MercSpecTemplate& rhs) {
     if (!_name.empty()) {
@@ -55,10 +55,10 @@ struct MercSpecTemplate {
       _description.clear();
     }
     _description = rhs._description;
-    if (!_base_task_stats.empty()) {
-      _base_task_stats.clear();
+    if (!_base_merc_stats.empty()) {
+      _base_merc_stats.clear();
     }
-    _base_task_stats = rhs._base_task_stats;
+    _base_merc_stats = rhs._base_merc_stats;
     return *this;
   }
 };
