@@ -38,7 +38,19 @@ enum MercAnswer { MA_OK, MA_TOO_BIG_RISK, MA_WANT_MORE_MONEY, MA_SIZE };
 
 size_t roll_dice(const size_t& dice = PERCENT_CAP);
 
-template<class T> size_t convert_to_string(const T& value, std::string& result);
-template<class T> size_t convert_from_string(const std::string& from, T& result);
+template<class T>
+size_t convert_to_string(const T& value, std::string& result) {
+  std::ostringstream into(result);
+  into << value;
+  return RC_OK;
+}
+
+template<class T>
+size_t convert_from_string(const std::string& from, T& result) {
+  std::istringstream out(from);
+  out >> result;
+  return RC_OK;
+}
+
 
 #endif

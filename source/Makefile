@@ -1,0 +1,27 @@
+#makefile for item_test
+
+item_test: test_tools/test_tools.o Miscellaneous.o Storage.o GameObject.o LevelableObject.o Item.o item_test.o
+	g++ test_tools/test_tools.o Miscellaneous.o Storage.o GameObject.o LevelableObject.o Item.o item_test.o -o item_test -std="c++11"
+
+item_test.o: item_test.cpp
+	g++ -c item_test.cpp -o item_test.o -std="c++11"
+
+Item.o: Item.cpp
+	g++ -c Item.cpp -o Item.o -std="c++11"
+
+LevelableObject.o: LevelableObject.cpp
+	g++ -c LevelableObject.cpp -o LevelableObject.o -std="c++11"
+
+GameObject.o: GameObject.cpp
+	g++ -c GameObject.cpp -o GameObject.o -std="c++11"
+
+Miscellaneous.o: Miscellaneous.cpp
+	g++ -c Miscellaneous.cpp -o Miscellaneous.o -std="c++11"
+
+Storage.o: Storage.cpp
+	g++ -c Storage.cpp -o Storage.o -std="c++11"
+
+test_tools/test_tools.o: test_tools/test_tools.cpp
+	g++ -c test_tools/test_tools.cpp -o test_tools/test_tools.o -std="c++11"
+clean:
+	rm -f *.o

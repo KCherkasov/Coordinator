@@ -30,6 +30,8 @@ Item::Item(const ItemTemplate& table, const size_t& level, const size_t& owner_i
   } else {
     _rarity = table._rarity;
   }
+  _kind = table._kind;
+  _price = table._price;
   _bonuses.clear();
   _bonuses = table._bonuses;
   if (_bonuses.size() != SI_SIZE) {
@@ -48,6 +50,19 @@ Item::Item(const ItemTemplate& table, const size_t& level, const size_t& owner_i
       _slots[i] = false;
     }
   }
+}
+
+size_t Item::level_up() {
+  size_t points = POINTS_PER_LEVEL * (_level - START_LEVEL);
+  while (points > SIZE_T_DEFAULT_VALUE) {
+    size_t roll = roll_dice(_bonuses.size());
+    if (_kind != IK_GEAR && roll == SI_ENDURANCE) {
+      continue;
+    }
+    ++_bonuses[roll];
+    --points;
+  }
+  return RC_OK;
 }
 
 size_t Item::get_bonuses(std::vector<size_t>& result) {
@@ -146,6 +161,24 @@ size_t Item::set_slots(const size_t& index, const bool& value) {
   } else {
     return RC_BAD_INDEX;
   }
+}
+
+size_t Item::get_save_data(ItemTemplate& save_data) {
+  save_data._own_id = _own_id;
+  save_data._name.clear();
+  save_data._name = _name;
+  save_data._description.clear();
+  save_data._description = _description;
+  save_data._level = _level;
+  save_data._owner_id = _owner_id;
+  save_data._rarity = _rarity;
+  save_data._kind = _kind;
+  save_data._price = _price;
+  save_data._bonuses.clear();
+  save_data._bonuses = _bonuses;
+  save_data._slots.clear();
+  save_data._slots = _slots;
+  return RC_OK;
 }
 
 size_t Item::what(std::string& result) {

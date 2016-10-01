@@ -3,6 +3,7 @@
 
 #include "LevelableObject.h"
 #include "StorageEntities.h"
+#include "Miscellaneous.h"
 #include "Storage.h"
 
 class Item: public LevelableObject {
@@ -25,6 +26,7 @@ class Item: public LevelableObject {
     size_t set_bonuses(const size_t& index, const size_t& value);
     size_t set_slots(const std::vector<bool>& value);
     size_t set_slots(const size_t& index, const bool& value);
+    size_t get_save_data(ItemTemplate& save_data);
     size_t what(std::string& result);
     size_t update();   
 
