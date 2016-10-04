@@ -30,19 +30,25 @@ bg=green
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1080</x>
+      <x>1026</x>
       <y>966</y>
-      <w>198</w>
-      <h>72</h>
+      <w>252</w>
+      <h>126</h>
     </coordinates>
     <panel_attributes>/GameCharacter/
+bg=cyan
 --
 #faction_id: size_t
+#stats: std::vector&lt;size_t&gt;
 --
 +GameCharacter()
 /+~GameCharacter()/
 +get_faction_id(): size_t
++get_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
++get_stats(index: const size_t&amp;, result: size_t&amp;): size_t
 +set_faction_id(value: const size_t&amp;): size_t
++set_stats(value: const std::vector&lt;size_t&gt;&amp;): size_t
++set_stats(index: const size_t&amp;, value: const size_t&amp;): size_t
 
 </panel_attributes>
     <additional_attributes/>
@@ -149,6 +155,7 @@ _#id: size_t = 1_
       <h>132</h>
     </coordinates>
     <panel_attributes>Inventory
+bg=yellow
 --
 #equipped: std::vector&lt;Item*&gt;
 --
@@ -181,7 +188,7 @@ m2=1..*</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1500</x>
-      <y>1146</y>
+      <y>1170</y>
       <w>66</w>
       <h>24</h>
     </coordinates>
@@ -194,14 +201,13 @@ m2=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1182</x>
-      <y>1098</y>
+      <y>1140</y>
       <w>324</w>
-      <h>312</h>
+      <h>270</h>
     </coordinates>
     <panel_attributes>Mercenary
 --
 #experience: std::vector&lt;size_t&gt;
-#merc_stats: std::vector&lt;size_t&gt;
 #recruitment_stats: std::vector&lt;size_t&gt;
 #history: std::vector&lt;size_t&gt;
 #equipment: Inventory*
@@ -213,8 +219,6 @@ _#id: size_t = 1_
 #evaluate_offer(risk: const size_t&amp;, payment: const size_t&amp;): size_t
 +get_experience(result: std::vector&lt;size_t&gt;&amp;): size_t
 +get_experience(index: const size_t&amp;): size_t
-+get_merc_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
-+get_merc_stats(index: const size_t&amp;): size_t
 +get_recruitment_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
 +get_recruitment_stats(index: const size_t&amp;): size_t
 +get_history(result: std::vector&lt;size_t&gt;&amp;): size_t
@@ -222,8 +226,6 @@ _#id: size_t = 1_
 +get_equipment(): Inventory&amp;
 +set_experience(value: const std::vector&lt;size_t&gt;&amp;): size_t
 +set_experience(index: const size_t&amp;, value: const size_t&amp;): size_t
-+set_merc_stats(value: const: std::vector&lt;size_t&gt;&amp;): size_t
-+set_merc_stats(index: const size_t&amp;, value: const size_t&amp;): size_t
 +set_recruitment_stats(value: const std::vector&lt;size_t&gt;&amp;): size_t
 +set_recruitment_stats(index: const size_t&amp;, value: const size_t&amp;): size_t
 +set_history(value: const std::vector&lt;size_t&gt;&amp;): size_t
@@ -237,38 +239,33 @@ _#id: size_t = 1_
     <id>Relation</id>
     <coordinates>
       <x>1152</x>
-      <y>1032</y>
+      <y>1086</y>
       <w>228</w>
-      <h>78</h>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0;360.0;60.0;360.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0;360.0;60.0;360.0;90.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>744</x>
-      <y>1098</y>
+      <y>1140</y>
       <w>366</w>
-      <h>216</h>
+      <h>174</h>
     </coordinates>
     <panel_attributes>Enemy
 --
-#task_stats: std::vector&lt;size_t&gt;
 #loot_list: std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;
 #reward: std::vector&lt;size_t&gt;
 _#id: size_t = 1_
 --
 +Target()
 /+~Target()/
-+get_task_stats(result: std::vector&lt;size_t&gt;&amp;): size_t
-+get_task_stats(index: const size_t&amp;): size_t
 +get_loot_list(result: std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;&amp;): size_t
 +get_loot_list(index: const size_t&amp;, result: std::pair&lt;size_t, size_t&gt;&amp;): size_t
 +get_reward(result: std::vector&lt;size_t&gt;&amp;): size_t
 +get_reward(index: const size_t&amp;): size_t
-+set_task_stats(value: const std::vector&lt;size_t&gt;&amp;): size_t
-+set_task_stats(index: const size_t&amp;, value: const size_t&amp;): size_t
 +set_loot_list(value: const std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;&amp;): size_t
 +set_loot_list(index: const size_t&amp;, value: const std::pair&lt;size_t, size_t&gt;&amp;): size_t
 +set_reward(value: const std::vector&lt;size_t&gt;&amp;): size_t
@@ -281,12 +278,12 @@ _#id: size_t = 1_
     <id>Relation</id>
     <coordinates>
       <x>924</x>
-      <y>1062</y>
+      <y>1116</y>
       <w>246</w>
-      <h>48</h>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=-</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0;390.0;10.0</additional_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0;390.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>

@@ -1,0 +1,130 @@
+#include "Inventory.h"
+
+Inventory::Inventory(InventoryTemplate& table) {
+  for (size_t i = 0; i < table._equipment.size(); ++i) {
+    Item* to_add = NULL;
+    // some code here to not to spawn anything in empty slots
+    to_add = new Item(table._equipment[i];
+    _equipment.push_back(to_add);
+    to_add = NULL;
+  }
+}
+
+Inventory::~Inventory() {
+  for (size_t i = 0; i < _equipment.size(); ++i) {
+    if (_equipment[i] != NULL) {
+      delete _equipment[i];
+    }
+  }
+}
+
+size_t Inventory::get_equipment(std::vector<Item*>& result) {
+  for (size_t i = 0; i < result.size(); ++i) {
+    if (result[i] != NULL) {
+      delete result[i];
+    }
+  }
+  result.clear();
+  result = _equipment;
+  return RC_OK;
+}
+
+size_t Inventory::get_equipment(const size_t& index, Item*& result) {
+  if (index < _equipment.size()) {
+    if (result != NULL) {
+      delete result;
+    }
+    result = _equipment[index];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Inventory::get_bonuses(std::vector<size_t>& result) {
+  result.clear();
+  result.resize(SI_SIZE);
+  for (size_t i = 0; i < result.size(); ++i) {
+    result[i] = SIZE_T_DEFAULT_VALUE;
+  }
+  for (size_t i = 0; i < _equipment.size(); ++i) {
+    std::vector<size_t> item_bonuses;
+    item_bonuses.clear();
+    if (_equipment[i] != NULL) {
+      _equipment[i]->get_bonuses(item_bonuses);
+      for (size_t i = 0; i < result.size(); ++i) {
+        result[i] += item_bonuses[i];
+      }
+    }
+  }
+  return RC_OK;
+}
+
+size_t Inventory::get_bonuses(const size_t& index, size_t& result) {
+  if (index < SI_SIZE) {
+    result = SIZE_T_DEFAULT_VALUE;
+    for (size_t i = 0; i < _equipment.size(); ++i) {
+      if (_equipment[i] != NULL) {
+        size_t item_bonus = SIZE_T_DEFAULT_VALUE;
+        _equipment[i]->get_bonuses(index, item_bonus);
+        result += item_bonus;
+      }
+    }
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Inventory::set_equipment(const std::vector<Item*>& value) {
+  if (value.empty()) {
+    return RC_BAD_INPUT;
+  }
+  if (value.size() != IS_SIZE) {
+    return RC_BAD_SIZE;
+  }
+  for (size_t i = 0; i < _equipment.size(); ++i) {
+    if (_equipment[i] != NULL) {
+      delete _equipment[i];
+    }
+  }
+  _equipment.clear();
+  _equipment = value;
+  return RC_OK;
+}
+
+size_t Inventory::set_equipment(const size_t& index, Item*& value, bool if_swap) {
+  if (index < _equipment.size()) {
+    if (!if_swap) {
+      if (_equipment[index] != NULL) {
+        delete _equipment[index];
+      }
+    }
+    Item* buffer = _equipment[index];
+    _equipment[index] = value;
+    value = buffer;
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Inventory::get_save_data(InventoryTable& result) {
+  result._equipment.clear();
+  for (size_t i = 0; i < _equipment.size(); ++i) {
+    if (_equipment[i] != NULL) {
+      ItemTemplate table;
+      _equipment[i]->get_save_data(table);
+      result.push_back(table);
+    } else {
+      // code here to place something if slot is empty
+    }
+  }
+  return RC_OK;
+}
+
+size_t Inventory::what(std::string& result) {
+  result.clear();
+  return RC_OK;
+}
+
