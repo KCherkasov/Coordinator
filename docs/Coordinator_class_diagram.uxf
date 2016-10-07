@@ -155,7 +155,7 @@ _#id: size_t = 1_
       <h>132</h>
     </coordinates>
     <panel_attributes>Inventory
-bg=yellow
+bg=green
 --
 #equipped: std::vector&lt;Item*&gt;
 --

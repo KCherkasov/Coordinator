@@ -4,7 +4,7 @@ Inventory::Inventory(InventoryTemplate& table) {
   for (size_t i = 0; i < table._equipment.size(); ++i) {
     Item* to_add = NULL;
     // some code here to not to spawn anything in empty slots
-    to_add = new Item(table._equipment[i];
+    to_add = new Item(table._equipment[i]);
     _equipment.push_back(to_add);
     to_add = NULL;
   }
@@ -43,17 +43,16 @@ size_t Inventory::get_equipment(const size_t& index, Item*& result) {
 
 size_t Inventory::get_bonuses(std::vector<size_t>& result) {
   result.clear();
-  result.resize(SI_SIZE);
-  for (size_t i = 0; i < result.size(); ++i) {
-    result[i] = SIZE_T_DEFAULT_VALUE;
+  for (size_t i = 0; i < SI_SIZE; ++i) {
+    result.push_back(SIZE_T_DEFAULT_VALUE);
   }
+  std::vector<size_t> item_bonuses;
   for (size_t i = 0; i < _equipment.size(); ++i) {
-    std::vector<size_t> item_bonuses;
     item_bonuses.clear();
     if (_equipment[i] != NULL) {
       _equipment[i]->get_bonuses(item_bonuses);
-      for (size_t i = 0; i < result.size(); ++i) {
-        result[i] += item_bonuses[i];
+      for (size_t j = 0; j < result.size(); ++j) {
+        result[j] += item_bonuses[j];
       }
     }
   }
@@ -109,13 +108,13 @@ size_t Inventory::set_equipment(const size_t& index, Item*& value, bool if_swap)
   }
 }
 
-size_t Inventory::get_save_data(InventoryTable& result) {
+size_t Inventory::get_save_data(InventoryTemplate& result) {
   result._equipment.clear();
   for (size_t i = 0; i < _equipment.size(); ++i) {
     if (_equipment[i] != NULL) {
       ItemTemplate table;
       _equipment[i]->get_save_data(table);
-      result.push_back(table);
+      result._equipment.push_back(table);
     } else {
       // code here to place something if slot is empty
     }

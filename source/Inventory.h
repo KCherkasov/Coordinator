@@ -6,7 +6,7 @@
 class Inventory {
   public:
     Inventory() {}
-    Inventory(const InventoryTemplate& table);
+    Inventory(InventoryTemplate& table);
     virtual ~Inventory();
     size_t get_equipment(std::vector<Item*>& result);
     size_t get_equipment(const size_t& index, Item*& result);

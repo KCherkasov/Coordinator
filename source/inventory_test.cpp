@@ -60,7 +60,7 @@ size_t make_item_template(ItemTemplate& table) {
 }
 
 size_t make_inventory_template(InventoryTemplate& table) {
-  Logger::write<const char*>("#-- making inventory template:\n")
+  Logger::write<const char*>("#-- making inventory template:\n");
   printf("#-- making inventory template:\n");
   table._equipment.clear();
   for (size_t i = 0; i < IS_SIZE; ++i) {
@@ -70,7 +70,7 @@ size_t make_inventory_template(InventoryTemplate& table) {
     Logger::write<const char*>(": ");
     ItemTemplate to_add;
     make_item_template(to_add);
-    table._equipment.push_back(to_add):
+    table._equipment.push_back(to_add);
   }
   Logger::write<const char*>("done.\n");
   printf("done.\n");
@@ -180,7 +180,7 @@ size_t item_test(Item* subject, ItemTemplate& table, size_t& fails_count) {
   Logger::write<const char*>("#------ _kind field test: ");
   printf("#------ _kind field test: ");
   Tester::test<size_t>(table._kind, save_table._kind);
-  Logger::write<const char*>("#---- _price field test: ");
+  Logger::write<const char*>("#------ _price field test: ");
   printf("#------ _price field test: ");
   Tester::test<size_t>(table._price, save_table._price);
   Logger::write<const char*>("#------ _bonuses field test: ");
@@ -213,7 +213,7 @@ size_t test(const size_t& rounds = PERCENT_CAP * 3) {
     Logger::write<size_t>(i + 1);
     Logger::write<const char*>("\n");
     InventoryTemplate source_data;
-    make_inventory_table(source_data);
+    make_inventory_template(source_data);
     Inventory* subject = new Inventory(source_data);
     printf("#-- get_equipment(std::vector<Item*>&) method test:\n");
     Logger::write<const char*>("#-- get_equipment(std::vector<Item*>&) method test:\n");
@@ -221,30 +221,40 @@ size_t test(const size_t& rounds = PERCENT_CAP * 3) {
     subject->get_equipment(item_vector);
     printf("#---- checking read vector size: ");
     Logger::write<const char*>("#---- checking read vector size: ");
-    if (Tester::test(item_vector.size(), IS_SIZE) == TR_SUCCESS) {
+    if (Tester::test<size_t>(item_vector.size(), IS_SIZE) == TR_SUCCESS) {
       for (size_t i = 0; i < item_vector.size(); ++i) {
         item_test(item_vector[i], source_data._equipment[i], local_fails_count);
       }
     }
     for (size_t i = 0; i < item_vector.size(); ++i) {
       if (item_vector[i] != NULL) {
-        delete item_vector[i];
+        item_vector[i] = NULL;
       }
     }
+    item_vector.clear();
     Item* item_buffer = NULL;
     for (size_t i = 0; i < source_data._equipment.size(); ++i) {
       printf("#-- get_equipment(Item*&) method test for item slot %d:\n", i);
       Logger::write<const char*>("#-- get_equipment(Item*&) method test for item slot ");
       Logger::write<size_t>(i);
       Logger::write<const char*>(":\n");
-      item_buffer = new Item(source_data._equipment[i]);
-      item_test(item_buffer, source_data._equipment[i], local_fails_count);
-      delete item_buffer;
+      item_buffer = NULL;
+      subject->get_equipment(i, item_buffer);
+      if (item_buffer != NULL) {
+        item_test(item_buffer, source_data._equipment[i], local_fails_count);
+      } else {
+        printf("failed. Unable to retrieve item data.\n");
+        Logger::write<const char*>("failed. Unable to retrieve item data.\n");
+        ++local_fails_count;
+      }
+      item_buffer = NULL;
     }
-    printf("#-- get_bonuses(std::vector<size_t>&) method test: ");
-    Logger::write<const char*>("#-- get_bonuses(std::vector<size_t>&) method test: ");
+    printf("#-- get_bonuses(std::vector<size_t>&) method test:\n");
+    Logger::write<const char*>("#-- get_bonuses(std::vector<size_t>&) method test:\n");
     std::vector<size_t> bonuses_vector;
     bonuses_vector.clear();
+    std::vector<size_t> bonuses_buffer;
+    bonuses_buffer.clear();
     for (size_t i = 0; i < SI_SIZE; ++i) {
       bonuses_vector.push_back(SIZE_T_DEFAULT_VALUE);
     }
@@ -253,44 +263,71 @@ size_t test(const size_t& rounds = PERCENT_CAP * 3) {
         bonuses_vector[j] += source_data._equipment[i]._bonuses[j];
       }
     }
-    std::vector<size_t> bonuses_buffer;
-    bonuses_buffer.clear();
     subject->get_bonuses(bonuses_buffer);
-    Tester::test<std::vector<size_t> >(bonuses_vector, bonuses_buffer);
-    bonuses_buffer.clear();
-    for (size_t i = 0; i < bonuses_buffer.size(); ++i) {
+    printf("#---- checking read vector size: ");
+    Logger::write<const char*>("#---- checking read vector size: ");
+    if (Tester::test<size_t>(bonuses_vector.size(), bonuses_buffer.size()) == TR_SUCCESS) {
+      printf("#---- checking read vector content: ");
+      Logger::write<const char*>("#---- checking read vector content: ");
+      if (Tester::test<std::vector<size_t> >(bonuses_vector, bonuses_buffer) != TR_SUCCESS) {
+        ++local_fails_count;
+      }
+      bonuses_buffer.clear();
+    } else {
+      ++local_fails_count;
+    }
+    for (size_t i = 0; i < bonuses_vector.size(); ++i) {
       printf("#-- get_bonuses(const size_t&, size_t&) method test for element %d: ", i);
       Logger::write<const char*>("#-- get_bonuses(const size_t&, size_t&) method test for element ");
       Logger::write<size_t>(i);
       Logger::write<const char*>(": ");
       size_t buffer = SIZE_T_DEFAULT_VALUE;
       subject->get_bonuses(i, buffer);
-      Tester::test<size_t>(bonuses_buffer[i], buffer);
+      Tester::test<size_t>(bonuses_vector[i], buffer);
     }
-    bonuses_buffer.clear();
+    bonuses_vector.clear();
     printf("#-- get_save_data(InventoryTemplate&) method test:\n");
     Logger::write<const char*>("#-- get_save_data(InventoryTemplate&) method test:\n");
     InventoryTemplate save_data;
     subject->get_save_data(save_data);
-    for (size_t i = 0; i < source_data.size(); ++i) {
+    for (size_t i = 0; i < source_data._equipment.size(); ++i) {
       printf("#---- _equipment slot %d save data test: ", i);
       Logger::write<const char*>("#---- _equipment slot ");
       Logger::write<size_t>(i);
       Logger::write<const char*>(" save data test: ");
-      Tester::test<InventoryTemplate>(source_data._equipment[i], save_data._equipment[i]);
+      Tester::test<ItemTemplate>(source_data._equipment[i], save_data._equipment[i]);
     }
     delete subject;
     Tester::print_test_data();
-    if (Tester::get_fails_count() > COUNTER_DEFAULT_VALUE) {
+    if (Tester::get_failed_count() > COUNTER_DEFAULT_VALUE) {
       ++fails_count;
     }
     printf(TEST_BIG_SEPARATOR);
     Logger::write<const char*>(TEST_BIG_SEPARATOR);
   }
+  size_t percentage;
+  if (fails_count == COUNTER_DEFAULT_VALUE) {
+    percentage = PERCENT_CAP;
+  } else {
+    percentage = PERCENT_CAP - PERCENT_CAP * rounds / fails_count;
+  }
+  printf("total tests made: %d, successful: %d, failed: %d, success percentage: %d%%.\n", rounds, rounds - fails_count, fails_count, percentage);
+  Logger::write<const char*>("total tests made: ");
+  Logger::write<size_t>(rounds);
+  Logger::write<const char*>(", successful: ");
+  Logger::write<size_t>(rounds - fails_count);
+  Logger::write<const char*>(", failed: ");
+  Logger::write<size_t>(fails_count);
+  Logger::write<const char*>(", success percentage: ");
+  Logger::write<size_t>(percentage);
+  Logger::write<const char*>("%%.\n");
   return RC_OK;
 }
 
 int main() {
+  Logger::open_log("inventory_class_test");
+  test(PERCENT_CAP * 3 + roll_dice(PERCENT_CAP));
+  Logger::close_log();
   return 0;
 }
 
