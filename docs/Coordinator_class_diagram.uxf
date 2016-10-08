@@ -255,6 +255,7 @@ _#id: size_t = 1_
       <h>174</h>
     </coordinates>
     <panel_attributes>Enemy
+bg=cyan
 --
 #loot_list: std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;
 #reward: std::vector&lt;size_t&gt;

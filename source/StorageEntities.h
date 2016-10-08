@@ -78,4 +78,28 @@ struct MercSpecTemplate {
   friend bool operator == (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs);
 };
 
+struct EnemyTemplate {
+  std::string _name;
+  std::string _description;
+  size_t _level;
+  std::vector<size_t> _stats;
+  std::vector<LootData> _loot_list;
+  std::vector<size_t> _reward;
+
+  EnemyTemplate& operator = (const EnemyTemplate& rhs) {
+    _name.clear();
+    _name = rhs._name;
+    _description.clear();
+    _description = rhs._description;
+    _level = rhs._level;
+    _stats.clear();
+    _stats = rhs._stats;
+    _loot_list.clear();
+    _loot_list = rhs._loot_list;
+    _reward.clear();
+    _reward = rhs._reward;
+    return *this;
+  }
+};
+
 #endif

@@ -23,8 +23,19 @@ struct LootData {
 
 class Enemy: public GameCharacter {
   public:
-    Enemy();
+    Enemy(const EnemyTemplate& data);
     virtual ~Enemy() {}
+    size_t get_loot_list(std::vector<LootData>& result);
+    size_t get_loot_list(const size_t& index, LootData& result);
+    size_t get_reward(std::vector<size_t>& result);
+    size_t get_reward(const size_t& index, size_t& result);
+    size_t get_save_data(EnemyTemplate& save_data);
+    size_t set_loot_list(const std::vector<LootData>& value);
+    size_t set_loot_list(const size_t& index, const LootData& value);
+    size_t set_reward(const std::vector<size_t>& value);
+    size_t set_reward(const size_t& index, const size_t& value);
+    size_t what(std::string& result);
+    size_t update();
   protected:
     std::vector<LootData> _loot_list;
     std::vector<size_t> _reward;
