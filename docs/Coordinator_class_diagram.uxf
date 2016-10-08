@@ -1531,4 +1531,33 @@ m1=1
 m2=0..*</panel_attributes>
     <additional_attributes>150.0;150.0;10.0;150.0;10.0;10.0</additional_attributes>
   </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>768</x>
+      <y>1050</y>
+      <w>96</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>LootData
+bg=green
+--
++item_id: size_t
++drop_chance: size_t
++max_qunatity: size_t</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>804</x>
+      <y>1092</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=1..*</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
 </diagram>
