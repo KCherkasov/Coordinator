@@ -102,4 +102,34 @@ struct EnemyTemplate {
   }
 };
 
+struct MercenaryTemplate {
+  size_t _own_id;
+  std::string _name;
+  std::string _description;
+  size_t _level;
+  std::vector<size_t> _stats;
+  size_t _spec_id;
+  std::vector<size_t> _experience;
+  std::vector<size_t> _personality;
+  InventoryTemplate _equipment;
+
+  MercenaryTemplate& operator = (const MercenaryTemplate& rhs) {
+    _own_id = rhs._own_id;
+    _name.clear();
+    _name = rhs._name;
+    _description.clear();
+    _description = rhs._description;
+    _level = rhs._level;
+    _stats.clear();
+    _stats = rhs._stats;
+    _spec_id = rhs._spec_id;
+    _experience.clear();
+    _experience = rhs._experience;
+    _personality.clear();
+    _personality = rhs._personality;
+    _equipment = rhs._equipment;
+    return *this;
+  }
+};
+
 #endif
