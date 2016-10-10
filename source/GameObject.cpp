@@ -4,7 +4,7 @@ GameObject::GameObject(const size_t& own_id): _own_id(own_id) {
   _name.clear();
   _description.clear();
 }
-size_t GameObject::get_name(std::string& result) {
+size_t GameObject::get_name(std::string& result) const {
   result.clear();
   result = _name;
   if (!result.empty()) {
@@ -14,7 +14,7 @@ size_t GameObject::get_name(std::string& result) {
   }
 }
 
-size_t GameObject::get_description(std::string& result) {
+size_t GameObject::get_description(std::string& result) const {
   result.clear();
   result = _description;
   if (!result.empty()) {

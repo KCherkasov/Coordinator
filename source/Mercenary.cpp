@@ -15,18 +15,18 @@ Mercenary::Mercenary(const MercenaryTemplate& data, MercSpec& spec): _own_id(dat
   }
 }
 
-size_t Mercenary::get_merc_spec(MercSpec& result) {
+size_t Mercenary::get_merc_spec(MercSpec& result) const {
   result = _spec;
   return RC_OK;
 }
 
-size_t Mercenary::get_experience(std::vector<size_t>& result) {
+size_t Mercenary::get_experience(std::vector<size_t>& result) const {
   result.clear();
   result = _experience;
   return RC_OK;
 }
 
-size_t Mercenary::get_experience(const size_t& index, size_t& result) {
+size_t Mercenary::get_experience(const size_t& index, size_t& result) const  {
   if (index < _experience.size()) {
     result = _experience[index];
     return RC_OK;
@@ -35,13 +35,13 @@ size_t Mercenary::get_experience(const size_t& index, size_t& result) {
   }
 }
 
-size_t Mercenary::get_personality(std::vector<size_t>& result) {
+size_t Mercenary::get_personality(std::vector<size_t>& result) const {
   result.clear();
   result = _personality;
   return RC_OK;
 }
 
-size_t Mercenary::get_personality(const size_t& index, size_t& result) {
+size_t Mercenary::get_personality(const size_t& index, size_t& result) const {
   if (index < _personality.size()) {
     result = _personality[index];
     return RC_OK;
@@ -50,7 +50,8 @@ size_t Mercenary::get_personality(const size_t& index, size_t& result) {
   }
 }
 
-size_t Mercenary::get_equipment(Inventory& result) {
+size_t Mercenary::get_equipment(Inventory& result) const {
   result = _equipment;
   return RC_OK;
 }
+

@@ -1,24 +1,24 @@
 #include "MercSpec.h"
 
-size_t MercSpec::get_name(std::string& result) {
+size_t MercSpec::get_name(std::string& result) const {
   result.clear();
   result = _name;
   return RC_OK;
 }
 
-size_t MercSpec::get_description(std::string& result) {
+size_t MercSpec::get_description(std::string& result) const {
   result.clear();
   result = _description;
   return RC_OK;
 }
 
-size_t MercSpec::get_base_merc_stats(std::vector<size_t>& result) {
+size_t MercSpec::get_base_merc_stats(std::vector<size_t>& result) const {
   result.clear();
   result = _base_merc_stats;
   return RC_OK;
 }
 
-size_t MercSpec::get_base_merc_stats(const size_t& index, size_t& result) {
+size_t MercSpec::get_base_merc_stats(const size_t& index, size_t& result) const {
   if (index < _base_merc_stats.size()) {
     result = _base_merc_stats[index];
     return RC_OK;
@@ -67,7 +67,7 @@ size_t MercSpec::set_base_merc_stats(const size_t& index, const size_t& value) {
 }
 
 
-size_t MercSpec::what(std::string& result) {
+size_t MercSpec::what(std::string& result) const {
   result.clear();
   result.append("Mercenary class info:\n");
   result.append("---------------------\n");

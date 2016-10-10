@@ -18,7 +18,7 @@ Inventory::~Inventory() {
   }
 }
 
-size_t Inventory::get_equipment(std::vector<Item*>& result) {
+size_t Inventory::get_equipment(std::vector<Item*>& result) const {
   for (size_t i = 0; i < result.size(); ++i) {
     if (result[i] != NULL) {
       delete result[i];
@@ -29,7 +29,7 @@ size_t Inventory::get_equipment(std::vector<Item*>& result) {
   return RC_OK;
 }
 
-size_t Inventory::get_equipment(const size_t& index, Item*& result) {
+size_t Inventory::get_equipment(const size_t& index, Item*& result) const {
   if (index < _equipment.size()) {
     if (result != NULL) {
       delete result;
@@ -41,7 +41,7 @@ size_t Inventory::get_equipment(const size_t& index, Item*& result) {
   }
 }
 
-size_t Inventory::get_bonuses(std::vector<size_t>& result) {
+size_t Inventory::get_bonuses(std::vector<size_t>& result) const {
   result.clear();
   for (size_t i = 0; i < SI_SIZE; ++i) {
     result.push_back(SIZE_T_DEFAULT_VALUE);
@@ -59,7 +59,7 @@ size_t Inventory::get_bonuses(std::vector<size_t>& result) {
   return RC_OK;
 }
 
-size_t Inventory::get_bonuses(const size_t& index, size_t& result) {
+size_t Inventory::get_bonuses(const size_t& index, size_t& result) const {
   if (index < SI_SIZE) {
     result = SIZE_T_DEFAULT_VALUE;
     for (size_t i = 0; i < _equipment.size(); ++i) {
@@ -108,7 +108,7 @@ size_t Inventory::set_equipment(const size_t& index, Item*& value, bool if_swap)
   }
 }
 
-size_t Inventory::get_save_data(InventoryTemplate& result) {
+size_t Inventory::get_save_data(InventoryTemplate& result) const {
   result._equipment.clear();
   for (size_t i = 0; i < _equipment.size(); ++i) {
     if (_equipment[i] != NULL) {
@@ -122,7 +122,7 @@ size_t Inventory::get_save_data(InventoryTemplate& result) {
   return RC_OK;
 }
 
-size_t Inventory::what(std::string& result) {
+size_t Inventory::what(std::string& result) const {
   result.clear();
   return RC_OK;
 }

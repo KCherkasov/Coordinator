@@ -65,13 +65,13 @@ size_t Item::level_up() {
   return RC_OK;
 }
 
-size_t Item::get_bonuses(std::vector<size_t>& result) {
+size_t Item::get_bonuses(std::vector<size_t>& result) const {
   result.clear();
   result = _bonuses;
   return RC_OK;
 }
 
-size_t Item::get_bonuses(const size_t& index, size_t& result) {
+size_t Item::get_bonuses(const size_t& index, size_t& result) const {
   if (index < _bonuses.size()) {
     result = _bonuses[index];
     return RC_OK;
@@ -81,13 +81,13 @@ size_t Item::get_bonuses(const size_t& index, size_t& result) {
   }
 }
 
-size_t Item::get_slots(std::vector<bool>& result) {
+size_t Item::get_slots(std::vector<bool>& result) const {
   result.clear();
   result = _slots;
   return RC_OK;
 }
 
-size_t Item::get_slots(const size_t& index, bool& result) {
+size_t Item::get_slots(const size_t& index, bool& result) const {
   if (index < _slots.size()) {
     result = _slots[index];
     return RC_OK;
@@ -163,7 +163,7 @@ size_t Item::set_slots(const size_t& index, const bool& value) {
   }
 }
 
-size_t Item::get_save_data(ItemTemplate& save_data) {
+size_t Item::get_save_data(ItemTemplate& save_data) const {
   save_data._own_id = _own_id;
   save_data._name.clear();
   save_data._name = _name;
@@ -181,7 +181,7 @@ size_t Item::get_save_data(ItemTemplate& save_data) {
   return RC_OK;
 }
 
-size_t Item::what(std::string& result) {
+size_t Item::what(std::string& result) const {
   size_t dashes_string = 0;
   result.clear();
   result += _name;

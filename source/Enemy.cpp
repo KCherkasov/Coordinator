@@ -25,13 +25,13 @@ bool operator > (const LootData& lhs, const LootData& rhs) {
 
 Enemy::Enemy(const EnemyTemplate& data): _own_id(++_id), _name(data._name), _description(data._description), _level(data._level), _stats(data._stats), _loot_list(data._loot_list), _reward(data._reward) {}
 
-size_t Enemy::get_loot_list(std::vector<LootData>& result) {
+size_t Enemy::get_loot_list(std::vector<LootData>& result) const {
   result.clear();
   result = _loot_list;
   return RC_OK;
 }
 
-size_t Enemy::get_loot_list(const size_t& index, LootData& result) {
+size_t Enemy::get_loot_list(const size_t& index, LootData& result) const {
   if (index < _loot_list.size()) {
     result = _loot_list[index];
     return RC_OK;
@@ -40,13 +40,13 @@ size_t Enemy::get_loot_list(const size_t& index, LootData& result) {
   }
 }
 
-size_t Enemy::get_reward(std::vector<size_t>& result) {
+size_t Enemy::get_reward(std::vector<size_t>& result) const {
   result.clear();
   result = _reward;
   return RC_OK;
 }
 
-size_t Enemy::get_reward(const size_t& index, size_t& result) {
+size_t Enemy::get_reward(const size_t& index, size_t& result) const {
   if (index < _reward.size()) {
     result = _reward[index];
     return RC_OK;
@@ -55,7 +55,7 @@ size_t Enemy::get_reward(const size_t& index, size_t& result) {
   }
 }
 
-size_t Enemy::get_save_data(EnemyTemplate& save_data) {
+size_t Enemy::get_save_data(EnemyTemplate& save_data) const {
   save_data._name.clear();
   save_data._name = _name;
   save_data._description.clear();
@@ -100,7 +100,7 @@ size_t Enemy::set_reward(const size_t& index, const size_t& value) {
   }
 }
 
-size_t Enemy::what(std::string& result) {
+size_t Enemy::what(std::string& result) const {
   result.clear();
   return RC_OK;
 }

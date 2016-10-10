@@ -1,12 +1,12 @@
 #include "GameCharacter.h"
 
-size_t GameCharacter::get_stats(std::vector<size_t>& result) {
+size_t GameCharacter::get_stats(std::vector<size_t>& result) const {
   result.clear();
   result = _stats;
   return RC_OK;
 }
 
-size_t GameCharacter::get_stats(const size_t& index, size_t& result) {
+size_t GameCharacter::get_stats(const size_t& index, size_t& result) const {
   if (index < _stats.size()) {
     result = _stats[index];
     return RC_OK;
