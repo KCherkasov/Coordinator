@@ -55,11 +55,13 @@ struct InventoryTemplate {
 };
 
 struct MercSpecTemplate {
+  size_t _own_id;
   std::string _name;
   std::string _description;
   std::vector<size_t> _base_merc_stats;
 
   MercSpecTemplate& operator = (const MercSpecTemplate& rhs) {
+    _own_id = rhs._own_id;
     if (!_name.empty()) {
       _name.clear();
     }
@@ -111,6 +113,7 @@ struct MercenaryTemplate {
   size_t _spec_id;
   std::vector<size_t> _experience;
   std::vector<size_t> _personality;
+  std::vector<size_t> _history;
   InventoryTemplate _equipment;
 
   MercenaryTemplate& operator = (const MercenaryTemplate& rhs) {
@@ -127,6 +130,8 @@ struct MercenaryTemplate {
     _experience = rhs._experience;
     _personality.clear();
     _personality = rhs._personality;
+    _history.clear();
+    _history = rhs._history;
     _equipment = rhs._equipment;
     return *this;
   }
