@@ -149,3 +149,70 @@ size_t Mercenary::set_history(const size_t& index, const size_t& value) {
   }
 }
 
+size_t Mercenary::what(std::string& result) const {
+  result.clear();
+  result += _name;
+  result.append("        ");
+  std::string buffer;
+  buffer.clear();
+  _spec.get_name(buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("\n\n");
+  convert_to_string(_level, buffer);
+  result += buffer;
+  buffer.clear();
+  result.append(" Level        ");
+  convert_to_string(_experience[0], buffer);
+  result += buffer;
+  buffer.clear();
+  result.append(" / ");
+  convert_to_string(_experience[1], buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("Exp\n");
+  result.append("\nStats:\n");
+  std::vector<size_t> equipment_bonuses;
+  _equipment.get_bonuses(equipment_bonuses);
+  for (size_t i = 0; i < _stats.size(); ++i) {
+    // some code here to add stat name (storage class needed)
+    result.append(": ");
+    buffer.clear();
+    convert_to_string(_stats[i] + equipment_bonuses[i], buffer);
+    result += buffer;
+    buffer.clear();
+    result.append(" (");
+    convert_to_string(_stats[i], buffer);
+    result += buffer;
+    buffer.clear();
+    convert_to_string(equipment_bonuses[i], buffer);
+    result.append(" + ");
+    result += buffer;
+    buffer.clear();
+    result.append(")\n");
+  }
+  result.apppend("History:\n");
+  for (size_t i = 0; i < _history.size(); ++i) {
+    // some code here to add history field's name (storage class needed)
+    result.append(": ");
+    buffer.clear();
+    convert_to_string(_history[i], buffer);
+    result += buffer;
+    buffer.clear();
+    result.append("\n");
+  }
+  return RC_OK;
+}
+
+size_t Mercenary::update() {
+  return RC_OK;
+}
+
+size_t Mercenary::add_history(const size_t& index, const size_t& amount) {
+  if (index < _history.size()) {
+    _history[index] += amount;
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}

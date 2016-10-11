@@ -27,6 +27,8 @@ class Mercenary: public GameCharacter {
     size_t set_history(const size_t& index, const size_t& value);
     size_t what(std::string& result) const;
     size_t update();
+    size_t add_history(const size_t& index, const size_t& amount = 1);
+    size_t add_experience(const size_t& amount);
   protected:
     static size_t _id;
     MercSpec& _spec;
