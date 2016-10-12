@@ -15,6 +15,22 @@ Mercenary::Mercenary(const MercenaryTemplate& data, MercSpec& spec): _own_id(dat
   }
 }
 
+size_t Mercenary::level_up() {
+  if (_experience[0] >= _experience[1]) {
+    ++_level;
+    size_t stat_points = POINTS_PER_LEVEL;
+    while (true) {
+      size_t stat_id = roll_dice(_stats.size());
+      ++_stats[stat_id];
+      --stat_points;
+      if (stat_points == 0) {
+        break;
+      }
+    }
+  }
+  return RC_OK;
+}
+
 size_t Mercenary::get_merc_spec(MercSpec& result) const {
   result = _spec;
   return RC_OK;
@@ -215,4 +231,10 @@ size_t Mercenary::add_history(const size_t& index, const size_t& amount) {
   } else {
     return RC_BAD_INDEX;
   }
+}
+
+size_t Mercenary::add_experience(const size_t& amount) {
+  _experience[0] += amount;
+  level_up();
+  return RC_OK;
 }
