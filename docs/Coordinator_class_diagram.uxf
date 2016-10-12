@@ -206,6 +206,7 @@ m2=1</panel_attributes>
       <h>270</h>
     </coordinates>
     <panel_attributes>Mercenary
+bg=cyan
 --
 #experience: std::vector&lt;size_t&gt;
 #recruitment_stats: std::vector&lt;size_t&gt;
@@ -1250,6 +1251,7 @@ IR_SIZE</panel_attributes>
       <h>156</h>
     </coordinates>
     <panel_attributes>MercSpec
+bg=cyan
 --
 #name: std::string
 #description: std::string
