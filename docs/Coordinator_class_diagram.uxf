@@ -704,6 +704,7 @@ phase values</panel_attributes>
       <h>180</h>
     </coordinates>
     <panel_attributes>Faction
+bg=yellow
 --
 #influence: size_t
 #relationship: size_t

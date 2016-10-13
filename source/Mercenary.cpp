@@ -2,7 +2,7 @@
 
 size_t Mercenary::_id = SIZE_T_DEFAULT_VALUE;
 
-Mercenary::Mercenary(const MercenaryTemplate& data, MercSpec& spec): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _stats(data._stats), _spec(spec), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
+Mercenary::Mercenary(const MercenaryTemplate& data, MercSpec& spec): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _stats(data._stats), _spec(spec), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {

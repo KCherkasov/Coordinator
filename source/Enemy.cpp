@@ -23,7 +23,7 @@ bool operator > (const LootData& lhs, const LootData& rhs) {
   return lhs._item_id > rhs._item_id;
 }
 
-Enemy::Enemy(const EnemyTemplate& data): _own_id(++_id), _name(data._name), _description(data._description), _level(data._level), _stats(data._stats), _loot_list(data._loot_list), _reward(data._reward) {}
+Enemy::Enemy(const EnemyTemplate& data): _own_id(++_id), _name(data._name), _description(data._description), _level(data._level), _faction_id(data._faction_id), _stats(data._stats), _loot_list(data._loot_list), _reward(data._reward) {}
 
 size_t Enemy::get_loot_list(std::vector<LootData>& result) const {
   result.clear();

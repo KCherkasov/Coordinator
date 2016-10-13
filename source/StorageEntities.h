@@ -78,12 +78,15 @@ struct MercSpecTemplate {
   }
 
   friend bool operator == (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs);
+  friend bool operator < (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs);
+  friend bool operator > (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs);
 };
 
 struct EnemyTemplate {
   std::string _name;
   std::string _description;
   size_t _level;
+  size_t _faction_id;
   std::vector<size_t> _stats;
   std::vector<LootData> _loot_list;
   std::vector<size_t> _reward;
@@ -94,6 +97,7 @@ struct EnemyTemplate {
     _description.clear();
     _description = rhs._description;
     _level = rhs._level;
+    _faction_id = rhs._faction_id;
     _stats.clear();
     _stats = rhs._stats;
     _loot_list.clear();
@@ -102,6 +106,10 @@ struct EnemyTemplate {
     _reward = rhs._reward;
     return *this;
   }
+
+  friend bool operator == (const EnemyTemplate& lhs, const EnemyTemplate& rhs);
+  friend bool operator < (const EnemyTemplate& lhs, const EnemyTemplate& rhs);
+  friend bool operator > (const EnemyTemplate& lhs, const EnemyTemplate& rhs);
 };
 
 struct MercenaryTemplate {
@@ -109,6 +117,7 @@ struct MercenaryTemplate {
   std::string _name;
   std::string _description;
   size_t _level;
+  size_t _faction_id;
   std::vector<size_t> _stats;
   size_t _spec_id;
   std::vector<size_t> _experience;
@@ -123,6 +132,7 @@ struct MercenaryTemplate {
     _description.clear();
     _description = rhs._description;
     _level = rhs._level;
+    _faction_id = rhs._faction_id;
     _stats.clear();
     _stats = rhs._stats;
     _spec_id = rhs._spec_id;
@@ -135,6 +145,33 @@ struct MercenaryTemplate {
     _equipment = rhs._equipment;
     return *this;
   }
+
+  friend bool operator == (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs);
+  friend bool operator < (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs);
+  friend bool operator > (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs);
+};
+
+struct FactionTemplate {
+  size_t _own_id;
+  std::string _name;
+  std::string _description;
+  size_t _influence;
+  size_t _relationship;
+
+  FactionTemplate& operator = (const FactionTemplate& rhs) {
+    _own_id = rhs._own_id;
+    _name.clear();
+    _name = rhs._name;
+    _description.clear();
+    _description = rhs._description;
+    _influence = rhs._influence;
+    _relationship = rhs._relationship;
+    return *this;
+  }
+
+  friend bool operator == (const FactionTemplate& lhs, const FactionTemplate& rhs);
+  friend bool operator < (const FactionTemplate& lhs, const FactionTemplate& rhs);
+  friend bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs);
 };
 
 #endif
