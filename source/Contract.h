@@ -9,7 +9,7 @@
 class Contract: public LevelableObject {
   public:
     Contract(const ContractTemplate& data, Location& location);
-    virtual ~Contract() {}
+    virtual ~Contract();
     size_t get_location(Location& result);
     size_t get_employer_faction() const { return _employer_faction; }
     size_t get_target_faction() const { return _target_faction; }
@@ -48,11 +48,12 @@ class Contract: public LevelableObject {
     size_t _employer_faction;
     size_t _target_faction;
     size_t _phase;
+    size_t _life_time;
+    size_t _birth_time;
     std::vector<size_t> _rewards;
     std::vector<size_t> _bonuses;
     std::vector<Mercenary*> _mercs;
     std::vector<Enemy*> _enemies;
-    
 };
 
 #endif

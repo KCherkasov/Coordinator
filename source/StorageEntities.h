@@ -174,4 +174,47 @@ struct FactionTemplate {
   friend bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs);
 };
 
+struct ContractTemplate {
+  size_t _own_id;
+  std::string _name;
+  std::string _description;
+  size_t _level;
+  size_t _employer_faction;
+  size_t _target_faction;
+  size_t _life_time;
+  size_t _birth_time;
+  size_t _phase;
+  std::vector<size_t> _rewards;
+  std::vector<size_t> _bonuses;
+  std::vector<MercenaryTemplate> _mercs;
+  std::vector<EnemyTemplate> _enemies;
+
+  ContractTemplate& operator = (const ContractTemplate& rhs) {
+    _own_id = rhs._own_id;
+    _name.clear();
+    _name = rhs._name;
+    _description.clear();
+    _description = rhs._description;
+    _level = rhs._level;
+    _employer_faction = rhs._employer_faction;
+    _target_faction = rhs._target_faction;
+    _life_time = rhs._life_time;
+    _birth_time = rhs._birth_time;
+    _phase = rhs._phase;
+    _rewards.clear();
+    _rewards = rhs._rewards;
+    _bonuses.clear();
+    _bonuses = rhs._bonuses;
+    _mercs.clear();
+    _mercs = rhs._mercs;
+    _enemies.clear();
+    _enemies = rhs._enemies;
+    return *this;
+  }
+
+  friend bool operator == (const ContractTemplate& lhs, const ContractTemplate& rhs);
+  friend bool operator < (const ContractTemplate& lhs, const ContractTemplate& rhs);
+  friend bool operator > (const ContractTemplate& lhs, const ContractTemplate& rhs);
+};
+
 #endif

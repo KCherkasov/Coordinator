@@ -70,3 +70,13 @@ size_t Faction::decrease_relationship(const size_t& amount) {
   return RC_OK;
 }
 
+size_t Faction::create_contract(Contract*& result) {
+  if (result != NULL) {
+    delete result;
+  }
+  ContractTemplate prototype;
+  size_t prototype_id = roll_dice(/* contract templates database size here */);
+  // some code here to receive template from the database (will be added when Storage class will be ready)
+  result = new Contract(prototype, /* code to get Location class object here */);
+  return RC_OK;
+}

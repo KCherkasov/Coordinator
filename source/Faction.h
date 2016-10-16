@@ -2,6 +2,7 @@
 #define FACTION_H
 
 #include "GameObject.h"
+#include "Contract.h"
 
 class Faction: public GameObject {
   public:
@@ -18,6 +19,7 @@ class Faction: public GameObject {
     size_t increase_relationship(const size_t& amount);
     size_t decrease_influence(const size_t& amount);
     size_t decrease_relationship(const size_t& amount);
+    size_t create_contract(Contract*& result);
   protected:
     static size_t _id;
     size_t _influence;
