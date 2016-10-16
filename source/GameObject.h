@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Miscellaneous.h"
+#include "StorageEntities.h"
 
 class GameObject {
   public:

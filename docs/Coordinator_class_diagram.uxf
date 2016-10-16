@@ -656,19 +656,21 @@ _#id: size_t = 1_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>30</x>
-      <y>1146</y>
-      <w>96</w>
-      <h>78</h>
+      <x>24</x>
+      <y>1134</y>
+      <w>102</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>enum ContractPhases
+bg=green
 --
-CF_PENDING
-CF_RECRUITING
-CF_IN_PROGRESS
-CF_SUCCESS
-CF_FAILED
-CF_SIZE</panel_attributes>
+CP_PENDING
+CP_RECRUITING
+CP_IN_PROGRESS
+CP_SUCCESS
+CP_FAILED
+CP_EXPIRED
+CP_SIZE</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -1563,5 +1565,37 @@ bg=green
 m1=1
 m2=1..*</panel_attributes>
     <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>1044</y>
+      <w>102</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>enum ContractRewards
+bg=green
+--
+CR_MONEY
+CR_EXPERIENCE
+CR_EMPLOYER_REP
+CR_TARGET_REP
+CR_SIZE</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>120</x>
+      <y>1068</y>
+      <w>114</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=-
+used as &gt;
+bonuses and
+rewards indices</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
 </diagram>
