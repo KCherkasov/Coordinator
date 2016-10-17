@@ -35,4 +35,86 @@ Contract::~Contract() {
   }
 }
 
+size_t Contract::get_location(Location& result) {
+  result = _location;
+  return RC_OK;
+}
 
+size_t Contract::get_rewards(std::vector<size_t>& result) const {
+  result.clear();
+  result = _rewards;
+  return RC_OK;
+}
+
+size_t Contract::get_rewards(const size_t& index, size_t& result) const {
+  if (index < _rewards.size()) {
+    result = _rewards[index];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Contract::get_bonuses(std::vector<size_t>& result) const {
+  result.clear();
+  result = _bonuses;
+  return RC_OK;
+}
+
+size_t Contract::get_bonuses(const size_t& index, size_t& result) const {
+  if (index < _bonuses.size()) {
+    result = _bonuses[index];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Contract::get_mercs(std::vector<Mercenary*>& result) const {
+  if (!result.empty()) {
+    return RC_BAD_INPUT;
+  } else {
+    result = _mercs;
+    return RC_OK;
+  }
+}
+
+size_t Contract::get_mercs(const size_t& index, Mercenary*& result) const {
+  if (index < _mercs.size()) {
+    if (result == NULL) {
+      result = _mercs[index];
+      return RC_OK;
+    } else {
+      return RC_BAD_INPUT;
+    }
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Contract::get_enemies(std::vector<Enemy*>& result) const {
+  if (!result.empty()) {
+    return RC_BAD_INPUT;
+  } else {
+    result = _enemies;
+    return RC_OK;
+  }
+}
+
+size_t Contract::get_enemies(const size_t& index, Enemy*& result) const {
+  if (index < _enemies.size()) {
+    if (result == NULL) {
+      result = _enemies[index];
+      return RC_OK;
+    } else {
+      return RC_BAD_INPUT;
+    }
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Contract::get_save_data(ContractTemplate& save_data) const {
+
+  return RC_OK;
+}

@@ -22,7 +22,7 @@ class Contract: public LevelableObject {
     size_t get_mercs(const size_t& index, Mercenary*& result) const;
     size_t get_enemies(std::vector<Enemy*>& result) const;
     size_t get_enemies(const size_t& index, Enemy*& result) const;
-    size_t get_save_data(ContractTemplate& save_data);
+    size_t get_save_data(ContractTemplate& save_data) const;
     size_t set_location(Location& value);
     size_t set_employer_faction(const size_t& value);
     size_t set_target_faction(const size_t& value);

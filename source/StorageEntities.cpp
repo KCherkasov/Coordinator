@@ -168,3 +168,53 @@ bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }
 
+bool operator == (const ContractTemplate& lhs, const ContractTemplate& rhs) {
+  if (lhs._own_id != rhs._own_id) {
+    return false;
+  }
+  if (lhs._name != rhs._name) {
+    return false;
+  }
+  if (lhs._description != rhs._description) {
+    return false;
+  }
+  if (lhs._level != rhs._level) {
+    return false;
+  }
+  if (lhs._employer_faction != rhs._employer_faction) {
+    return false;
+  }
+  if (lhs._target_faction != rhs._target_faction) {
+    return false;
+  }
+  if (lhs._life_time != rhs._life_time) {
+    return false;
+  }
+  if (lhs._birth_time != rhs._birth_time) {
+    return false;
+  }
+  if (lhs._phase != rhs._phase) {
+    return false;
+  }
+  if (lhs._rewards != rhs._rewards) {
+    return false;
+  }
+  if (lhs._bonuses != rhs._bonuses) {
+    return false;
+  }
+  if (lhs._mercs != rhs._mercs) {
+    return false;
+  }
+  if (lhs._enemies != rhs._enemies) {
+    return false;
+  }
+  return true;
+}
+
+bool operator < (const ContractTemplate& lhs, const ContractTemplate& rhs) {
+  return lhs._own_id < rhs._own_id;
+}
+
+bool operator > (const ContractTemplate& lhs, const ContractTemplate& rhs) {
+  return lhs._own_id > rhs._own_id;
+}
