@@ -258,18 +258,18 @@ _#id: size_t = 1_
     <panel_attributes>Enemy
 bg=cyan
 --
-#loot_list: std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;
+#loot_list: std::vector&lt;LootData&gt;
 #reward: std::vector&lt;size_t&gt;
 _#id: size_t = 1_
 --
 +Target()
 /+~Target()/
-+get_loot_list(result: std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;&amp;): size_t
-+get_loot_list(index: const size_t&amp;, result: std::pair&lt;size_t, size_t&gt;&amp;): size_t
++get_loot_list(result: std::vector&lt;LootData&gt;&amp;): size_t
++get_loot_list(index: const size_t&amp;, result: LootData&amp;): size_t
 +get_reward(result: std::vector&lt;size_t&gt;&amp;): size_t
 +get_reward(index: const size_t&amp;): size_t
-+set_loot_list(value: const std::vector&lt;std::pair&lt;size_t, size_t&gt; &gt;&amp;): size_t
-+set_loot_list(index: const size_t&amp;, value: const std::pair&lt;size_t, size_t&gt;&amp;): size_t
++set_loot_list(value: const std::vector&lt;LootData&gt;&amp;): size_t
++set_loot_list(index: const size_t&amp;, value: const LootData&amp;): size_t
 +set_reward(value: const std::vector&lt;size_t&gt;&amp;): size_t
 +set_reward(index: const size_t&amp;, value: const size_t&amp;): size_t
 +what(result: std::string&amp;): size_t
@@ -462,6 +462,7 @@ used as
       <h>408</h>
     </coordinates>
     <panel_attributes>Contract
+bg=yellow
 --
 #reward: size_t
 #employer_faction: size_t

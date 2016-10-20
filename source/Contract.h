@@ -3,8 +3,9 @@
 
 #include "LevelableObject.h"
 #include "Location.h"
-#include "Mercenary.h"
 #include "Enemy.h"
+
+class Mercenary;
 
 class Contract: public LevelableObject {
   public:
@@ -39,9 +40,11 @@ class Contract: public LevelableObject {
     size_t increase_phase(const size_t& shift = 1);
     size_t decrease_phase(const size_t& shift = 1);
     size_t add_merc(const Mercenary*& new_merc);
-    size_t remove_merc(const size_t& index); // to think: shall we use a vector index or merc's own-id as argument?
+    size_t remove_merc(const size_t& index);
+    size_t remove_merc(Mercenary* to_delete);
     size_t add_enemy(const Enemy*& new_enemy);
-    size_t remove_enemy(const size_t& index); // to think: same question as above
+    size_t remove_enemy(const size_t& index);
+    size_t remove_enemy(Enemy* to_delete);
   protected:
     Location& _location;
     static size_t _id;

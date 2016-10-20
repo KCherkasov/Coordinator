@@ -5,10 +5,12 @@
 #include "Inventory.h"
 #include "MercSpec.h"
 
+class Contract;
+
 class Mercenary: public GameCharacter {
   public:
     Mercenary(const MercenaryTemplate& data, MercSpec& spec);
-    virtual ~Mercenary() {}
+    virtual ~Mercenary();
     size_t get_spec(MercSpec& result) const;
     size_t get_experience(std::vector<size_t>& result) const;
     size_t get_experience(const size_t& index, size_t& result) const;
@@ -29,12 +31,16 @@ class Mercenary: public GameCharacter {
     size_t update();
     size_t add_history(const size_t& index, const size_t& amount = 1);
     size_t add_experience(const size_t& amount);
+    size_t add_contract(Contract* to_add);
+    size_t remove_contract(const size_t& index);
+    size_t remove_contract(Contract* to_remove);
   protected:
     static size_t _id;
     MercSpec& _spec;
     std::vector<size_t> _experience;
     std::vector<size_t> _personality;
     std::vector<size_t> _history;
+    std::vector<Contract*> _contracts;
     Inventory _equipment;
 }
 

@@ -1,4 +1,5 @@
 #include "Contract.h"
+#include "Mercenary.h"
 
 size_t Contract::_id = SIZE_T_DEFAULT_VALUE;
 
@@ -25,7 +26,7 @@ Contract::Contract(ContractTemplate& data, Location& location): _own_id(data._ow
 Contract::~Contract() {
   for (size_t i = 0; i < _mercs.size(); ++i) {
     if (_mercs[i] != NULL) {
-      delete _mercs[i];
+      _mercs[i]->remove_contract(this);
     }
   }
   for (size_t i = 0; i < _enemies.size(); ++i) {

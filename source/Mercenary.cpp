@@ -1,4 +1,5 @@
 #include "Mercenary.cpp"
+#include "Contract.h"
 
 size_t Mercenary::_id = SIZE_T_DEFAULT_VALUE;
 
@@ -12,6 +13,14 @@ Mercenary::Mercenary(const MercenaryTemplate& data, MercSpec& spec): _own_id(dat
   }
   if (data._level > _level) {
     _level = data._level;
+  }
+}
+
+Mercenary::~Mercenary() {
+  for (size_t i = 0; i < _contracts.size(); ++i) {
+    if (_contracts[i] != NULL) {
+      _contracts[i]->remove_merc(this);
+    }
   }
 }
 
@@ -237,4 +246,28 @@ size_t Mercenary::add_experience(const size_t& amount) {
   _experience[0] += amount;
   level_up();
   return RC_OK;
+}
+
+size_t Mercenary::add_contract(Contract* to_add) {
+  _contracts.push_back(to_add);
+  return RC_OK;
+}
+
+size_t Mercenary::remove_contract(const size_t& index) {
+  if (index < _contracts.size()) {
+    _contracts.erase(_contracts.begin() + index);
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Mercenary::remove_contract(Contract* to_delete) {
+  for (size_t i = 0; i < _contracts.size(); ++i) {
+    if (to_delete == _contracts[i]) {
+      _contracts.erase(_contracts.begin() + i);
+      return RC_OK;
+    }
+  }
+  return RC_NOT_FOUND;
 }
