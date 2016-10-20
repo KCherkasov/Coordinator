@@ -12,7 +12,8 @@ Contract::Contract(ContractTemplate& data, Location& location): _own_id(data._ow
     }
   }
   for (size_t i = 0; i < data._mercs.size(); ++i) {
-    Mercenary* new_merc = new Mercenary(data._mercs[i], /* some code here to receive merc spec by spec_id */);
+    Mercenary* new_merc = NULL;
+    // some code here to get reference my merc's _onw_id
     _merc.push_back(new_merc);
     new_merc = NULL;
   }
@@ -116,6 +117,85 @@ size_t Contract::get_enemies(const size_t& index, Enemy*& result) const {
 }
 
 size_t Contract::get_save_data(ContractTemplate& save_data) const {
-
+  save_data._own_id = _own_id;
+  save_data._name.clear();
+  save_data._name = _name;
+  save_data._description.clear();
+  save_data._description = _description;
+  save_data._level = _level;
+  save_data._location_id = _location.get_own_id();
+  save_data._employer_faction = _employer_faction;
+  save_data._target_faction = _target_faction;
+  save_data._phase = _phase;
+  save_data._life_time;
+  save_data._birth_time;
+  save_data._rewards.clear();
+  save_data._rewards = _rewards;
+  save_data._bonuses = _bonuses;
+  save_data._mercs.clear();
+  for (size_t i = 0; i < _mercs.size()) {
+    if (_mercs[i] != NULL) {
+      save_data._mercs.push_back(_mercs[i]->get_own_id());
+    }
+  }
+  save_data._enemies.clear();
+  for(size_t i = 0; i < _enemies.size()) {
+    if (_enemies[i] = NULL) {
+      EnemyTemplate to_add;
+      _enemies[i]->get_save_data(to_add);
+      save_data._enemies.push_back(to_add);
+    }
+  }
   return RC_OK;
+}
+
+size_t Contract::set_location(Location& value) {
+  _location = value;
+  return RC_OK;
+}
+
+size_t Contract::set_employer_faction(const size_t& value) {
+  _employer_faction = value;
+  return RC_OK;
+}
+
+size_t Contract::set_target_faction(const size_t& value) {
+  _target_faction = value;
+  return RC_OK;
+}
+
+size_t Contract::set_rewards(const std::vector<size_t>& value) {
+  if (value.empty()) {
+    return RC_BAD_INPUT;
+  }
+  _rewards.clear();
+  _rewards = value;
+  return RC_OK;
+}
+
+size_t Contract::set_rewards(const size_t& index, const size_t& value) {
+  if (index < _rewards.size()) {
+    _rewards[index] = value;
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Contract::set_bonuses(const std::vector<size_t>& value) {
+  if (value.empty()) {
+    return RC_BAD_INPUT;
+  }
+  _bonuses.clear();
+  _bonuses = value;
+  return RC_OK;
+}
+
+size_t Contract::set_bonuses(const size_t& index, const size_t& value) {
+  if (index < _bonuses.size()) {
+    _bonuses[index] = value;
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
 }

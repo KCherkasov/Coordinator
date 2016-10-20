@@ -179,6 +179,7 @@ struct ContractTemplate {
   std::string _name;
   std::string _description;
   size_t _level;
+  size_t _location_id;
   size_t _employer_faction;
   size_t _target_faction;
   size_t _life_time;
@@ -186,7 +187,7 @@ struct ContractTemplate {
   size_t _phase;
   std::vector<size_t> _rewards;
   std::vector<size_t> _bonuses;
-  std::vector<MercenaryTemplate> _mercs;
+  std::vector<size_t> _mercs;
   std::vector<EnemyTemplate> _enemies;
 
   ContractTemplate& operator = (const ContractTemplate& rhs) {
@@ -195,6 +196,7 @@ struct ContractTemplate {
     _name = rhs._name;
     _description.clear();
     _description = rhs._description;
+    _location_id = rhs._location_id;
     _level = rhs._level;
     _employer_faction = rhs._employer_faction;
     _target_faction = rhs._target_faction;

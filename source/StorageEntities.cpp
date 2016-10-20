@@ -178,6 +178,9 @@ bool operator == (const ContractTemplate& lhs, const ContractTemplate& rhs) {
   if (lhs._description != rhs._description) {
     return false;
   }
+  if (lhs._location_id != rhs._location_id) {
+    return false;
+  }
   if (lhs._level != rhs._level) {
     return false;
   }
