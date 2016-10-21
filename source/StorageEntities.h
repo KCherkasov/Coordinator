@@ -112,7 +112,7 @@ struct EnemyTemplate {
   friend bool operator > (const EnemyTemplate& lhs, const EnemyTemplate& rhs);
 };
 
-struct MercenaryTemplate {
+struct HeroTemplate {
   size_t _own_id;
   std::string _name;
   std::string _description;
@@ -125,7 +125,7 @@ struct MercenaryTemplate {
   std::vector<size_t> _history;
   InventoryTemplate _equipment;
 
-  MercenaryTemplate& operator = (const MercenaryTemplate& rhs) {
+  HeroTemplate& operator = (const HeroTemplate& rhs) {
     _own_id = rhs._own_id;
     _name.clear();
     _name = rhs._name;
@@ -146,9 +146,9 @@ struct MercenaryTemplate {
     return *this;
   }
 
-  friend bool operator == (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs);
-  friend bool operator < (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs);
-  friend bool operator > (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs);
+  friend bool operator == (const HeroTemplate& lhs, const HeroTemplate& rhs);
+  friend bool operator < (const HeroTemplate& lhs, const HeroTemplate& rhs);
+  friend bool operator > (const HeroTemplate& lhs, const HeroTemplate& rhs);
 };
 
 struct FactionTemplate {
@@ -174,7 +174,7 @@ struct FactionTemplate {
   friend bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs);
 };
 
-struct ContractTemplate {
+struct QuestTemplate {
   size_t _own_id;
   std::string _name;
   std::string _description;
@@ -187,10 +187,10 @@ struct ContractTemplate {
   size_t _phase;
   std::vector<size_t> _rewards;
   std::vector<size_t> _bonuses;
-  std::vector<size_t> _mercs;
+  std::vector<size_t> _heroes;
   std::vector<EnemyTemplate> _enemies;
 
-  ContractTemplate& operator = (const ContractTemplate& rhs) {
+  QuestTemplate& operator = (const QuestTemplate& rhs) {
     _own_id = rhs._own_id;
     _name.clear();
     _name = rhs._name;
@@ -207,16 +207,16 @@ struct ContractTemplate {
     _rewards = rhs._rewards;
     _bonuses.clear();
     _bonuses = rhs._bonuses;
-    _mercs.clear();
-    _mercs = rhs._mercs;
+    _heroes.clear();
+    _heroes = rhs._heroes;
     _enemies.clear();
     _enemies = rhs._enemies;
     return *this;
   }
 
-  friend bool operator == (const ContractTemplate& lhs, const ContractTemplate& rhs);
-  friend bool operator < (const ContractTemplate& lhs, const ContractTemplate& rhs);
-  friend bool operator > (const ContractTemplate& lhs, const ContractTemplate& rhs);
+  friend bool operator == (const QuestTemplate& lhs, const QuestTemplate& rhs);
+  friend bool operator < (const QuestTemplate& lhs, const QuestTemplate& rhs);
+  friend bool operator > (const QuestTemplate& lhs, const QuestTemplate& rhs);
 };
 
 #endif

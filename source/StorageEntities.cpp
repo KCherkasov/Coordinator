@@ -96,7 +96,7 @@ bool operator > (const EnemyTemplate& lhs, const EnemyTemplate& rhs) {
   return lhs._level > rhs._level;
 }
 
-bool operator == (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs) {
+bool operator == (const HeroTemplate& lhs, const HeroTemplate& rhs) {
   if (lhs._own_id != rhs._own_id) {
     return false;
   }
@@ -133,11 +133,11 @@ bool operator == (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs) {
   return true;
 }
 
-bool operator < (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs) {
+bool operator < (const HeroTemplate& lhs, const HeroTemplate& rhs) {
   return lhs._own_id < rhs._own_id;
 }
 
-bool operator > (const MercenaryTemplate& lhs, const MercenaryTemplate& rhs) {
+bool operator > (const HeroTemplate& lhs, const HeroTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }
 
@@ -168,7 +168,7 @@ bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }
 
-bool operator == (const ContractTemplate& lhs, const ContractTemplate& rhs) {
+bool operator == (const QuestTemplate& lhs, const QuestTemplate& rhs) {
   if (lhs._own_id != rhs._own_id) {
     return false;
   }
@@ -205,7 +205,7 @@ bool operator == (const ContractTemplate& lhs, const ContractTemplate& rhs) {
   if (lhs._bonuses != rhs._bonuses) {
     return false;
   }
-  if (lhs._mercs != rhs._mercs) {
+  if (lhs._heroes != rhs._heroes) {
     return false;
   }
   if (lhs._enemies != rhs._enemies) {
@@ -214,10 +214,10 @@ bool operator == (const ContractTemplate& lhs, const ContractTemplate& rhs) {
   return true;
 }
 
-bool operator < (const ContractTemplate& lhs, const ContractTemplate& rhs) {
+bool operator < (const QuestTemplate& lhs, const QuestTemplate& rhs) {
   return lhs._own_id < rhs._own_id;
 }
 
-bool operator > (const ContractTemplate& lhs, const ContractTemplate& rhs) {
+bool operator > (const QuestTemplate& lhs, const QuestTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }

@@ -1,9 +1,9 @@
-#include "Mercenary.cpp"
+#include "Hero.h"
 #include "Contract.h"
 
-size_t Mercenary::_id = SIZE_T_DEFAULT_VALUE;
+size_t Hero::_id = SIZE_T_DEFAULT_VALUE;
 
-Mercenary::Mercenary(const MercenaryTemplate& data, MercSpec& spec): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _stats(data._stats), _spec(spec), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
+Hero::Hero(const HeroTemplate& data, MercSpec& spec): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _stats(data._stats), _spec(spec), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {
@@ -16,7 +16,7 @@ Mercenary::Mercenary(const MercenaryTemplate& data, MercSpec& spec): _own_id(dat
   }
 }
 
-Mercenary::~Mercenary() {
+Hero::~Hero() {
   for (size_t i = 0; i < _contracts.size(); ++i) {
     if (_contracts[i] != NULL) {
       _contracts[i]->remove_merc(this);
@@ -24,7 +24,7 @@ Mercenary::~Mercenary() {
   }
 }
 
-size_t Mercenary::level_up() {
+size_t Hero::level_up() {
   if (_experience[0] >= _experience[1]) {
     ++_level;
     size_t stat_points = POINTS_PER_LEVEL;
@@ -40,18 +40,18 @@ size_t Mercenary::level_up() {
   return RC_OK;
 }
 
-size_t Mercenary::get_merc_spec(MercSpec& result) const {
+size_t Hero::get_merc_spec(MercSpec& result) const {
   result = _spec;
   return RC_OK;
 }
 
-size_t Mercenary::get_experience(std::vector<size_t>& result) const {
+size_t Hero::get_experience(std::vector<size_t>& result) const {
   result.clear();
   result = _experience;
   return RC_OK;
 }
 
-size_t Mercenary::get_experience(const size_t& index, size_t& result) const  {
+size_t Hero::get_experience(const size_t& index, size_t& result) const  {
   if (index < _experience.size()) {
     result = _experience[index];
     return RC_OK;
@@ -60,13 +60,13 @@ size_t Mercenary::get_experience(const size_t& index, size_t& result) const  {
   }
 }
 
-size_t Mercenary::get_personality(std::vector<size_t>& result) const {
+size_t Hero::get_personality(std::vector<size_t>& result) const {
   result.clear();
   result = _personality;
   return RC_OK;
 }
 
-size_t Mercenary::get_personality(const size_t& index, size_t& result) const {
+size_t Hero::get_personality(const size_t& index, size_t& result) const {
   if (index < _personality.size()) {
     result = _personality[index];
     return RC_OK;
@@ -75,13 +75,13 @@ size_t Mercenary::get_personality(const size_t& index, size_t& result) const {
   }
 }
 
-size_t Mercenary::get_history(std::vector<size_t>& result) const {
+size_t Hero::get_history(std::vector<size_t>& result) const {
   result.clear();
   result = _history;
   return RC_OK;
 }
 
-size_t Mercenary::get_history(const size_t& index, size_t& result) const {
+size_t Hero::get_history(const size_t& index, size_t& result) const {
   if (index < _history.size()) {
     result = _history[index];
     return RC_OK;
@@ -90,12 +90,12 @@ size_t Mercenary::get_history(const size_t& index, size_t& result) const {
   }
 }
 
-size_t Mercenary::get_equipment(Inventory& result) const {
+size_t Hero::get_equipment(Inventory& result) const {
   result = _equipment;
   return RC_OK;
 }
 
-size_t Mercenary::get_save_data(MercenaryTemplate& save_data) const {
+size_t Hero::get_save_data(MercenaryTemplate& save_data) const {
   save_data._own_id = _own_id;
   save_data._name.clear()
   save_data._name = _name;
@@ -115,12 +115,12 @@ size_t Mercenary::get_save_data(MercenaryTemplate& save_data) const {
   return RC_OK;
 }
 
-size_t Mercenary::set_spec(MercSpec& value) {
+size_t Hero::set_spec(MercSpec& value) {
   _spec = value;
   return RC_OK;
 }
 
-size_t Mercenary::set_experience(const std::vector<size_t>& value) {
+size_t Hero::set_experience(const std::vector<size_t>& value) {
   if (value.empty) {
     return RC_BAD_INPUT;
   }
@@ -129,7 +129,7 @@ size_t Mercenary::set_experience(const std::vector<size_t>& value) {
   return RC_OK;
 }
 
-size_t Mercenary::set_experience(const size_t& index, const size_t& value) {
+size_t Hero::set_experience(const size_t& index, const size_t& value) {
   if (index < _experience.size()) {
     _experience[index] = value;
     return RC_OK;
@@ -138,7 +138,7 @@ size_t Mercenary::set_experience(const size_t& index, const size_t& value) {
   }
 }
 
-size_t Mercenary::set_personality(const std::vector<size_t>& value) {
+size_t Hero::set_personality(const std::vector<size_t>& value) {
   if (value.empty()) {
     return RC_BAD_INPUT;
   }
@@ -147,7 +147,7 @@ size_t Mercenary::set_personality(const std::vector<size_t>& value) {
   return RC_OK;
 }
 
-size_t Mercenary::set_personality(const size_t& index, const size_t& value) {
+size_t Hero::set_personality(const size_t& index, const size_t& value) {
   if (index < _personality.size()) {
     _personality[index] = value;
     return RC_OK;
@@ -156,7 +156,7 @@ size_t Mercenary::set_personality(const size_t& index, const size_t& value) {
   }
 }
 
-size_t Mercenary::set_history(const std::vector<size_t>& value) {
+size_t Hero::set_history(const std::vector<size_t>& value) {
   if (value.empty()) {
     return RC_BAD_INPUT;
   }
@@ -165,7 +165,7 @@ size_t Mercenary::set_history(const std::vector<size_t>& value) {
   return RC_OK;
 }
 
-size_t Mercenary::set_history(const size_t& index, const size_t& value) {
+size_t Hero::set_history(const size_t& index, const size_t& value) {
   if (index < _history.size()) {
     _history[index] = value;
     return RC_OK;
@@ -174,7 +174,7 @@ size_t Mercenary::set_history(const size_t& index, const size_t& value) {
   }
 }
 
-size_t Mercenary::what(std::string& result) const {
+size_t Hero::what(std::string& result) const {
   result.clear();
   result += _name;
   result.append("        ");
@@ -229,11 +229,11 @@ size_t Mercenary::what(std::string& result) const {
   return RC_OK;
 }
 
-size_t Mercenary::update() {
+size_t Hero::update() {
   return RC_OK;
 }
 
-size_t Mercenary::add_history(const size_t& index, const size_t& amount) {
+size_t Hero::add_history(const size_t& index, const size_t& amount) {
   if (index < _history.size()) {
     _history[index] += amount;
     return RC_OK;
@@ -242,18 +242,18 @@ size_t Mercenary::add_history(const size_t& index, const size_t& amount) {
   }
 }
 
-size_t Mercenary::add_experience(const size_t& amount) {
+size_t Hero::add_experience(const size_t& amount) {
   _experience[0] += amount;
   level_up();
   return RC_OK;
 }
 
-size_t Mercenary::add_contract(Contract* to_add) {
+size_t Hero::add_quest(Quest* to_add) {
   _contracts.push_back(to_add);
   return RC_OK;
 }
 
-size_t Mercenary::remove_contract(const size_t& index) {
+size_t Hero::remove_quest(const size_t& index) {
   if (index < _contracts.size()) {
     _contracts.erase(_contracts.begin() + index);
     return RC_OK;
@@ -262,7 +262,7 @@ size_t Mercenary::remove_contract(const size_t& index) {
   }
 }
 
-size_t Mercenary::remove_contract(Contract* to_delete) {
+size_t Hero::remove_quest(Quest* to_delete) {
   for (size_t i = 0; i < _contracts.size(); ++i) {
     if (to_delete == _contracts[i]) {
       _contracts.erase(_contracts.begin() + i);
@@ -271,3 +271,4 @@ size_t Mercenary::remove_contract(Contract* to_delete) {
   }
   return RC_NOT_FOUND;
 }
+
