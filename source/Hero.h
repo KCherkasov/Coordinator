@@ -3,7 +3,7 @@
 
 #include "GameCharacter.h"
 #include "Inventory.h"
-#include "MercSpec.h"
+#include "HeroClass.h"
 
 class Quest;
 
@@ -11,7 +11,7 @@ class Hero: public GameCharacter {
   public:
     Hero(const HeroTemplate& data, MercSpec& spec);
     virtual ~Hero();
-    size_t get_spec(MercSpec& result) const;
+    size_t get_class(HeroClass& result) const;
     size_t get_experience(std::vector<size_t>& result) const;
     size_t get_experience(const size_t& index, size_t& result) const;
     size_t get_personality(std::vector<size_t>& result) const;
@@ -20,7 +20,7 @@ class Hero: public GameCharacter {
     size_t get_history(const size_t& index, size_t& result) const;
     size_t get_equipment(Inventory& result) const;
     size_t get_save_data(MercenaryTemplate& save_data) const;
-    size_t set_spec(MercSpec& value);
+    size_t set_class(HeroClass& value);
     size_t set_experience(const std::vector<size_t>& value);
     size_t set_experience(const size_t& index, const size_t& value);
     size_t set_personality(const std::vector<size_t>& value);
@@ -36,7 +36,8 @@ class Hero: public GameCharacter {
     size_t remove_quest(Quest* to_remove);
   protected:
     static size_t _id;
-    MercSpec& _spec;
+    size_t level_up();
+    HeroClass& _class;
     std::vector<size_t> _experience;
     std::vector<size_t> _personality;
     std::vector<size_t> _history;

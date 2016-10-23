@@ -3,7 +3,7 @@
 
 size_t Quest::_id = SIZE_T_DEFAULT_VALUE;
 
-Quest::Quest(QuestTemplate& data, Location& location): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _employer_faction(data._employer_faction), _target_faction(data._target_faction), _phase(data._phase), _life_time(data._life_time), _birth_time(data._birth_time), _rewards(data._rewards), _bonuses(data._bonuses) {
+Quest::Quest(QuestTemplate& data, Location& location): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _employer_faction(data._employer_faction), _target_faction(data._target_faction), _phase(data._phase), _life_time(data._life_time), _rewards(data._rewards), _bonuses(data._bonuses) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {
@@ -13,7 +13,7 @@ Quest::Quest(QuestTemplate& data, Location& location): _own_id(data._own_id), _n
   }
   for (size_t i = 0; i < data._mercs.size(); ++i) {
     Hero* new_hero = NULL;
-    // some code here to get reference my merc's _onw_id
+    // some code here to get reference by merc's _own_id
     _heroes.push_back(new_hero);
     new_hero = NULL;
   }
@@ -33,6 +33,22 @@ Quest::~Quest() {
   for (size_t i = 0; i < _enemies.size(); ++i) {
     if (_enemies[i] != NULL) {
       delete _enemies[i];
+    }
+  }
+}
+
+size_t Quest::give_reward(/**/, const bool& with_rep_dmg) {
+  // code here to transfer money reward
+  size_t experience_grant = _rewards[RI_EXPERIENCE];
+  for (size_t i = 0; i < _level; ++i) {
+    experience_grant *= EXPERIENCE_RAISE_PER_LEVEL;
+    experience_grant /= PERCENT_CAP;
+  }
+  for (size_t i = 0; i < _heroes.size(); ++i) {
+    if (_heroes[i] != NULL) {
+      size_t bonus_exp = experience_grant * roll_dice() / PERCENT_CAP;
+      _heroes[i]->add_experience(RI_EXPERIENCE, bonus_exp + experience_grant);
+      _heroes[i]->add_history(HH_QUESTS_COMPLETED);
     }
   }
 }
@@ -128,7 +144,6 @@ size_t Quest::get_save_data(QuestTemplate& save_data) const {
   save_data._target_faction = _target_faction;
   save_data._phase = _phase;
   save_data._life_time;
-  save_data._birth_time;
   save_data._rewards.clear();
   save_data._rewards = _rewards;
   save_data._bonuses = _bonuses;
@@ -257,6 +272,104 @@ size_t Quest::what(std::string& result) {
 }
 
 size_t Quest::update() {
+  ++_life_time;
+  if (_life_time >= QUEST_LIFE_TIME && (_phase == QP_PENDING || _phase == QP_RECRUITING)) {
+    _phase = QP_EXPIRED;
+  }
+  if (_phase == QP_IN_PROGRESS && _heroes.empty()) {
+    _phase = QP_FAILED;
+  }
+  if (_phase == QP_IN_PROGRESS && _enemies.empty()) {
+    size_t chance = roll_dice();
+    // maybe chances shall be tweaked or determined algorithm needed
+    if (chance % 2 == 0) {
+      _phase = QP_SUCCESS_TOTAL;
+    } else {
+      _phase = QP_SUCCESS_REL_DMG;
+    }
+  }
+  if (_phase == QP_SUCCESS_TOTAL) {
+    // code here to process success without relationship damage
+  }
+  if (_phase == QP_SUCCESS_REL_DMG) {
+    // code here to process success with relationship damage
+  }
+  if (_phase == QP_FAILED) {
+    // code here to process fail
+  }
+  if (_phase > QP_IN_PROGRESS) {
+    // code here to send suicide message
+  }
   return RC_OK;
+}
+
+size_t Quest::increase_phase(const size_t& shift) {
+  _phase = (_phase + shift) / QP_SIZE;
+  return RC_OK;
+}
+
+size_t Quest::decrease_phase(const size_t& shift) {
+  _phase = (_phase - shift) / QP_SIZE;
+  return RC_OK;
+}
+
+size_t Quest::add_hero(const Hero*& new_hero) {
+  if (new_hero == NULL) {
+    return RC_BAD_INPUT;
+  }
+  _heroes.push_back(new_hero);
+  return RC_OK;
+}
+
+size_t Quest::remove_hero(const size_t& index) {
+  if (index < _heroes.size()) {
+    _heroes.erase(_heroes.begin() + index);
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Quest::remove_hero(Hero* to_delete) {
+  for (size_t i = 0; i < _heroes.size(); ++i) {
+    if (to_delete == _heroes[i]) {
+      _heroes.erase(_heroes.begin() + i);
+      return RC_OK;
+    }
+  }
+  return RC_NOT_FOUND;
+}
+
+size_t Quest::add_enemy(const Enemy*& new_enemy) {
+  if (new_enemy == NULL) {
+    return RC_BAD_INPUT;
+  }
+  _enemies.push_back(new_enemy);
+  return RC_OK;
+}
+
+size_t Quest::remove_enemy(const size_t& index) {
+  if (index < _enemies.size()) {
+    if (_enemies[index] != NULL) {
+      delete _enemies[index];
+    }
+    _enemies.erase(_enemies.begin() + index);
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Quest::remove_enemy(Enemy* to_delete) {
+  for (size_t i = 0; i < _enemies.size(); ++i) {
+    if (to_delete == _enemies[i]) {
+      if (_enemies[i] != NULL) {
+        delete _enemies[i];
+      }
+      _enemies.erase(_enemies.begin() + i);
+      return RC_OK;
+    }
+  }
+  return RC_NOT_FOUND;
 }
 

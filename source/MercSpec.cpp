@@ -1,33 +1,33 @@
-#include "MercSpec.h"
+#include "HeroClass.h"
 
-size_t MercSpec::get_name(std::string& result) const {
+size_t HeroClass::get_name(std::string& result) const {
   result.clear();
   result = _name;
   return RC_OK;
 }
 
-size_t MercSpec::get_description(std::string& result) const {
+size_t HeroClass::get_description(std::string& result) const {
   result.clear();
   result = _description;
   return RC_OK;
 }
 
-size_t MercSpec::get_base_merc_stats(std::vector<size_t>& result) const {
+size_t HeroClass::get_power_mods(std::vector<size_t>& result) const {
   result.clear();
-  result = _base_merc_stats;
+  result = _power_mods;
   return RC_OK;
 }
 
-size_t MercSpec::get_base_merc_stats(const size_t& index, size_t& result) const {
-  if (index < _base_merc_stats.size()) {
-    result = _base_merc_stats[index];
+size_t HeroClass::get_power_mods(const size_t& index, size_t& result) const {
+  if (index < _power_mods.size()) {
+    result = _power_mods[index];
     return RC_OK;
   } else {
     return RC_BAD_INDEX;
   }
 }
 
-size_t MercSpec::set_name(const std::string& value) {
+size_t HeroClass::set_name(const std::string& value) {
   if (!value.empty()) {
     _name.clear();
     _name = value;
@@ -37,7 +37,7 @@ size_t MercSpec::set_name(const std::string& value) {
   }
 }
 
-size_t MercSpec::set_description(const std::string& value) {
+size_t HeroClass::set_description(const std::string& value) {
   if (!value.empty()) {
     _description.clear();
     _description = value;
@@ -47,19 +47,19 @@ size_t MercSpec::set_description(const std::string& value) {
   }
 }
 
-size_t MercSpec::set_base_merc_stats(const std::vector<size_t>& value) {
+size_t HeroClass::set_power_mods(const std::vector<size_t>& value) {
   if (value.size() == SI_SIZE) {
-    _base_merc_stats.clear();
-    _base_merc_stats = value;
+    _power_mods.clear();
+    _power_mods = value;
     return RC_OK;
   } else {
     return RC_BAD_SIZE;
   }
 }
 
-size_t MercSpec::set_base_merc_stats(const size_t& index, const size_t& value) {
-  if (index < _base_merc_stats.size()) {
-    _base_merc_stats[index] = value;
+size_t HeroClass::set_power_mods(const size_t& index, const size_t& value) {
+  if (index < _power_mods.size()) {
+    _power_mods[index] = value;
     return RC_OK;
   } else {
     return RC_BAD_INDEX;
@@ -67,23 +67,23 @@ size_t MercSpec::set_base_merc_stats(const size_t& index, const size_t& value) {
 }
 
 
-size_t MercSpec::what(std::string& result) const {
+size_t HeroClass::what(std::string& result) const {
   result.clear();
-  result.append("Mercenary class info:\n");
-  result.append("---------------------\n");
   result += _name;
+  result.append(" class:\n");
+  result.append("---------------------\n");
   result.append("\n\"");
   result += _description;
   result.append("\"\n");
-  result.append("class base skills:\n");
-  for (size_t i = 0; i < _base_merc_stats.size(); ++i) {
+  result.append("stats power mods:\n");
+  for (size_t i = 0; i < _power_mods.size(); ++i) {
     std::string buffer;
     buffer.clear();
-    TextStorage::get_merc_stat_name(i, buffer);
+    TextStorage::get_hero_stat_name(i, buffer);
     result += buffer;
     result.append(": ");
     buffer.clear();
-    convert_to_string<size_t>(_base_merc_stats[i], buffer);
+    convert_to_string<size_t>(_power_mods[i], buffer);
     result += buffer;
     result.append("\n");
   }

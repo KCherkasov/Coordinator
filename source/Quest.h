@@ -39,7 +39,7 @@ class Quest: public LevelableObject {
     size_t update();
     size_t increase_phase(const size_t& shift = 1);
     size_t decrease_phase(const size_t& shift = 1);
-    size_t add_hero(const Hero*& new_merc);
+    size_t add_hero(const Hero*& new_hero);
     size_t remove_hero(const size_t& index);
     size_t remove_hero(Hero* to_delete);
     size_t add_enemy(const Enemy*& new_enemy);
@@ -47,12 +47,12 @@ class Quest: public LevelableObject {
     size_t remove_enemy(Enemy* to_delete);
   protected:
     Location& _location;
+    size_t give_reward(/* think about args to pass here */, const bool& with_rep_dmg);
     static size_t _id;
     size_t _employer_faction;
     size_t _target_faction;
     size_t _phase;
     size_t _life_time;
-    size_t _birth_time;
     std::vector<size_t> _rewards;
     std::vector<size_t> _bonuses;
     std::vector<Hero*> _heroes;

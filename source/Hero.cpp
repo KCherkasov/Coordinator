@@ -3,7 +3,7 @@
 
 size_t Hero::_id = SIZE_T_DEFAULT_VALUE;
 
-Hero::Hero(const HeroTemplate& data, MercSpec& spec): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _stats(data._stats), _spec(spec), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
+Hero::Hero(const HeroTemplate& data, HeroClass& spec): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _stats(data._stats), _spec(spec), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {
@@ -25,23 +25,20 @@ Hero::~Hero() {
 }
 
 size_t Hero::level_up() {
-  if (_experience[0] >= _experience[1]) {
-    ++_level;
-    size_t stat_points = POINTS_PER_LEVEL;
-    while (true) {
-      size_t stat_id = roll_dice(_stats.size());
-      ++_stats[stat_id];
-      --stat_points;
-      if (stat_points == 0) {
-        break;
-      }
+  size_t stat_points = POINTS_PER_LEVEL;
+  while (true) {
+    size_t stat_id = roll_dice(_stats.size());
+    ++_stats[stat_id];
+    --stat_points;
+    if (stat_points == 0) {
+      break;
     }
   }
   return RC_OK;
 }
 
-size_t Hero::get_merc_spec(MercSpec& result) const {
-  result = _spec;
+size_t Hero::get_class(HeroClass& result) const {
+  result = _class;
   return RC_OK;
 }
 
@@ -115,8 +112,8 @@ size_t Hero::get_save_data(MercenaryTemplate& save_data) const {
   return RC_OK;
 }
 
-size_t Hero::set_spec(MercSpec& value) {
-  _spec = value;
+size_t Hero::set_class(Hero& value) {
+  _class = value;
   return RC_OK;
 }
 
