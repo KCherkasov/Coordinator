@@ -42,24 +42,54 @@ bool operator > (const ItemTemplate& lhs, const ItemTemplate& rhs) {
   return lhs._price > rhs._price;
 }
 
-bool operator == (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs) {
+bool operator == (const HeroArchetype& lhs, const HeroArchetype& rhs) {
+  if (lhs._own_id != rhs._own_id) {
+    return false;
+  }
   if (lhs._name != rhs._name) {
     return false;
   }
   if (lhs._description != rhs._description) {
     return false;
   }
-  if (lhs._base_merc_stats != rhs._base_merc_stats) {
+  if (lhs._power_mods != rhs._power_mods) {
     return false;
   }
   return true;
 }
 
-bool operator < (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs) {
+bool operator < (const HeroArchetype& lhs, const HeroArchetype& rhs) {
   return lhs._own_id < rhs._own_id;
 }
 
-bool operator > (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs) {
+bool operator > (const HeroArchetype& lhs, const HeroArchetype& rhs) {
+  return lhs._own_id > rhs._own_id;
+}
+
+bool operator == (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs) {
+  if (lhs._own_id != rhs._own_id) {
+    return false;
+  }
+  if (lhs._archetype_id != rhs._archetype_id) {
+    return false;
+  }
+  if (lhs._name != rhs._name) {
+    return false;
+  }
+  if (lhs._description != rhs._description) {
+    return false;
+  }
+  if (lhs._stat_bonuses != rhs._stat_bonuses) {
+    return false;
+  }
+  return true;
+}
+
+bool operator < (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs) {
+  return lhs._own_id < rhs._own_id;
+}
+
+bool operator > (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }
 

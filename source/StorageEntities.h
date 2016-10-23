@@ -54,14 +54,38 @@ struct InventoryTemplate {
   }
 };
 
-struct MercSpecTemplate {
+struct HeroArchetypeTemplate {
   size_t _own_id;
   std::string _name;
   std::string _description;
-  std::vector<size_t> _base_merc_stats;
+  std::vector<size_t> _power_mods;
 
-  MercSpecTemplate& operator = (const MercSpecTemplate& rhs) {
+  HeroArchetypeTemplate& operator = (const HeroArchetype& rhs) {
     _own_id = rhs._own_id;
+    _name.clear();
+    _name = rhs._name;
+    _description.clear();
+    _description = rhs._description;
+    _power_mods.clear();
+    _power_mods = rhs._power_mods;
+    return *this;
+  }
+
+  friend bool operator == (const HeroArchetype& lhs, const HeroArchetype& rhs);
+  friend bool operator < (const HeroArchetype& lhs, const HeroArchetype& rhs);
+  friend bool operator > (const HeroArchetype& lhs, const HeroArchetype& rhs);
+};
+
+struct HeroClassTemplate {
+  size_t _own_id;
+  size_t _archetype_id;
+  std::string _name;
+  std::string _description;
+  std::vector<size_t> _stat_bonuses;
+
+  HeroClassTemplate& operator = (const HeroClassTemplate& rhs) {
+    _own_id = rhs._own_id;
+    _archetype_id = rhs._archetype_id;
     if (!_name.empty()) {
       _name.clear();
     }
@@ -70,16 +94,16 @@ struct MercSpecTemplate {
       _description.clear();
     }
     _description = rhs._description;
-    if (!_base_merc_stats.empty()) {
-      _base_merc_stats.clear();
+    if (!_stat_bonuses.empty()) {
+      _stat_bonuses.clear();
     }
-    _base_merc_stats = rhs._base_merc_stats;
+    _stat_bonuses = rhs._stat_bonuses;
     return *this;
   }
 
-  friend bool operator == (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs);
-  friend bool operator < (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs);
-  friend bool operator > (const MercSpecTemplate& lhs, const MercSpecTemplate& rhs);
+  friend bool operator == (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs);
+  friend bool operator < (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs);
+  friend bool operator > (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs);
 };
 
 struct EnemyTemplate {
