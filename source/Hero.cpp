@@ -3,7 +3,7 @@
 
 size_t Hero::_id = SIZE_T_DEFAULT_VALUE;
 
-Hero::Hero(const HeroTemplate& data, HeroClass& spec): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _stats(data._stats), _spec(spec), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
+Hero::Hero(const HeroTemplate& data, HeroClass& hero_class): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _stats(data._stats), _class(hero_class), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {
@@ -92,6 +92,61 @@ size_t Hero::get_equipment(Inventory& result) const {
   return RC_OK;
 }
 
+size_t Hero::get_power() const {
+  size_t power = SIZE_T_DEFAULT_VALUE;
+  size_t limit;
+  if (_stats.size() > SI_DEFENSE) {
+    limit = SI_DEFENSE;
+  } else {
+    limit = _stats.size();
+  }
+  for (size_t i = 0; i < limit; ++i) {
+    size_t modifier;
+    size_t class_bonus;
+    size_t items_bonus;
+    _class.get_power_mods(i, modifier);
+    _class.get_stat_bonuses(i, class_bonus);
+    _equipment.get_bonuses(i, items_bonus);
+    power += ((_stats[i] + class_bonus + items_bonus) * modifier / PERCENT_CAP);
+  }
+  return power;
+}
+
+size_t Hero::get_power(const size_t& target_archetype_id) const {
+  size_t power = SIZE_T_DEFAULT_VALUE;
+  size_t limit;
+  if (_stats.size() > SI_DEFENSE) {
+    limit = SI_DEFENSE;
+  } else {
+    limit = _stats.size();
+  }
+  for (size_t i = 0; i < limit; ++i) {
+    size_t modifier;
+    size_t class_bonus;
+    size_t items_bonus;
+    _class.get_power_mods(i, modifier);
+    _class.get_stat_bonuses(i, class_bonus);
+    _equipment.get_bonuses(i, items_bonus);
+    power += ((_stats[i] + class_bonus + items_bonus) * modifier / PERCENT_CAP);
+  }
+  size_t power_mod;
+  _class.get_att_power_modifiers(target_archetype_id, power_mod);
+  power = power * power_mod / PERCENT_CAP;
+  return power;
+}
+
+size_t Hero::get_defense() const {
+  size_t defense = SIZE_T_DEFAULT_VALUE;
+
+  return defense;
+}
+
+size_t Hero::get_defense() const {
+  size_t defense = SIZE_T_DEFAULT_VALUE;
+
+  return defense;
+}
+
 size_t Hero::get_save_data(MercenaryTemplate& save_data) const {
   save_data._own_id = _own_id;
   save_data._name.clear()
@@ -101,7 +156,7 @@ size_t Hero::get_save_data(MercenaryTemplate& save_data) const {
   save_data._level = _level;
   save_data._stats.clear();
   save_data._stats = _stats;
-  save_data._spec_id = _spec.get_own_id;
+  save_data._class_id = _spec.get_own_id;
   save_data._experience.clear();
   save_data._experience = _experience;
   save_data._personality.clear();

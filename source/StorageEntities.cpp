@@ -42,7 +42,7 @@ bool operator > (const ItemTemplate& lhs, const ItemTemplate& rhs) {
   return lhs._price > rhs._price;
 }
 
-bool operator == (const HeroArchetype& lhs, const HeroArchetype& rhs) {
+bool operator == (const CharacterArchetypeTemplate& lhs, const CharacterArchetypeTemplate& rhs) {
   if (lhs._own_id != rhs._own_id) {
     return false;
   }
@@ -58,11 +58,11 @@ bool operator == (const HeroArchetype& lhs, const HeroArchetype& rhs) {
   return true;
 }
 
-bool operator < (const HeroArchetype& lhs, const HeroArchetype& rhs) {
+bool operator < (const CharacterArchetypeTemplate& lhs, const CharacterArchetypeTemplate& rhs) {
   return lhs._own_id < rhs._own_id;
 }
 
-bool operator > (const HeroArchetype& lhs, const HeroArchetype& rhs) {
+bool operator > (const CharacterArchetypeTemplate& lhs, const CharacterArchetypeTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }
 
@@ -82,6 +82,12 @@ bool operator == (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs) {
   if (lhs._stat_bonuses != rhs._stat_bonuses) {
     return false;
   }
+  if (lhs._att_power_modifiers != rhs._att_power_modifiers) {
+    return false;
+  }
+  if (lhs._defense_modifiers != rhs._defense_modifiers) {
+    return false;
+  }
   return true;
 }
 
@@ -91,6 +97,27 @@ bool operator < (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs) {
 
 bool operator > (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
+}
+
+bool operator == (const LootData& lhs, const LootData& rhs) {
+  if (lhs._item_id != rhs._item_id) {
+    return false;
+  }
+  if (lhs._drop_chance != rhs._drop_chance) {
+    return false;
+  }
+  if (lhs._max_quantity != rhs._max_quantity) {
+    return false;
+  }
+  return true;
+}
+
+bool operator < (const LootData& lhs, const LootData& rhs) {
+  return lhs._item_id < rhs._item_id;
+}
+
+bool operator > (const LootData& lhs, const LootData& rhs) {
+  return lhs._item_id > rhs._item_id;
 }
 
 bool operator == (const EnemyTemplate& lhs, const EnemyTemplate& rhs) {
@@ -107,6 +134,9 @@ bool operator == (const EnemyTemplate& lhs, const EnemyTemplate& rhs) {
     return false;
   }
   if (lhs._stats != rhs._stats) {
+    return false;
+  }
+  if (lhs._archetype_id != rhs._archetype_id) {
     return false;
   }
   if (lhs._loot_list != rhs._loot_list) {
@@ -145,7 +175,7 @@ bool operator == (const HeroTemplate& lhs, const HeroTemplate& rhs) {
   if (lhs._stats != rhs._stats) {
     return false;
   }
-  if (lhs._spec_id != rhs._spec_id) {
+  if (lhs._class_id != rhs._class_id) {
     return false;
   }
   if (lhs._experience != rhs._experience) {

@@ -54,13 +54,13 @@ struct InventoryTemplate {
   }
 };
 
-struct HeroArchetypeTemplate {
+struct CharacterArchetypeTemplate {
   size_t _own_id;
   std::string _name;
   std::string _description;
   std::vector<size_t> _power_mods;
 
-  HeroArchetypeTemplate& operator = (const HeroArchetype& rhs) {
+  CharacterArchetypeTemplate& operator = (const CharacterArchetypeTemplate& rhs) {
     _own_id = rhs._own_id;
     _name.clear();
     _name = rhs._name;
@@ -71,9 +71,9 @@ struct HeroArchetypeTemplate {
     return *this;
   }
 
-  friend bool operator == (const HeroArchetype& lhs, const HeroArchetype& rhs);
-  friend bool operator < (const HeroArchetype& lhs, const HeroArchetype& rhs);
-  friend bool operator > (const HeroArchetype& lhs, const HeroArchetype& rhs);
+  friend bool operator == (const CharacterArchetypeTemplate& lhs, const CharacterArchetypeTemplate& rhs);
+  friend bool operator < (const CharacterArchetypeTemplate& lhs, const CharacterArchetypeTemplate& rhs);
+  friend bool operator > (const CharacterArchetypeTemplate& lhs, const CharacterArchetypeTemplate& rhs);
 };
 
 struct HeroClassTemplate {
@@ -82,6 +82,8 @@ struct HeroClassTemplate {
   std::string _name;
   std::string _description;
   std::vector<size_t> _stat_bonuses;
+  std::vector<size_t> _att_power_modifiers;
+  std::vector<size_t> _defense_modifiers;
 
   HeroClassTemplate& operator = (const HeroClassTemplate& rhs) {
     _own_id = rhs._own_id;
@@ -98,6 +100,14 @@ struct HeroClassTemplate {
       _stat_bonuses.clear();
     }
     _stat_bonuses = rhs._stat_bonuses;
+    if (!_att_power_modifiers.empty()) {
+      _att_power_modifiers.clear();
+    }
+    _att_power_modifiers.clear();
+    if (!_defence_modifiers.empty()) {
+      _defense_modifiers.clear();
+    }
+    _defense_modifiers = rhs._defense_modifiers;
     return *this;
   }
 
@@ -106,12 +116,31 @@ struct HeroClassTemplate {
   friend bool operator > (const HeroClassTemplate& lhs, const HeroClassTemplate& rhs);
 };
 
+struct LootData {
+  LootData(const size_t& item_id = FREE_ID, const size_t& drop_chance = PERCENT_CAP, const size_t& max_quantity = 1): _item_id(item_id), _drop_chance(drop_chance), _max_quantity(max_quantity) {}
+  size_t _item_id;
+  size_t _drop_chance;
+  size_t _max_quantity;
+
+  LootData& operator == (const LootData& rhs) {
+    _item_id = rhs._item_id;
+    _drop_chance = rhs._drop_chance;
+    _max_quantity = rhs._max_quantity;
+    return *this;
+  }
+
+  friend bool operator == (const LootData& lhs, const LootData& rhs);
+  friend bool operator < (const LootData& lhs, const LootData& rhs);
+  friend bool operator > (const LootData& lhs, const LootData& rhs);
+};
+
 struct EnemyTemplate {
   std::string _name;
   std::string _description;
   size_t _level;
   size_t _faction_id;
   std::vector<size_t> _stats;
+  size_t _archetype_id;
   std::vector<LootData> _loot_list;
   std::vector<size_t> _reward;
 
@@ -124,6 +153,7 @@ struct EnemyTemplate {
     _faction_id = rhs._faction_id;
     _stats.clear();
     _stats = rhs._stats;
+    _archetype_id = rhs._archetype_id;
     _loot_list.clear();
     _loot_list = rhs._loot_list;
     _reward.clear();
@@ -143,7 +173,7 @@ struct HeroTemplate {
   size_t _level;
   size_t _faction_id;
   std::vector<size_t> _stats;
-  size_t _spec_id;
+  size_t _class_id;
   std::vector<size_t> _experience;
   std::vector<size_t> _personality;
   std::vector<size_t> _history;
@@ -159,7 +189,7 @@ struct HeroTemplate {
     _faction_id = rhs._faction_id;
     _stats.clear();
     _stats = rhs._stats;
-    _spec_id = rhs._spec_id;
+    _class_id = rhs._class_id;
     _experience.clear();
     _experience = rhs._experience;
     _personality.clear();

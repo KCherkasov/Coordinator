@@ -10,6 +10,10 @@ class GameCharacter: public LevelableObject {
     size_t get_faction_id() const { return _faction_id; }
     size_t get_stats(std::vector<size_t>& result) const;
     size_t get_stats(const size_t& index, size_t& result) const;
+    size_t get_power() const = 0;
+    size_t get_power(const size_t& target_archetype_id) const = 0;
+    size_t get_defense() const = 0;
+    size_t get_defense(const size_t& attacker_archetype_id) const = 0;
     size_t set_faction_id(const size_t& value);
     size_t set_stats(const std::vector<size_t>& value);
     size_t set_stats(const size_t& index, const size_t& value);

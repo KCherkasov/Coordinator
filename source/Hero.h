@@ -9,7 +9,7 @@ class Quest;
 
 class Hero: public GameCharacter {
   public:
-    Hero(const HeroTemplate& data, MercSpec& spec);
+    Hero(const HeroTemplate& data, HeroClass& hero_class);
     virtual ~Hero();
     size_t get_class(HeroClass& result) const;
     size_t get_experience(std::vector<size_t>& result) const;
@@ -19,6 +19,10 @@ class Hero: public GameCharacter {
     size_t get_history(std::vector<size_t>& result) const;
     size_t get_history(const size_t& index, size_t& result) const;
     size_t get_equipment(Inventory& result) const;
+    size_t get_power() const;
+    size_t get_power(const size_t& target_archetype_id) const;
+    size_t get_defense() const;
+    size_t get_defense(const size_t& attacker_archetype_id) const;
     size_t get_save_data(MercenaryTemplate& save_data) const;
     size_t set_class(HeroClass& value);
     size_t set_experience(const std::vector<size_t>& value);

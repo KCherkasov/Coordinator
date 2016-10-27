@@ -2,28 +2,15 @@
 
 size_t Enemy::_id = FREE_ID;
 
-bool operator == (const LootData& lhs, const LootData& rhs) {
-  if (lhs._item_id != rhs._item_id) {
-    return false;
+Enemy::Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _faction_id(data._faction_id), _stats(data._stats), _archetype(archetype), _loot_list(data._loot_list), _reward(data._reward) {
+  if (_own_id == FREE_INDEX) {
+    _own_id = ++_id;
+  } else {
+    if (_id < _own_id) {
+      _id = _own_id;
+    }
   }
-  if (lhs._drop_chance != rhs._drop_chance) {
-    return false;
-  }
-  if (lhs._max_quantity != rhs._max_quantity) {
-    return false;
-  }
-  return true;
 }
-
-bool operator < (const LootData& lhs, const LootData& rhs) {
-  return lhs._item_id < rhs._item_id;
-}
-
-bool operator > (const LootData& lhs, const LootData& rhs) {
-  return lhs._item_id > rhs._item_id;
-}
-
-Enemy::Enemy(const EnemyTemplate& data): _own_id(++_id), _name(data._name), _description(data._description), _level(data._level), _faction_id(data._faction_id), _stats(data._stats), _loot_list(data._loot_list), _reward(data._reward) {}
 
 size_t Enemy::get_loot_list(std::vector<LootData>& result) const {
   result.clear();
