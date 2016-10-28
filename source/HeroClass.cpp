@@ -20,6 +20,14 @@ size_t HeroClass::get_power_mods(const size_t& index, size_t& result) const {
   return _archetype.get_power_mods(index, result);
 }
 
+size_t HeroClass::get_defense_mods(std::vector<size_t>& result) const {
+  return _archetype.get_defense_mods(result);
+}
+
+size_t HeroClass::get_defense_mods(const size_t& index, size_t& result) const {
+  return _archetype.get_defense_mods(index, result);
+}
+
 size_t HeroClass::get_stat_bonuses(std::vector<size_t>& result) const {
   result.clear();
   result = _stat_bonuses;

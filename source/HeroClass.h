@@ -15,6 +15,8 @@ class HeroClass {
     size_t get_description(std::string& result) const;
     size_t get_power_mods(std::vector<size_t>& result) const;
     size_t get_power_mods(const size_t& index, size_t& result) const;
+    size_t get_defense_mods(std::vector<size_t>& result) const;
+    size_t get_defense_mods(const size_t& index, size_t& result) const;
     size_t get_stat_bonuses(std::vector<size_t>& result) const;
     size_t get_stat_bonuses(const size_t& index, size_t& result) const;
     size_t get_att_power_modifers(std::vector<size_t>& result) const;

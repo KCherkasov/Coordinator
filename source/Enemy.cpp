@@ -2,7 +2,7 @@
 
 size_t Enemy::_id = FREE_ID;
 
-Enemy::Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _faction_id(data._faction_id), _stats(data._stats), _archetype(archetype), _loot_list(data._loot_list), _reward(data._reward) {
+Enemy::Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _faction_id(data._faction_id), _health(data._health), _stats(data._stats), _archetype(archetype), _loot_list(data._loot_list), _reward(data._reward) {
   if (_own_id == FREE_INDEX) {
     _own_id = ++_id;
   } else {
@@ -48,6 +48,8 @@ size_t Enemy::get_save_data(EnemyTemplate& save_data) const {
   save_data._description.clear();
   save_data._description = _description;
   save_data._level = _level;
+  save_data._faction_id = _faction_id;
+  save_data._health = _health;
   save_data._stats.clear();
   save_data._stats = _stats;
   save_data._loot_list.clear();

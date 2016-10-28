@@ -27,6 +27,21 @@ size_t CharacterArchetype::get_power_mods(const size_t& index, size_t& result) c
   }
 }
 
+size_t CharacterArchetype::get_defense_mods(std::vector<size_t>& result) const {
+  result.clear();
+  result = _defense_mods;
+  return RC_OK;
+}
+
+size_t CharacterArchetype::get_defense_mods(const size_t& index, size_t& result) const {
+  if (index < _defense_mods.size()) {
+    result = _defense_mods[index];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
 size_t CharacterArchetype::set_name(const std::string& value) {
   if (value.empty()) {
     return RC_BAD_INPUT;
@@ -63,6 +78,24 @@ size_t CharacterArchetype::set_power_mods(const size_t& index, const size_t& val
   }
 }
 
+size_t CharacterArchetype::set_defense_mods(const std::vector<size_t>& value) {
+  if (value.empty()) {
+    return RC_BAD_INPUT;
+  }
+  _defense_mods.clear();
+  _defense_mods = value;
+  return RC_OK;
+}
+
+size_t CharacterArchetype::set_defense_mods(const size_t& index, const size_t& value) {
+  if (index < _defense_mods.size()) {
+    _defense_mods[index] = value;
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
 size_t CharacterArchetype::what(std::string& result) const {
   result.clear();
   result += _name;
@@ -74,6 +107,13 @@ size_t CharacterArchetype::what(std::string& result) const {
     // code here to retrieve the stat name from text storage
     buffer.clear();
     convert_to_string<size_t>(_power_mods[i], buffer);
+    buffer.append("\n");
+    result += buffer;
+  }
+  for (size_t i = 0; i < _defense_mods.size(); ++i) {
+    // code here to retrieve the stat name from text storage
+    buffer.clear();
+    convert_to_string<size_t>(_defense_mods[i], buffer);
     buffer.append("\n");
     result += buffer;
   }

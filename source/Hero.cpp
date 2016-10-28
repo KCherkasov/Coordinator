@@ -3,7 +3,7 @@
 
 size_t Hero::_id = SIZE_T_DEFAULT_VALUE;
 
-Hero::Hero(const HeroTemplate& data, HeroClass& hero_class): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _stats(data._stats), _class(hero_class), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
+Hero::Hero(const HeroTemplate& data, HeroClass& hero_class): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction_id(data._faction_id), _hero(data._health), _stats(data._stats), _class(hero_class), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {
@@ -137,13 +137,32 @@ size_t Hero::get_power(const size_t& target_archetype_id) const {
 
 size_t Hero::get_defense() const {
   size_t defense = SIZE_T_DEFAULT_VALUE;
-
+  for (size_t i = 0; i < _stats.size(); ++i) {
+    size_t modifier;
+    size_t class_bonus;
+    size_t items_bonus;
+    _class.get_defense_mods(i, modifier);
+    _class.get_stat_bonuses(i, class_bonus);
+    _equipment.get_bonuses(i, items_bonus);
+    defense += ((_stats[i] + class_bonus + items_bonus) * modifier / PERCENT_CAP);
+  }
   return defense;
 }
 
-size_t Hero::get_defense() const {
+size_t Hero::get_defense(const size_t& attacker_archetype_id) const {
   size_t defense = SIZE_T_DEFAULT_VALUE;
-
+  for (size_t i = 0; i < _stats.size(); ++i) {
+    size_t modifier;
+    size_t class_bonus;
+    size_t items_bonus;
+    _class.get_defense_mods(i, modifier);
+    _class.get_stat_bonuses(i, class_bonus);
+    _equipment.get_bonuses(i, items_bonus);
+    defense += ((_stats[i] + class_bonus + items_bonus) * modifier / PERCENT_CAP);
+  }
+  size_t defense_mod;
+  _class.get_defense_modifiers(attacker_archetype_id, defense_mod);
+  defense = defense * defense_mod / PERCENT_CAP;
   return defense;
 }
 
@@ -154,12 +173,14 @@ size_t Hero::get_save_data(MercenaryTemplate& save_data) const {
   save_data._description.clear();
   save_data._description = _description;
   save_data._level = _level;
+  save_data._faction_id = _faction_id;
+  save_data._health = _health;
   save_data._stats.clear();
   save_data._stats = _stats;
-  save_data._class_id = _spec.get_own_id;
+  save_data._class_id = _class.get_own_id();
   save_data._experience.clear();
   save_data._experience = _experience;
-  save_data._personality.clear();
+  save_data._personality.clear/();
   save_data._personality = _personality;
   save_data._history.clear();
   save_data._history = _history;
@@ -232,7 +253,7 @@ size_t Hero::what(std::string& result) const {
   result.append("        ");
   std::string buffer;
   buffer.clear();
-  _spec.get_name(buffer);
+  _class.short_what(buffer);
   result += buffer;
   buffer.clear();
   result.append("\n\n");
@@ -282,6 +303,15 @@ size_t Hero::what(std::string& result) const {
 }
 
 size_t Hero::update() {
+  while (_experience[0] >= _experience[1]) {
+    level_up();
+  }
+  if (_health == CH_DEAD) {
+    // some code here to send suicide message
+  }
+  if (_contracts.empty()) {
+    // some code here to process idle activity
+  }
   return RC_OK;
 }
 

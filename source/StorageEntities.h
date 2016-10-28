@@ -59,6 +59,7 @@ struct CharacterArchetypeTemplate {
   std::string _name;
   std::string _description;
   std::vector<size_t> _power_mods;
+  std::vector<size_t> _defense_mods;
 
   CharacterArchetypeTemplate& operator = (const CharacterArchetypeTemplate& rhs) {
     _own_id = rhs._own_id;
@@ -68,6 +69,8 @@ struct CharacterArchetypeTemplate {
     _description = rhs._description;
     _power_mods.clear();
     _power_mods = rhs._power_mods;
+    _defense_mods.clear();
+    _defense_mods = rhs._defense_mods;
     return *this;
   }
 
@@ -139,6 +142,7 @@ struct EnemyTemplate {
   std::string _description;
   size_t _level;
   size_t _faction_id;
+  size_t _health;
   std::vector<size_t> _stats;
   size_t _archetype_id;
   std::vector<LootData> _loot_list;
@@ -151,6 +155,7 @@ struct EnemyTemplate {
     _description = rhs._description;
     _level = rhs._level;
     _faction_id = rhs._faction_id;
+    _health = rhs._health;
     _stats.clear();
     _stats = rhs._stats;
     _archetype_id = rhs._archetype_id;
@@ -172,6 +177,7 @@ struct HeroTemplate {
   std::string _description;
   size_t _level;
   size_t _faction_id;
+  size_t _health;
   std::vector<size_t> _stats;
   size_t _class_id;
   std::vector<size_t> _experience;
@@ -187,6 +193,7 @@ struct HeroTemplate {
     _description = rhs._description;
     _level = rhs._level;
     _faction_id = rhs._faction_id;
+    _health = rhs._health;
     _stats.clear();
     _stats = rhs._stats;
     _class_id = rhs._class_id;

@@ -55,6 +55,9 @@ bool operator == (const CharacterArchetypeTemplate& lhs, const CharacterArchetyp
   if (lhs._power_mods != rhs._power_mods) {
     return false;
   }
+  if (lhs._defense_mods != rhs._defense_mods) {
+    return false;
+  }
   return true;
 }
 
@@ -133,6 +136,9 @@ bool operator == (const EnemyTemplate& lhs, const EnemyTemplate& rhs) {
   if (lhs._faction_id != rhs._faction_id) {
     return false;
   }
+  if (lhs._health != rhs._health) {
+    return false;
+  }
   if (lhs._stats != rhs._stats) {
     return false;
   }
@@ -170,6 +176,9 @@ bool operator == (const HeroTemplate& lhs, const HeroTemplate& rhs) {
     return false;
   }
   if (lhs._faction_id != rhs._faction_id) {
+    return false;
+  }
+  if (lhs._health != rhs._health) {
     return false;
   }
   if (lhs._stats != rhs._stats) {
