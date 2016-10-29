@@ -42,6 +42,46 @@ size_t Enemy::get_reward(const size_t& index, size_t& result) const {
   }
 }
 
+size_t Enemy::get_power() {
+  size_t power = SIZE_T_DEFAULT_VALUE;
+  for (size_t i = 0; i < _stats.size(); ++i) {
+    size_t archetype_mod;
+    _archetype.get_power_mods(i, archetype_mod);
+    power += (_stats[i] * archetype_mod / PERCENT_CAP);
+  }
+  return power;
+}
+
+size_t Enemy::get_power(const size_t& target_archetype_id) {
+  size_t power = SIZE_T_DEFAULT_VALUE;
+  for (size_t i = 0; i < _stats.size(); ++i) {
+    size_t archetype_mod;
+    _archetype.get_power_mods(i, archetype_mod);
+    power += (_stats[i] * archetype_mod / PERCENT_CAP);
+  }
+  return power;
+}
+
+size_t Enemy::get_defense() {
+  size_t defense = SIZE_T_DEFAULT_VALUE;
+  for (size_t i = 0; i < _stats.size(); ++i) {
+    size_t archetype_mod;
+    _archetype.get_defense_mods(i, archetype_mod);
+    power += (_stats[i] * archetype_mod / PERCENT_CAP);
+  }
+  return defense;
+}
+
+size_t Enemy::get_defense(const size_t& attacker_archetype_id) {
+  size_t defense = SIZE_T_DEFAULT_VALUE;
+  for (size_t i = 0; i < _stats.size(); ++i) {
+    size_t archetype_mod;
+    _archetype.get_defense_mods(i, archetype_mod);
+    power += (_stats[i] * archetype_mod / PERCENT_CAP);
+  }
+  return defense;
+}
+
 size_t Enemy::get_save_data(EnemyTemplate& save_data) const {
   save_data._name.clear();
   save_data._name = _name;
