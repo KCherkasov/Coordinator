@@ -98,6 +98,60 @@ size_t TextStorage::read_surnames(sqlite3*& connection) {
   return RC_OK;
 }
 
+size_t read_hero_description_beginning(sqlite3*& connection) {
+  _hero_description_beginning.clear();
+  sqlite3_stmt* statement;
+  size_t names_count = SIZE_T_DEFAULT_VALUE;
+  sqlite3_prepare(connection, "select count(*) from 'hero_description_beginning'", -1, &statement, 0);
+  sqlite3_step(statement);
+  names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select description from 'hero_description_beginning'", -1, &statement, 0);]
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+	_hero_description_beginning.push_back();
+	_hero_description_beginning[i].append(sqlite3_column_text(statement, 0));
+  }  
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
+size_t read_hero_description_middle(sqlite3*& connection) {
+  _hero_description_middle.clear();
+  sqlite3_stmt* statement;
+  size_t names_count = SIZE_T_DEFAULT_VALUE;
+  sqlite3_prepare(connection, "select count(*) from 'hero_description_middle'", -1, &statement, 0);
+  sqlite3_step(statement);
+  names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select description from 'hero_description_middle'", -1, &statement, 0);]
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+	_hero_description_middle.push_back();
+	_hero_description_middle[i].append(sqlite3_column_text(statement, 0));
+  }  
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
+size_t read_hero_description_ending(sqlite3*& connection) {
+  _hero_description_ending.clear();
+  sqlite3_stmt* statement;
+  size_t names_count = SIZE_T_DEFAULT_VALUE;
+  sqlite3_prepare(connection, "select count(*) from 'hero_description_ending'", -1, &statement, 0);
+  sqlite3_step(statement);
+  names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select description from 'hero_description_ending'", -1, &statement, 0);]
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+	_hero_description_ending.push_back();
+	_hero_description_ending[i].append(sqlite3_column_text(statement, 0));
+  }  
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
 size_t TextStorage::read_faction_firstnames(sqlite3*& connection) {
   _faction_firstname_templates.clear();
   sqlite3_stmt* statement;
@@ -130,6 +184,60 @@ size_t TextStorage::read_faction_lastnames(sqlite3*& connection) {
     _faction_lastname_templates.push_back();
     _faction_lastname_templates[i].append(sqlite3_column_text(statement, 0));
   }
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
+size_t read_faction_description_beginning(sqlite3*& connection) {
+  _faction_description_beginning.clear();
+  sqlite3_stmt* statement;
+  size_t names_count = SIZE_T_DEFAULT_VALUE;
+  sqlite3_prepare(connection, "select count(*) from 'faction_description_beginning'", -1, &statement, 0);
+  sqlite3_step(statement);
+  names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select description from 'faction_description_beginning'", -1, &statement, 0);]
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+	_faction_description_beginning.push_back();
+	_faction_description_beginning[i].append(sqlite3_column_text(statement, 0));
+  }  
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
+size_t read_faction_description_middle(sqlite3*& connection) {
+  _faction_description_middle.clear();
+  sqlite3_stmt* statement;
+  size_t names_count = SIZE_T_DEFAULT_VALUE;
+  sqlite3_prepare(connection, "select count(*) from 'faction_description_middle'", -1, &statement, 0);
+  sqlite3_step(statement);
+  names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select description from 'faction_description_middle'", -1, &statement, 0);]
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+	_faction_description_middle.push_back();
+	_faction_description_middle[i].append(sqlite3_column_text(statement, 0));
+  }  
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
+size_t read_faction_description_ending(sqlite3*& connection) {
+  _faction_description_ending.clear();
+  sqlite3_stmt* statement;
+  size_t names_count = SIZE_T_DEFAULT_VALUE;
+  sqlite3_prepare(connection, "select count(*) from 'faction_description_ending'", -1, &statement, 0);
+  sqlite3_step(statement);
+  names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select description from 'faction_description_ending'", -1, &statement, 0);]
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+	_faction_description_ending.push_back();
+	_faction_description_ending[i].append(sqlite3_column_text(statement, 0));
+  }  
   sqlite3_finalize(statement);
   return RC_OK;
 }
@@ -224,6 +332,139 @@ size_t TextStorage::read_item_kind_names(sqlite3*& connection) {
   return RC_OK;
 }
 
+size_t TextStorage::get_okay_answer(std::string& result) const {
+  if (_hero_answers_okay.empty()) {
+    return RC_EMPTY_VECTOR;
+  }
+  srand(static_cast<size_t>(time(0)));
+  size_t id = rand() % _hero_answers_okay.size();
+  result = _hero_answers_okay[id];
+  return RC_OK;
+}
+
+size_t TextStorage::get_risky_answer(std::string& result) const {
+  if (_hero_answers_risky.empty()) {
+    return RC_EMPTY_VECTOR;
+  }
+  srand(static_cast<size_t>(time(0)));
+  size_t id = rand() % _hero_answers_risky.size();
+  result = _hero_answers_risky[id];
+  return RC_OK;
+}
+
+size_t TextStorage::get_greedy_answer(std::string& result) const {
+  if (_hero_answers_greedy.empty()) {
+    return RC_EMPTY_VECTOR;
+  }
+  srand(static_cast<size_t>(time(0)));
+  size_t id = rand() % _hero_answers_greedy.size();
+  result = _hero_answers_greedy[id];
+  return RC_OK;
+}
+
+size_t TextStorage::fill_storage(const std::string& db_name) {
+  if (db_name.empty()) {
+    return RC_EMPTY_STRING;
+  }
+  sqlite3* database;
+  open_connection(db_name, database);
+  read_stat_names(database);
+  read_gender_names(database);
+  read_male_names(database);
+  read_female_names(database);
+  read_nicknames(database);
+  read_surnames(database);
+  read_hero_description_beginning(database);
+  read_hero_description_middle(database);
+  read_hero_description_ending(database);
+  read_faction_firstnames(database);
+  read_faction_lastnames(database);
+  read_faction_description_beginning(database);
+  read_faction_description_middle(database);
+  read_faction_description_ending(database);
+  read_okay_answers(database);
+  read_risky_answers(database);
+  read_greedy_answers(database);
+  read_item_rarity_names(database);
+  read_item_kind_names(database);
+  close_connection(database);
+  return RC_OK;  
+}
+
+size_t TextStorage::clear_storage() {
+  _stat_names.clear();
+  _gender_names.clear();
+  _male_names.clear();
+  _female_names.clear();
+  _nicknames.clear();
+  _surnames.clear();
+  _hero_description_beginning.clear();
+  _hero_description_middle.clear();
+  _hero_description_ending.clear();
+  _faction_firstname_templates.clear();
+  _faction_lastname_templates.clear();
+  _faction_description_beginning.clear();
+  _faction_description_middle.clear();
+  _faction_description_ending.clear();
+  _hero_answers_okay.clear();
+  _hero_answers_risky.clear();
+  _hero_answers_greedy.clear();
+  _item_rarity_names.clear();
+  _item_kind_names.clear();
+  return RC_OK;
+}
+
+size_t TextStorage::get_stat_name(const size_t& id, std::string& result) const {
+  if (id < _stat_names.size()) {
+    result.clear();
+	result = _stat_names[id];
+	return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::get_gender_name(const size_t& id, std::string& result) const {
+  if (id < _gender_names.size()) {
+    result.clear();
+	result = _gender_names[id];
+	return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::form_name(bool gender, std::string& result) const {
+  if (_male_names.empty() || _female_names.empty() || _nicknames.empty() || _surnames.empty()) {
+    return RC_EMPTY_VECTOR;
+  }
+  srand(static_cast<size_t>(time(0)));
+  result.clear();
+  size_t index = SIZE_T_DEFAULT_VALUE;
+  if (gender == MALE_GENDER) {
+    index = rand() % _male_names.size();
+	result += _male_names[index];
+  } else {
+    index = rand() % _female_names.size();
+	result += _female_names[index];
+  }
+  result.append(" ");
+  // hero acquires a nickname with 50% chance (possibly needs to be tweaked)
+  if (rand() % 2 == 0) {
+    result.append("\'");
+    index = rand() % _nicknames.size();
+    result += _nicknames[index];
+	result.append("\' ");
+  }
+  // hero acquires a surname with 75% chance (possibly needs to be tweaked later)
+  if (rand() % PERCENT_CAP < 75) {
+    index = rand() % _surnames.size();
+	result += _surnames[index];
+  }
+  result.append("\n");
+  return 0;
+}
+
 size_t TextStorage::get_male_name(const size_t& id, std::string& result) const {
   if (id < _male_names.size()) {
     result = _male_names[id];
@@ -260,6 +501,39 @@ size_t TextStorage::get_surname(const size_t& id, std::string& result) const {
   }
 }
 
+size_t TextStorage::form_hero_description(std::string& result) const {
+  if (_hero_description_beginning.empty() || _hero_description_middle.empty() || _hero_description_ending.empty()) {
+    return RC_EMPTY_VECTOR;
+  }
+  srand(static_cast<size_t>(time(0)));
+  result.clear();
+  size_t index = rand() % _hero_description_beginning.size();
+  result += _hero_description_beginning[index];
+  result.append("\n");
+  index = rand() % _hero_description_middle.size();
+  result += _hero_description_middle[index];
+  result.append("\n");
+  index = rand() % _hero_description_ending.size();
+  result += _hero_description_ending[index];
+  result.append("\n");
+  return RC_OK;
+}
+
+size_t TextStorage::form_faction_name(std::string& result) const {
+  if (_faction_firstname_templates.empty() || _faction_lastname_templates.empty()) {
+    return RC_EMPTY_VECTOR;
+  }
+  srand(static_cast<size_t>(time(0)));
+  result.clear();
+  size_t index = SIZE_T_DEFAULT_VALUE;
+  index = rand() % _faction_firstname_templates.size();
+  result += _faction_firstname_templates[index];
+  result.append(" ");
+  index = rand() % _faction_lastname_templates.size();
+  result += _faction_lastname_templates[index];
+  return RC_OK;
+}
+
 size_t TextStorage::get_faction_firstname(const size_t& id, std::string& result) const {
   if (id < _faction_firstname_templates.size()) {
     result = _faction_firstname_templates[id];
@@ -278,39 +552,20 @@ size_t TextStorage::get_faction_lastname(const size_t& id, std::string& result) 
   }
 }
 
-size_t TextStorage::get_okay_answer(std::string& result) const {
-  if (_hero_answers_okay.empty()) {
+size_t TextStorage::form_faction_description(std::string& result) const {
+  if (_faction_description_beginning.empty() || _faction_description_middle.empty() || _faction_description_ending.empty()) {
     return RC_EMPTY_VECTOR;
   }
   srand(static_cast<size_t>(time(0)));
-  size_t id = rand() % _hero_answers_okay.size();
-  result = _hero_answers_okay[id];
+  result.clear();
+  size_t index = rand() % _faction_description_beginning.size();
+  result += _faction_description_beginning[index];
+  result.append("\n");
+  index = rand() % _faction_description_middle.size();
+  result += _faction_description_middle[index];
+  result.append("\n");
+  index = rand() % _faction_description_ending.size();
+  result += _faction_description_ending[index];
+  result.append("\n");
   return RC_OK;
-}
-
-size_t TextStorage::get_risky_answer(std::string& result) const {
-  if (_hero_answers_risky.empty()) {
-    return RC_EMPTY_VECTOR;
-  }
-  srand(static_cast<size_t>(time(0)));
-  size_t id = rand() % _hero_answers_risky.size();
-  result = _hero_answers_risky[id];
-  return RC_OK;
-}
-
-size_t TextStorage::get_greedy_answer(std::string& result) const {
-  if (_hero_answers_greedy.empty()) {
-    return RC_EMPTY_VECTOR;
-  }
-  srand(static_cast<size_t>(time(0)));
-  size_t id = rand() % _hero_answers_greedy.size();
-  result = _hero_answers_greedy[id];
-  return RC_OK;
-}
-
-size_t TextStorage::fill_storage(const std::string& db_name) {
-  if (db_name.empty()) {
-    return RC_EMPTY_STRING;
-  }
-  
 }
