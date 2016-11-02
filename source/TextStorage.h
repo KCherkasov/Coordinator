@@ -12,7 +12,10 @@ class TextStorage: public BaseStorage {
     size_t fill_storage(const std::string& db_name);
     size_t clear_storage();
     size_t get_stat_name(const size_t& id, std::string& result) const;
+    size_t get_personality_stat_name(const size_t& id, std::string& result) const;
     size_t get_gender_name(const size_t& id, std::string& result) const;
+    size_t get_health_state_name(const size_t& id, std::string& result) const;
+    size_t get_hero_history_name(const size_t& id, std::string& result) const;
     size_t form_name(bool gender, std::string& result) const;
     size_t get_male_name(const size_t& id, std::string& result) const;
     size_t get_female_name(const size_t& id, std::string& result) const;
@@ -28,7 +31,10 @@ class TextStorage: public BaseStorage {
     size_t get_item_kind_name(const size_t& kind_id, std::string& result) const;
   protected:
     size_t read_stat_names(sqlite3*& connection);
+    size_t read_personality_stat_names(sqlite3*& connection);
     size_t read_gender_names(sqlite3*& connection);
+    size_t read_health_state_names(sqlite3*& connection);
+    size_t read_hero_history_names(sqlite3*& connection);
     size_t read_male_names(sqlite3*& connection);
     size_t read_female_names(sqlite3*& connection);
     size_t read_nicknames(sqlite3*& connection);
@@ -46,13 +52,16 @@ class TextStorage: public BaseStorage {
     size_t read_greedy_answers(sqlite3*& connection);
     size_t read_item_rarity_names(sqlite3*& connection);
     size_t read_item_kind_names(sqlite3*& connection);
-    // size_t read_misc_words(sqlite3*& connection);
+    // size_t read_miscellaneous(sqlite3*& connection);
     size_t get_okay_answer(std::string& result) const;
     size_t get_risky_answer(std::string& result) const;
     size_t get_greedy_answer(std::string& result) const;
 
     std::vector<std::string> _stat_names;
+    std::vector<std::string> _personality_stat_names;
     std::vector<std::string> _gender_names;
+    std::vector<std::string> _health_state_names;
+    std::vector<std::string> _hero_history_names;
     std::vector<std::string> _male_names;
     std::vector<std::string> _female_names;
     std::vector<std::string> _nicknames;

@@ -23,7 +23,7 @@ class Hero: public GameCharacter {
     size_t get_power(const size_t& target_archetype_id) const;
     size_t get_defense() const;
     size_t get_defense(const size_t& attacker_archetype_id) const;
-    size_t get_save_data(MercenaryTemplate& save_data) const;
+    size_t get_save_data(HeroTemplate& save_data) const;
     size_t set_class(HeroClass& value);
     size_t set_experience(const std::vector<size_t>& value);
     size_t set_experience(const size_t& index, const size_t& value);
@@ -32,12 +32,12 @@ class Hero: public GameCharacter {
     size_t set_history(const std::vector<size_t>& value);
     size_t set_history(const size_t& index, const size_t& value);
     size_t what(std::string& result) const;
+    size_t short_what(std::string& result) const;
     size_t update();
     size_t add_history(const size_t& index, const size_t& amount = 1);
     size_t add_experience(const size_t& amount);
     size_t add_quest(Quest* to_add);
-    size_t remove_quest(const size_t& index);
-    size_t remove_quest(Quest* to_remove);
+    size_t remove_quest();
   protected:
     static size_t _id;
     size_t level_up();
@@ -45,7 +45,7 @@ class Hero: public GameCharacter {
     std::vector<size_t> _experience;
     std::vector<size_t> _personality;
     std::vector<size_t> _history;
-    std::vector<Contract*> _contracts;
+    Quest* _quest;
     Inventory _equipment;
 }
 

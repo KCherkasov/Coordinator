@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const size_t& own_id): _own_id(own_id) {
+GameObject::GameObject(const size_t& own_id): _own_id(own_id): _dictionary(NULL) {
   _name.clear();
   _description.clear();
 }
@@ -27,6 +27,13 @@ size_t GameObject::get_description(std::string& result) const {
 size_t GameObject::set_own_id(const size_t& value) {
   _own_id = value;
   return RC_OK;
+}
+
+size_t set_dictionary(TextStorage* value) {
+  if (value == NULL) {
+    return RC_BAD_INDEX;
+  }
+  _dictionary = value;
 }
 
 size_t GameObject::set_name(const std::string& value) {

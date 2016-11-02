@@ -273,7 +273,7 @@ size_t Hero::what(std::string& result) const {
   std::vector<size_t> equipment_bonuses;
   _equipment.get_bonuses(equipment_bonuses);
   for (size_t i = 0; i < _stats.size(); ++i) {
-    // some code here to add stat name (storage class needed)
+    _dictionary->get_stat_name(i, buffer);
     result.append(": ");
     buffer.clear();
     convert_to_string(_stats[i] + equipment_bonuses[i], buffer);
@@ -291,7 +291,7 @@ size_t Hero::what(std::string& result) const {
   }
   result.apppend("History:\n");
   for (size_t i = 0; i < _history.size(); ++i) {
-    // some code here to add history field's name (storage class needed)
+    _dictionary->get_hero_history_name(i, buffer);
     result.append(": ");
     buffer.clear();
     convert_to_string(_history[i], buffer);
@@ -300,6 +300,10 @@ size_t Hero::what(std::string& result) const {
     result.append("\n");
   }
   return RC_OK;
+}
+
+size_t Hero::short_what(std::string& result) const {
+
 }
 
 size_t Hero::update() {
@@ -331,26 +335,18 @@ size_t Hero::add_experience(const size_t& amount) {
 }
 
 size_t Hero::add_quest(Quest* to_add) {
-  _contracts.push_back(to_add);
+  if (_quest != NULL) {
+    return RC_ALREADY_BUSY;
+  }
+  if (to_add = NULL) {
+    return RC_BAD_INPUT;
+  }
+  _quest = to_add;
   return RC_OK;
 }
 
-size_t Hero::remove_quest(const size_t& index) {
-  if (index < _contracts.size()) {
-    _contracts.erase(_contracts.begin() + index);
-    return RC_OK;
-  } else {
-    return RC_BAD_INDEX;
-  }
-}
-
-size_t Hero::remove_quest(Quest* to_delete) {
-  for (size_t i = 0; i < _contracts.size(); ++i) {
-    if (to_delete == _contracts[i]) {
-      _contracts.erase(_contracts.begin() + i);
-      return RC_OK;
-    }
-  }
-  return RC_NOT_FOUND;
+size_t Hero::remove_quest() {
+  _quest = NULL;
+  return RC_OK;
 }
 

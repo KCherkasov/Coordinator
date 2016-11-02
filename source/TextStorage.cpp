@@ -26,6 +26,56 @@ size_t TextStorage::read_gender_names(sqlite3*& connection) {
   return RC_OK;
 }
 
+size_t TextStorage::read_personality_stat_names(sqlite3*& connection) {
+  _personality_stat_names.clear();
+  sqlite3_stmt* statement;
+  ssize_t response = sqlite3_prepare(connection, "select count(*) from 'personality_stat_names'", -1, &statement, 0);
+  sqlite3_step(statement);
+  size_t names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select name from 'personality_stat_names'", -1, &statement, 0);
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+    _personality_stat_names.push_back();
+    _personality_stat_names[i].append(sqlite3_column_text(statement, 0));
+  }
+  return RC_OK;
+}
+
+size_t TextStorage::read_hero_history_names(sqlite3*& connection) {
+  _hero_history_names.clear();
+  sqlite3_stmt* statement;
+  ssize_t response = sqlite3_prepare(connection, "select count(*) from 'hero_history_names'", -1, &statement, 0);
+  sqlite3_step(statement);
+  size_t names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select name from 'hero_history_names'", -1, &statement, 0);
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+    _hero_history_names.push_back();
+    _hero_history_names.append(sqlite3_column_text(statement, 0));
+  }
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
+size_t TextStorage::read_health_state_names(sqlite3*& connection) {
+  _health_state_names.clear();
+  sqlite3_stmt* statement;
+  ssize_t response = sqlite3_prepare(connection, "select count(*) from 'health_state_names'", -1, &statement, 0);
+  sqlite3_step(statement);
+  size_t names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  response = sqlite3_prepare(connection, "select name from 'health_state_names'", -1, &statement, 0);
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+    _health_state_names.push_back();
+    _health_state_names[i].append(sqlite3_column_text(statement, 0));
+  }
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
 size_t TextStorage::read_male_names(sqlite3*& connection) {
   _male_names.clear();
   sqlite3_stmt* statement;
@@ -369,7 +419,10 @@ size_t TextStorage::fill_storage(const std::string& db_name) {
   sqlite3* database;
   open_connection(db_name, database);
   read_stat_names(database);
+  read_personality_stat_names(database);
   read_gender_names(database);
+  read_health_state_names(database);
+  read_hero_history_names(database);
   read_male_names(database);
   read_female_names(database);
   read_nicknames(database);
@@ -393,7 +446,10 @@ size_t TextStorage::fill_storage(const std::string& db_name) {
 
 size_t TextStorage::clear_storage() {
   _stat_names.clear();
+  _personality_stat_names.clear();
   _gender_names.clear();
+  _health_state_names.clear();
+  _hero_history_names.clear();
   _male_names.clear();
   _female_names.clear();
   _nicknames.clear();
@@ -417,8 +473,18 @@ size_t TextStorage::clear_storage() {
 size_t TextStorage::get_stat_name(const size_t& id, std::string& result) const {
   if (id < _stat_names.size()) {
     result.clear();
-	result = _stat_names[id];
-	return RC_OK;
+    result = _stat_names[id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::get_perosonality_stat_name(const size_t& id, std::string& result) const {
+  if (id < _personality_stat_names.size()) {
+    result.clear();
+    result = _personality_stat_names[id];
+    return RC_OK;
   } else {
     return RC_BAD_INDEX;
   }
@@ -427,8 +493,28 @@ size_t TextStorage::get_stat_name(const size_t& id, std::string& result) const {
 size_t TextStorage::get_gender_name(const size_t& id, std::string& result) const {
   if (id < _gender_names.size()) {
     result.clear();
-	result = _gender_names[id];
-	return RC_OK;
+    result = _gender_names[id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::get_health_state_name(const size_t& id, std::string& result) const {
+  if (id < _health_state_names.size()) {
+    result.clear();
+    result += _health_state_names[id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::get_hero_history_name(const size_t& id, std::string& result) const {
+  if (id < _hero_history_names.size()) {
+    result.clear();
+    result += _hero_history_names[id];
+    return RC_OK;
   } else {
     return RC_BAD_INDEX;
   }
@@ -443,10 +529,10 @@ size_t TextStorage::form_name(bool gender, std::string& result) const {
   size_t index = SIZE_T_DEFAULT_VALUE;
   if (gender == MALE_GENDER) {
     index = rand() % _male_names.size();
-	result += _male_names[index];
+    result += _male_names[index];
   } else {
     index = rand() % _female_names.size();
-	result += _female_names[index];
+    result += _female_names[index];
   }
   result.append(" ");
   // hero acquires a nickname with 50% chance (possibly needs to be tweaked)
@@ -454,12 +540,12 @@ size_t TextStorage::form_name(bool gender, std::string& result) const {
     result.append("\'");
     index = rand() % _nicknames.size();
     result += _nicknames[index];
-	result.append("\' ");
+    result.append("\' ");
   }
   // hero acquires a surname with 75% chance (possibly needs to be tweaked later)
   if (rand() % PERCENT_CAP < 75) {
     index = rand() % _surnames.size();
-	result += _surnames[index];
+    result += _surnames[index];
   }
   result.append("\n");
   return 0;
@@ -606,3 +692,4 @@ size_t TextStorage::get_item_kind_name(const size_t& kind_id, std::string& resul
     return RC_BAD_INDEX;
   }
 }
+
