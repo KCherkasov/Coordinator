@@ -569,3 +569,40 @@ size_t TextStorage::form_faction_description(std::string& result) const {
   result.append("\n");
   return RC_OK;
 }
+
+size_t TextStorage::get_hero_answer(const size_t& answer_id, std::string& result) const {
+  switch (answer_id) {
+    case HA_OK: {
+      return get_okay_answer(result);
+    }
+    case HA_TOO_BIG_RISK: {
+      return get_risky_answer(result);
+    }
+    case HA_WANT_MORE_MONEY: {
+      return get_greedy_answer(result);
+    }
+    default: {
+      return RC_BAD_INDEX;
+    }
+  }
+}
+
+size_t TextStorage::get_item_rarity_name(const size_t& rarity_id, std::string& result) const {
+  if (rarity_id < _item_rarity_names.size()) {
+    result.clear();
+    result = _item_rarity_names[rarity_id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::get_item_kind_name(const size_t& kind_id, std::string& result) const {
+  if (kind_id < _item_kind_names.size()) {
+    result.clear();
+    result = _item_kind_names[kind_id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
