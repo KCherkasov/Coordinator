@@ -38,6 +38,11 @@ size_t Faction::what(std::string& result) const {
   return RC_OK;
 }
 
+size_t Faction::short_what(std::string& result) const {
+  result.clear();
+  return RC_OK;
+}
+
 size_t Faction::update() {
   return RC_OK;
 }

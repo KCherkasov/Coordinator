@@ -9,7 +9,7 @@ class Quest;
 
 class Hero: public GameCharacter {
   public:
-    Hero(const HeroTemplate& data, HeroClass& hero_class);
+    Hero(const HeroTemplate& data, HeroClass& hero_class, Faction& faction);
     virtual ~Hero();
     size_t get_class(HeroClass& result) const;
     size_t get_experience(std::vector<size_t>& result) const;

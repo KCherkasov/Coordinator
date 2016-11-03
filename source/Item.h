@@ -28,6 +28,7 @@ class Item: public LevelableObject {
     size_t set_slots(const size_t& index, const bool& value);
     size_t get_save_data(ItemTemplate& save_data) const;
     size_t what(std::string& result) const;
+    size_t short_what(std::string& result) const;
     size_t update();   
 
     Item& operator = (const Item& rhs) {

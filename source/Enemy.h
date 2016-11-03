@@ -6,7 +6,7 @@
 
 class Enemy: public GameCharacter {
   public:
-    Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype);
+    Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype, Faction& faction);
     virtual ~Enemy() {}
     size_t get_archetype_id() const { return _archetype.get_own_id(); }
     size_t get_loot_list(std::vector<LootData>& result) const;
@@ -23,6 +23,7 @@ class Enemy: public GameCharacter {
     size_t set_reward(const std::vector<size_t>& value);
     size_t set_reward(const size_t& index, const size_t& value);
     size_t what(std::string& result) const;
+    size_t short_what(std::string& result) const;
     size_t update();
   protected:
     CharacterArchetype& _archetype;
