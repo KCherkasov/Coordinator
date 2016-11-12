@@ -3,13 +3,14 @@
 
 #include "LevelableObject.h"
 #include "Location.h"
+#include "Faction.h"
 #include "Enemy.h"
 
 class Hero;
 
 class Quest: public LevelableObject {
   public:
-    Quest(const QuestTemplate& data, Location& location);
+    Quest(const QuestTemplate& data, Location& location, Faction& employer, Faction& target);
     virtual ~Quest();
     size_t get_location(Location& result);
     size_t get_employer_faction() const { return _employer_faction; }
@@ -49,8 +50,8 @@ class Quest: public LevelableObject {
     Location& _location;
     size_t give_reward(/* think about args to pass here */, const bool& with_rep_dmg);
     static size_t _id;
-    size_t _employer_faction;
-    size_t _target_faction;
+    Faction& _employer_faction;
+    Faction& _target_faction;
     size_t _phase;
     size_t _life_time;
     std::vector<size_t> _rewards;

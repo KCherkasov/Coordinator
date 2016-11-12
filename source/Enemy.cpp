@@ -2,7 +2,7 @@
 
 size_t Enemy::_id = FREE_ID;
 
-Enemy::Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _faction(faction), _health(data._health), _stats(data._stats), _archetype(archetype), _loot_list(data._loot_list), _reward(data._reward) {
+Enemy::Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype, const Faction& faction): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _faction(faction), _health(data._health), _stats(data._stats), _archetype(archetype), _loot_list(data._loot_list), _reward(data._reward) {
   if (_own_id == FREE_INDEX) {
     _own_id = ++_id;
   } else {
@@ -131,11 +131,59 @@ size_t Enemy::set_reward(const size_t& index, const size_t& value) {
 
 size_t Enemy::what(std::string& result) const {
   result.clear();
+  std::string buffer;
+  buffer.clear();
+  result += _name;
+  result.append(" ");
+  convert_to_string(_level, buffer);
+  buffer.append(" level ");
+  result += buffer;
+  buffer.clear();
+  _archetype.short_what(buffer);
+  result += buffer;
+  buffer.clear();
+  _dictionary->get_health_state_name(_health, buffer);
+  buffer.append("\n");
+  result += buffer;
+  buffer.clear();
+  _faction.short_what(buffer);
+  result.append("Faction: ");
+  result += buffer;
+  buffer.clear();
+  result.append("Stats:\n");
+  for (size_t i = 0; i < _stats.size(); ++i) {
+    _dictionary->get_stat_name(i, buffer);
+    buffer.append(": ");
+    result += buffer;
+    buffer.clear();
+    convert_to_string(_stats[i], buffer);
+    buffer.append("\n");
+    result += buffer;
+    buffer.clear();
+  }
+  result.append("\"");
+  result += _description;
+  result.append("\"\n");
   return RC_OK;
 }
 
 size_t Enemy::short_what(std::string& result) const {
   result.clear();
+  result += _name;
+  result.append(" ");
+  std::string buffer;
+  buffer.clear();
+  convert_to_string(_level, buffer);
+  buffer.append(" level ");
+  result += buffer;
+  buffer.clear();
+  _archetype.short_what(buffer);
+  result += buffer;
+  buffer.clear();
+  _dictionary->get_health_state_name(_health, buffer);
+  buffer.append("\n");
+  result += buffer;
+  buffer.clear();
   return RC_OK;
 }
 

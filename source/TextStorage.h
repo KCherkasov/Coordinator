@@ -29,6 +29,7 @@ class TextStorage: public BaseStorage {
     size_t get_hero_answer(const size_t& answer_id, std::string& result) const;
     size_t get_item_rarity_name(const size_t& rarity_id, std::string& result) const;
     size_t get_item_kind_name(const size_t& kind_id, std::string& result) const;
+    size_t get_quest_phase_name(const size_t& phase_id, std::string& result) const;
   protected:
     size_t read_stat_names(sqlite3*& connection);
     size_t read_personality_stat_names(sqlite3*& connection);
@@ -52,6 +53,7 @@ class TextStorage: public BaseStorage {
     size_t read_greedy_answers(sqlite3*& connection);
     size_t read_item_rarity_names(sqlite3*& connection);
     size_t read_item_kind_names(sqlite3*& connection);
+    size_t read_quest_phase_names(sqlite3*& connection);
     // size_t read_miscellaneous(sqlite3*& connection);
     size_t get_okay_answer(std::string& result) const;
     size_t get_risky_answer(std::string& result) const;
@@ -79,6 +81,7 @@ class TextStorage: public BaseStorage {
     std::vector<std::string> _hero_answers_greedy;
     std::vector<std::string> _item_rarity_names;
     std::vector<std::string> _item_kind_names;
+    std::vector<std::string> _quest_phase_names;
 };
 
 #endif

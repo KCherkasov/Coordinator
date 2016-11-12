@@ -225,6 +225,36 @@ size_t Item::what(std::string& result) const {
   return RC_OK;
 }
 
+size_t Item::short_whar(std::string& result) const {
+  size_t dashes_string = 0;
+  result.clear();
+  result += _name;
+  result.append("\n");
+  std::string buffer;
+  buffer.clear();
+  buffer.append("<");
+  for (size_t i = 0; i < _name.size() - 2; ++i) {
+    buffer.append("-");
+    ++dashes_string;
+  }
+  buffer.append(">\n");
+  result += buffer;
+  buffer.clear();
+  TextStorage::get_item_rarity_name(_rarity, buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("\t");
+  TextStorage::get_item_kind_name(_kind, buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("\n");
+  result.append("price: ");
+  convert_to_string<size_t>(_price, buffer);
+  result += buffer;
+  buffer.clear();
+  return RC_OK;
+}
+
 size_t Item::update() {
   return RC_OK;
 }

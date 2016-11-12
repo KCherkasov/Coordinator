@@ -20,7 +20,6 @@ class Faction: public GameObject {
     size_t increase_relationship(const size_t& amount);
     size_t decrease_influence(const size_t& amount);
     size_t decrease_relationship(const size_t& amount);
-    size_t create_contract(Contract*& result);
 
     Faction& operator = (const Faction& rhs) {
       _own_id = rhs._own_id;

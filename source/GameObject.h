@@ -20,8 +20,8 @@ class GameObject {
     size_t set_dictionary(TextStorage* value);
     size_t set_name(const std::string& value);
     size_t set_description(const std::string& value);
-    virtual size_t what(std::string& result) const = 0;
-    virtual size_t short_what(std::string& result) const = 0;
+    virtual size_t what(std::string& result) const  { return RC_OK; }
+    virtual size_t short_what(std::string& result) const { return RC_OK; }
     virtual size_t update() = 0;
   protected:
     size_t _own_id;

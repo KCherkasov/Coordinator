@@ -382,6 +382,24 @@ size_t TextStorage::read_item_kind_names(sqlite3*& connection) {
   return RC_OK;
 }
 
+size_t TextStorage::read_quest_phase_names(sqlite3*& connection) {
+  _quest_phase_names.clear();
+  sqlite3_stmt* statement;
+  size_t names_count = SIZE_T_DEFAULT_VALUE;
+  sqlite3_prepare(connection, "select count(*) from 'quest_phase_names'", -1, &statement, 0);
+  sqlite3_step(statement);
+  names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select name from 'quest_phase_names'", -1, &statement, 0);
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+    _quest_phase_names.push_back();
+    _quest_phase_names[i].append(sqlite3_column_text(statement, 0));
+  }
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
 size_t TextStorage::get_okay_answer(std::string& result) const {
   if (_hero_answers_okay.empty()) {
     return RC_EMPTY_VECTOR;
@@ -440,6 +458,7 @@ size_t TextStorage::fill_storage(const std::string& db_name) {
   read_greedy_answers(database);
   read_item_rarity_names(database);
   read_item_kind_names(database);
+  read_quest_phase_names(database);
   close_connection(database);
   return RC_OK;  
 }
@@ -467,6 +486,7 @@ size_t TextStorage::clear_storage() {
   _hero_answers_greedy.clear();
   _item_rarity_names.clear();
   _item_kind_names.clear();
+  _quest_phase_names.clear();
   return RC_OK;
 }
 
@@ -693,3 +713,12 @@ size_t TextStorage::get_item_kind_name(const size_t& kind_id, std::string& resul
   }
 }
 
+size_t TextStorage::get_quest_phase_name(const size_t& phase_id, std::string& result) const {
+  if (phase_id < _quest_phase_names.size()) {
+    result.clear();
+    result = _quest_phase_names[phase_id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}

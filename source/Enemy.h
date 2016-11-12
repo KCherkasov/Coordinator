@@ -6,7 +6,7 @@
 
 class Enemy: public GameCharacter {
   public:
-    Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype, Faction& faction);
+    Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype, const Faction& faction);
     virtual ~Enemy() {}
     size_t get_archetype_id() const { return _archetype.get_own_id(); }
     size_t get_loot_list(std::vector<LootData>& result) const;

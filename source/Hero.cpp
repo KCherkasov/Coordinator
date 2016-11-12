@@ -268,7 +268,11 @@ size_t Hero::what(std::string& result) const {
   convert_to_string(_experience[1], buffer);
   result += buffer;
   buffer.clear();
-  result.append(" Exp)\nFaction: ");
+  result.append(" Exp)\nHealth: ");
+  _dictionary->get_health_state(_health, buffer);
+  buffer.append("\nFaction: ");
+  result += buffer;
+  buffer.clear();
   _faction.get_name(buffer);
   result += buffer;
   buffer.clear();
@@ -308,19 +312,28 @@ size_t Hero::what(std::string& result) const {
 size_t Hero::short_what(std::string& result) const {
   result.clear();
   result += _name;
-  result.append(" ");
+  result.append("        ");
   std::string buffer;
+  buffer.clear();
+  _class.short_what(buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("\n\n");
   convert_to_string(_level, buffer);
   result += buffer;
   buffer.clear();
-  result.append(" level ");
-  _class.get_name(buffer);
+  result.append(" Level (");
+  convert_to_string(_experience[0], buffer);
   result += buffer;
   buffer.clear();
-  result.append("\nFaction: ");
-  _faction.get_name(buffer);
+  result.append(" / ");
+  convert_to_string(_experience[1], buffer);
   result += buffer;
-  result.append("\n");
+  buffer.clear();
+  result.append(" Exp)\nHealth: ");
+  _dictionary->get_health_state(_health, buffer);
+  buffer.append("\nFaction: ");
+  result += buffer;
   buffer.clear();
   return RC_OK;
 }
@@ -371,4 +384,3 @@ size_t Hero::remove_quest() {
   _quest = NULL;
   return RC_OK;
 }
-

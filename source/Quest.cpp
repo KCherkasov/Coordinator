@@ -3,7 +3,7 @@
 
 size_t Quest::_id = SIZE_T_DEFAULT_VALUE;
 
-Quest::Quest(QuestTemplate& data, Location& location): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _employer_faction(data._employer_faction), _target_faction(data._target_faction), _phase(data._phase), _life_time(data._life_time), _rewards(data._rewards), _bonuses(data._bonuses) {
+Quest::Quest(QuestTemplate& data, Location& location, Faction& employer, Faction& target): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _employer_faction(employer), _target_faction(target), _phase(data._phase), _life_time(data._life_time), _rewards(data._rewards), _bonuses(data._bonuses) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {
@@ -140,8 +140,8 @@ size_t Quest::get_save_data(QuestTemplate& save_data) const {
   save_data._description = _description;
   save_data._level = _level;
   save_data._location_id = _location.get_own_id();
-  save_data._employer_faction = _employer_faction;
-  save_data._target_faction = _target_faction;
+  _employer_faction.get_own_id(save_data._employer_faction);
+  _target_faction.get_own_id(save_data._target_faction);
   save_data._phase = _phase;
   save_data._life_time;
   save_data._rewards.clear();
@@ -373,3 +373,39 @@ size_t Quest::remove_enemy(Enemy* to_delete) {
   return RC_NOT_FOUND;
 }
 
+size_t Quest::what(std::string& result) const {
+  result.clear();
+  result += _name;
+  result.append(" ");
+  std::string buffer;
+  buffer.clear();
+  convert_to_string(_level, buffer);
+  buffer.append(" Level\nEmployer faction: ");
+  result += buffer;
+  buffer.clear();
+  _employer_faction.get_name(buffer);
+  buffer.append("\nTarger faction: ");
+  result += buffer;
+  buffer.clear();
+  _target_faction.get_name(buffer);
+  buffer.append("\nReward: ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_rewards[RI_MONEY], buffer);
+  buffer.append(" coins, ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_rewards[RI_EXPERIENCE], buffer);
+  buffer.append(" Exp\nStatus: ");
+  result += buffer;
+  buffer.clear();
+  _dictionary->get_quest_phase_name(_phase, buffer);
+  buffer.append("\n
+  return RC_OK;
+}
+
+size_t Quest::short_what(std::string& result) const {
+  result.clear();
+  
+  return RC_OK;
+}

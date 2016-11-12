@@ -40,6 +40,8 @@ size_t Faction::what(std::string& result) const {
 
 size_t Faction::short_what(std::string& result) const {
   result.clear();
+  result += _name;
+  result.append("\n");
   return RC_OK;
 }
 
@@ -75,13 +77,27 @@ size_t Faction::decrease_relationship(const size_t& amount) {
   return RC_OK;
 }
 
-size_t Faction::create_contract(Contract*& result) {
-  if (result != NULL) {
-    delete result;
-  }
-  ContractTemplate prototype;
-  size_t prototype_id = roll_dice(/* contract templates database size here */);
-  // some code here to receive template from the database (will be added when Storage class will be ready)
-  result = new Contract(prototype, /* code to get Location class object here */);
+size_t Faction::what(std::string& result) const {
+  result += _name;
+  result.append("\nInfluence: ");
+  std::string buffer;
+  buffer.clear();
+  convert_to_string(_influence, buffer);
+  buffer.append("\nRelationships with our guild: ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_relationship, buffer);
+  buffer.append("\n\n\"");
+  result += buffer;
+  buffer.clear();
+  result += _description;
+  result.append("\"\n");
+  return RC_OK;
+}
+
+size_t Faction::short_what(std::string& result) const {
+  result.clear();
+  result += _name;
+  result.append("\n");
   return RC_OK;
 }

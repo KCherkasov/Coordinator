@@ -72,6 +72,14 @@ size_t HeroClass::get_defense_modifiers(const size_t& index, size_t& result) con
   }
 }
 
+size_t HeroClass::set_dictionary(TextStorage* value) {
+  if (value == NULL) {
+    return RC_BAD_INPUT;
+  }
+  _dictionary = value;
+  return RC_OK;
+}
+
 size_t HeroClass::set_name(const std::string& value) {
   if (!value.empty()) {
     _name.clear();
@@ -156,16 +164,43 @@ size_t HeroClass::what(std::string& result) const {
   result += buffer;
   result.append("):\n");
   result.append("---------------------\n");
-  result.append("stats bonuses:\n");
-  for (size_t i = 0; i < _power_mods.size(); ++i) {
+  result.append("Stat bonuses:\n");
+  for (size_t i = 0; i < _stat_bonuses.size(); ++i) {
     buffer.clear();
-    TextStorage::get_hero_stat_name(i, buffer);
+    _dictionary->get_stat_name(i, buffer);
     result += buffer;
     result.append(": ");
     buffer.clear();
     convert_to_string<size_t>(_stat_bonuses[i], buffer);
     result += buffer;
     result.append("\n");
+  }
+  result.append("\nAttack power modifiers:\n");
+  for (size_t i = 0; i < _att_power_modifiers.size(); ++i) {
+    buffer.clear();
+    result.append("vs. ");
+    // some code here to retrieve the archetype name
+    buffer.append(": ");
+    result += buffer;
+    buffer.clear();
+    convert_to_string(_att_power_modifiers[i], buffer);
+    buffer.append("\%\n");
+    result += buffer;
+    buffer.clear();
+  }
+  buffer.clear();
+  result.append("\nDefense modifiers:\n");
+  for (size_t i = 0; i < _defense_modifiers.size(); ++i) {
+    buffer.clear();
+    result.append("vs. ");
+    // some code here to retrieve the archetype name
+    buffer.append(": ");
+    result += buffer;
+    buffer.clear();
+    convert_to_string(_defense_modifiers[i], buffer);
+    buffer.append("\%\n");
+    result += buffer;
+    buffer.clear();
   }
   result.append("\n\"");
   result += _description;

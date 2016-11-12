@@ -10,6 +10,7 @@ class HeroClass {
   public:
     HeroClass(const HeroClassTemplate& table, const CharacterArchetype& archetype): _own_id(table._own_id), _archetype(archetype), _name(table._name), _description(table._description), _stat_bonuses(table._stat_bonuses), _att_power_modifiers(table._att_power_modifiers), _defense_modifiers(table._defense_modifiers) { if (_own_id == FREE_INDEX) { _own_id = ++_id; } else { if (_own_id > _id) { _id = _own_id; } } }
     ~HeroClass() {}
+    TextStorage* get_dictionary() const { return _dictionary; }
     size_t get_own_id() { return _own_id; }
     size_t get_name(std::string& result) const;
     size_t get_description(std::string& result) const;
@@ -23,6 +24,7 @@ class HeroClass {
     size_t get_att_power_modifiers(const size_t& index, size_t& result) const;
     size_t get_defense_modifiers(std::vector<size_t>& result) const;
     size_t get_defense_modifiers(const size_t& index, size_t& result) const;
+    size_t set_dictionary(TextStorage* value);
     size_t set_name(const std::string& value);
     size_t set_description(const std::string& value);
     size_t set_stat_bonuses(const std::vector<size_t>& value);
@@ -61,6 +63,7 @@ class HeroClass {
 
   protected:
     static size_t _id;
+    TextStorage* _dictionary;
     CharacterArchetype& _archetype;
     size_t _own_id;
     std::string _name;
