@@ -335,6 +335,9 @@ size_t Hero::short_what(std::string& result) const {
   buffer.append("\nFaction: ");
   result += buffer;
   buffer.clear();
+  _faction.short_what(buffer);
+  result += buffer;
+  buffer.clear();
   return RC_OK;
 }
 

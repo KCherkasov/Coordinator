@@ -380,7 +380,11 @@ size_t Quest::what(std::string& result) const {
   std::string buffer;
   buffer.clear();
   convert_to_string(_level, buffer);
-  buffer.append(" Level\nEmployer faction: ");
+  buffer.append(" Level\nLocation: ");
+  result += buffer;
+  buffer.clear();
+  _location.short_what(buffer);
+  buffer.append("\nEmployer faction: ");
   result += buffer;
   buffer.clear();
   _employer_faction.get_name(buffer);
@@ -396,16 +400,91 @@ size_t Quest::what(std::string& result) const {
   result += buffer;
   buffer.clear();
   convert_to_string(_rewards[RI_EXPERIENCE], buffer);
-  buffer.append(" Exp\nStatus: ");
+  buffer.append(" Exp\nBonus: ");
   result += buffer;
   buffer.clear();
+  convert_to_string(_bonuses[RI_MONEY], buffer);
+  buffer.append(" coins, ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_bonuses[RI_EXPERIENCE], buffer);
+  buffer.append("Exp\nStatus: ");
   _dictionary->get_quest_phase_name(_phase, buffer);
-  buffer.append("\n
+  if (!_enemies.empty()) {
+    buffer.append("\nEnemies:\n");
+    result += buffer;
+    buffer.clear();
+    for (size_t i = 0; i < _enemies.size(); ++i) {
+      if (_enemies[i] != NULL) {
+        result.append("\t");
+        buffer.clear();
+        _enemies[i]->short_what(buffer);
+        result += buffer;
+      }
+    }
+  }
+  buffer.clear();
+  if (!_heroes.empty()) {
+    result.append("Heroes:\n");
+    for (size_t i = 0; i < _heroes.size(); ++i) {
+      if (_heroes[i] != NULL) {
+        result.append("\t");
+        buffer.clear();
+        _heroes[i]->short_what(buffer);
+        result += buffer;
+      }
+    }
+  }
+  buffer.clear();
   return RC_OK;
 }
 
 size_t Quest::short_what(std::string& result) const {
   result.clear();
-  
+  result += _name;
+  result.append(" ");
+  std::string buffer;
+  buffer.clear();
+  convert_to_string(_level, buffer);
+  buffer.append(" Level\nLocation: ");
+  result += buffer;
+  buffer.clear();
+  _location.short_what(buffer);
+  buffer.append("\nEmployer faction: ");
+  result += buffer;
+  buffer.clear();
+  _employer_faction.get_name(buffer);
+  buffer.append("\nTarger faction: ");
+  result += buffer;
+  buffer.clear();
+  _target_faction.get_name(buffer);
+  buffer.append("\nReward: ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_rewards[RI_MONEY], buffer);
+  buffer.append(" coins, ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_rewards[RI_EXPERIENCE], buffer);
+  buffer.append(" Exp\nBonus: ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_bonuses[RI_MONEY], buffer);
+  buffer.append(" coins, ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_bonuses[RI_EXPERIENCE], buffer);
+  buffer.append("Exp\nStatus: ");
+  _dictionary->get_quest_phase_name(_phase, buffer);
+  buffer.append("\nEnemies: ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_enemies.size(), buffer);
+  buffer.append("\nHeroes: ");
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_heroes.size(), buffer);
+  result += buffer;
+  buffer.clear();  
   return RC_OK;
 }
