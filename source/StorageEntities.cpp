@@ -237,6 +237,30 @@ bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }
 
+bool operator == (const LocationTemplate& lhs, const LocationTemplate& rhs) {
+  if (lhs._own_id != rhs._own_id) {
+    return false;
+  }
+  if (lhs._name != rhs._name) {
+    return false;
+  }  
+  if (lhs._description != rhs._description) {
+    return false;
+  }
+  if (lhs._stats != rhs._stats) {
+    return false;
+  }
+  return true;
+}
+
+bool operator < (const LocationTemplate& lhs, const LocationTemplate& rhs) {
+  return lhs._own_id < rhs._own_id;
+}
+
+bool operator > (const LocationTemplate& lhs, const LocationTemplate& rhs) {
+  return lhs._own_id > rhs._own_id;
+}
+
 bool operator == (const QuestTemplate& lhs, const QuestTemplate& rhs) {
   if (lhs._own_id != rhs._own_id) {
     return false;

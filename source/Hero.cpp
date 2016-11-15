@@ -1,5 +1,6 @@
 #include "Hero.h"
-#include "Contract.h"
+#include "Quest.h"
+#include "Player.h"
 
 size_t Hero::_id = SIZE_T_DEFAULT_VALUE;
 
@@ -17,10 +18,11 @@ Hero::Hero(const HeroTemplate& data, HeroClass& hero_class, Faction& faction): _
 }
 
 Hero::~Hero() {
-  for (size_t i = 0; i < _contracts.size(); ++i) {
-    if (_contracts[i] != NULL) {
-      _contracts[i]->remove_merc(this);
-    }
+  if (_quest != NULL) {
+    _quest->remove_hero(this);
+  }
+  if (_guild != NULL) {
+    _guild->remove_hero(this);
   }
 }
 
@@ -376,7 +378,11 @@ size_t Hero::add_quest(Quest* to_add) {
   if (to_add = NULL) {
     return RC_BAD_INPUT;
   }
+  if (to_add->get_party_size() >= MAX_HEROES_PER_QUEST) {
+    return RC_BAD_INPUT;
+  }
   _quest = to_add;
+  _quest->add_hero(this);
   return RC_OK;
 }
 
@@ -385,5 +391,24 @@ size_t Hero::remove_quest() {
     _quest->remove_hero(this);
   }
   _quest = NULL;
+  return RC_OK;
+}
+
+size_t Hero::enter_guild(Player* to_add) {
+  if (_guild != NULL) {
+    return RC_ALREADY_HIRED;
+  }
+  if (to_add == NULL) {
+    return RC_BAD_INPUT;
+  }
+  _guild = to_add;
+  return RC_OK;
+}
+
+size_t Hero::leave_guild() {
+  if (_guild != NULL) {
+    _guild->remove_hero(this);
+  }
+  _guild = NULL;
   return RC_OK;
 }

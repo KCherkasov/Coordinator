@@ -22,8 +22,10 @@ class Quest: public LevelableObject {
     size_t get_bonuses(const size_t& index, size_t& result);
     size_t get_heroes(std::vector<Hero*>& result) const;
     size_t get_heroes(const size_t& index, Hero*& result) const;
+    size_t get_party_size() const { return _heroes.size(); }
     size_t get_enemies(std::vector<Enemy*>& result) const;
     size_t get_enemies(const size_t& index, Enemy*& result) const;
+    size_t get_enemies_count() const { return _enemies.size(); }
     size_t get_save_data(ContractTemplate& save_data) const;
     size_t set_location(Location& value);
     size_t set_employer_faction(const size_t& value);

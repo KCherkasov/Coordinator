@@ -235,6 +235,28 @@ struct FactionTemplate {
   friend bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs);
 };
 
+struct LocationTemplate {
+  size_t _own_id;
+  std::string _name;
+  std::string _description;
+  std::vector<size_t> _stats;
+  
+  LocationTemplate& operator = (const LocationTemplate& rhs) {
+    _own_id = rhs._own_id;
+    _name.clear();
+    _name = rhs._name;
+    _description.clear();
+    _description = rhs._description;
+    _stats.clear();
+    _stats = rhs._stats;
+    return *this;
+  }
+  
+  friend bool operator == (const LocationTemplate& lhs, const LocationTemplate& rhs);
+  friend bool operator < (const LocationTemplate& lhs, const LocationTemplate& rhs);
+  friend bool operator > (const LocationTemplate& lhs, const LocationTemplate& rhs);
+};
+
 struct QuestTemplate {
   size_t _own_id;
   std::string _name;
@@ -278,6 +300,25 @@ struct QuestTemplate {
   friend bool operator == (const QuestTemplate& lhs, const QuestTemplate& rhs);
   friend bool operator < (const QuestTemplate& lhs, const QuestTemplate& rhs);
   friend bool operator > (const QuestTemplate& lhs, const QuestTemplate& rhs);
+};
+
+struct PlayerTemplate {
+  size_t _own_id;
+  std::string _name;
+  std::string _description;
+  size_t _level;
+  size_t _cash;
+  std::vector<size_t> _experience;
+  std::vector<size_t> _history;
+  std::vector<size_t> _heroes;
+  
+  PlayerTemplate& operator = (const PlayerTemplate& rhs) {
+    return *this;
+  }
+  
+  friend bool operator == (const PlayerTemplate& lhs, const PlayerTemplate& rhs);
+  friend bool operator < (const PlayerTemplate& lhs, const PlayerTemplate& rhs);
+  friend bool operator > (const PlayerTemplate& lhs, const PlayerTemplate& rhs);
 };
 
 #endif

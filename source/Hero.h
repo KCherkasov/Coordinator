@@ -6,6 +6,7 @@
 #include "HeroClass.h"
 
 class Quest;
+class Player;
 
 class Hero: public GameCharacter {
   public:
@@ -38,6 +39,8 @@ class Hero: public GameCharacter {
     size_t add_experience(const size_t& amount);
     size_t add_quest(Quest* to_add);
     size_t remove_quest();
+    size_t enter_guild(Player* to_add);
+    size_t leave_guild();
   protected:
     static size_t _id;
     size_t level_up();
@@ -46,6 +49,7 @@ class Hero: public GameCharacter {
     std::vector<size_t> _personality;
     std::vector<size_t> _history;
     Quest* _quest;
+    Player* _guild;
     Inventory _equipment;
 }
 
