@@ -85,5 +85,32 @@ size_t Player::get_heroes(const size_t& index, Hero*& result) const {
 }
 
 size_t Player::get_save_data(PlayerTemplate& result) const {
+  result._own_id = _own_id;
+  result._name.clear();
+  result._name = _name;
+  result._description.clear();
+  result._description = _description();
+  result._level = _level;
+  result._cash = _cash;
+  result._experience.clear();
+  result._experience = _experience;
+  result._history.clear();
+  result._history = _history;
+  result._heroes.clear();
+  for (size_t i = 0; i < _heroes.size(); ++i) {
+    if (_heroes[i] != NULL) {
+      result._heroes.push_back(_heroes[i]->get_own_id());
+    }
+  }
+  return RC_OK;
+}
+
+size_t Player::what(std::string& result) const {
+  result.clear();
+  return RC_OK;
+};
+
+size_t Player::short_what(std::string& result) const {
+  result.clear();
   return RC_OK;
 }

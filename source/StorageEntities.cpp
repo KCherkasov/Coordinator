@@ -314,3 +314,39 @@ bool operator < (const QuestTemplate& lhs, const QuestTemplate& rhs) {
 bool operator > (const QuestTemplate& lhs, const QuestTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }
+
+bool operator == (const PlayerTemplate& lhs, const PlayerTemplate& rhs) {
+  if (lhs._own_id != rhs._own_id) {
+    return false;
+  }
+  if (lhs._name != rhs._name) {
+    return false;
+  }
+  if (lhs._description != rhs._description) {
+    return false;
+  }
+  if (lhs._level != rhs._level) {
+    return false;
+  }
+  if (lhs._cash != rhs._cash) {
+    return false;
+  }
+  if (lhs._experience != rhs._experience) {
+    return false;
+  }
+  if (lhs._history != rhs._history) {
+    return false;
+  }
+  if (lhs._heroes != rhs._heroes) {
+    return false;
+  }
+  return true;
+}
+
+bool operator < (const PlayerTemplate& lhs, const PlayerTemplate& rhs) {
+  return lhs._own_id < rhs._own_id;
+}
+
+bool operator > (const PlayerTemplate& lhs, const PlayerTemplate& rhs) {
+  return lhs._own_id > rhs._own_id;
+}
