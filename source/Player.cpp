@@ -114,3 +114,26 @@ size_t Player::short_what(std::string& result) const {
   result.clear();
   return RC_OK;
 }
+
+size_t Player::set_cash(const size_t& value) {
+  _cash = value;
+  return RC_OK;
+}
+
+size_t Player::set_experience(const std::vector<size_t>& result) {
+  if (value.empty()) {
+    return RC_EMPTY_VECTOR;
+  }
+  _experience.clear();
+  _experience = value;
+  return RC_OK;
+}
+
+size_t Player::set_experience(const size_t& index, const size_t& value) {
+  if (index < _experience.size()) {
+    _experience[index] = value;
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
