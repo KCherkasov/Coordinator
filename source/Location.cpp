@@ -57,3 +57,4 @@ size_t Location::short_what(std::string& result) const {
   result.append("\"");
   return RC_OK;
 }
+

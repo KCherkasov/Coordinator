@@ -19,9 +19,11 @@ class Player: public LevelableObject {
     size_t get_heroes(const size_t& index, Hero*& result) const;
     Hero* get_heroes(const size_t& index) const { if (index < _heroes.size()) { return _heroes[index]; } else { return NULL; } }
     size_t get_heroes_count() const { return _heroes.size(); }
+    size_t get_free_heroes_count() const;
     size_t get_save_data(PlayerTemplate& result) const;
     size_t what(std::string& result) const;
     size_t short_what(std::string& result) const;
+    size_t update();
     size_t set_cash(const size_t& value);
     size_t set_experience(const std::vector<size_t>& value);
     size_t set_experience(const size_t& index, const size_t& value);

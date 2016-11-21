@@ -16,6 +16,7 @@ class TextStorage: public BaseStorage {
     size_t get_gender_name(const size_t& id, std::string& result) const;
     size_t get_health_state_name(const size_t& id, std::string& result) const;
     size_t get_hero_history_name(const size_t& id, std::string& result) const;
+    size_t get_player_history_name(const size_t& id, std::string& result) const;
     size_t form_name(bool gender, std::string& result) const;
     size_t get_male_name(const size_t& id, std::string& result) const;
     size_t get_female_name(const size_t& id, std::string& result) const;
@@ -36,6 +37,7 @@ class TextStorage: public BaseStorage {
     size_t read_gender_names(sqlite3*& connection);
     size_t read_health_state_names(sqlite3*& connection);
     size_t read_hero_history_names(sqlite3*& connection);
+    size_t read_player_history_names(sqlite3*& connection);
     size_t read_male_names(sqlite3*& connection);
     size_t read_female_names(sqlite3*& connection);
     size_t read_nicknames(sqlite3*& connection);
@@ -64,6 +66,7 @@ class TextStorage: public BaseStorage {
     std::vector<std::string> _gender_names;
     std::vector<std::string> _health_state_names;
     std::vector<std::string> _hero_history_names;
+    std::vector<std::string> _player_history_names;
     std::vector<std::string> _male_names;
     std::vector<std::string> _female_names;
     std::vector<std::string> _nicknames;

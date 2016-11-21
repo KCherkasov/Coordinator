@@ -59,6 +59,23 @@ size_t TextStorage::read_hero_history_names(sqlite3*& connection) {
   return RC_OK;
 }
 
+size_t TextStorage::read_player_history_names(sqlite3*& connection) {
+  _player_history_names.clear();
+  sqlite3_stmt* statement;
+  ssize_t response = sqlite3_prepare(connection, "select count(*) from 'player_history_names'", -1, &statement, 0);
+  sqlite3_step(statement);
+  size_t names_count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  response = sqlite3_prepare(connection, "select name from 'player_history_names'", -1, &statement, 0);
+  for (size_t i = 0; i < names_count; ++i) {
+    sqlite3_step(statement);
+    _player_history_names.push_back();
+    _player_history_names[i].append(sqlite3_column_text(statement, 0));
+  }
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
 size_t TextStorage::read_health_state_names(sqlite3*& connection) {
   _health_state_names.clear();
   sqlite3_stmt* statement;
@@ -441,6 +458,7 @@ size_t TextStorage::fill_storage(const std::string& db_name) {
   read_gender_names(database);
   read_health_state_names(database);
   read_hero_history_names(database);
+  read_player_history_names(database);
   read_male_names(database);
   read_female_names(database);
   read_nicknames(database);
@@ -469,6 +487,7 @@ size_t TextStorage::clear_storage() {
   _gender_names.clear();
   _health_state_names.clear();
   _hero_history_names.clear();
+  _player_history_names.clear();
   _male_names.clear();
   _female_names.clear();
   _nicknames.clear();
@@ -534,6 +553,16 @@ size_t TextStorage::get_hero_history_name(const size_t& id, std::string& result)
   if (id < _hero_history_names.size()) {
     result.clear();
     result += _hero_history_names[id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TextStorage::get_player_history_name(const size_t& id, std::string& result) const {
+  if (id < _player_history_names.size()) {
+    result.clear();
+    result += _player_history_names[id];
     return RC_OK;
   } else {
     return RC_BAD_INDEX;
