@@ -23,16 +23,25 @@ const size_t PAIR_ARR_SIZE = 2;
 const size_t POINTS_PER_LEVEL = 10;
 const size_t FIRST_LEVELUP_CAP = 100;
 const size_t EXP_RAISE_PER_LEVEL = 110;
+const size_t MONEY_RAISE_PER_LEVEL = 110;
+const size_t STAT_POINTS_PER_LEVEL = 5;
 
 const size_t START_LEVEL = 1;
 const size_t START_CASH = 1000;
 
 const size_t MAX_HEROES_PER_QUEST = 5;
+const size_t MAX_ENEMIES_PER_QUEST = 10;
+
+const size_t NAMES_PER_KIND = 5;
+
+const size_t MAX_LOOT_ITEMS = 10;
 
 const size_t START_HEROES_CAP = 50;
 
 const size_t QUEST_LIFE_TIME = 108000; // quest lifetime assumed from 60 updates per second (108 000 = 30 minutes)
 const size_t QUEST_LIFE_TIME_TURNS = 30; // quest lifetime for turn-based mode
+
+const size_t ITEMS_PER_SLOT = 5;
 
 enum ResponseCodes { RC_OK, RC_EMPTY_STRING, RC_EMPTY_VECTOR, RC_BAD_INDEX, RC_BAD_SIZE, RC_BAD_INPUT, RC_NOT_FOUND, RC_NO_OBSERVERS, RC_ALREADY_BUSY, RC_ALREADY_HIRED, RC_GUILD_IS_FULL, RC_SIZE };
 
