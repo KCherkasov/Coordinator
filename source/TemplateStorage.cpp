@@ -1289,7 +1289,7 @@ size_t TemplateStorage::make_quest_template(const size_t& id, QuestTemplate& res
     return RC_EMPTY_VECTOR;
   }
   if (id < _quests.size()) {
-    result = _quests[i];
+    result = _quests[id];
     form_quest_name(result._name);
     form_quest_description(result._description);
     result._level = level;

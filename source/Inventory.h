@@ -8,6 +8,7 @@ class Inventory {
     Inventory() {}
     Inventory(InventoryTemplate& table);
     virtual ~Inventory();
+    size_t get_items_count() { return _equipment.size(); }
     size_t get_equipment(std::vector<Item*>& result) const;
     size_t get_equipment(const size_t& index, Item*& result) const;
     size_t get_bonuses(std::vector<size_t>& result) const;

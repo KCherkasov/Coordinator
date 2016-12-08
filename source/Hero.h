@@ -21,7 +21,7 @@ class Hero: public GameCharacter {
     size_t get_history(const size_t& index, size_t& result) const;
     Quest* get_quest() const { return _quest; }
     Player* get_guild() const { return _guild; }
-    size_t get_equipment(Inventory& result) const;
+    size_t get_equipment(Inventory*& result) const;
     size_t get_power() const;
     size_t get_power(const size_t& target_archetype_id) const;
     size_t get_defense() const;

@@ -147,7 +147,7 @@ size_t TypeObjectStorage::read_hero_class_att_def_modifiers(sqlite3*& connection
 
 size_t TypeObjectStorage::read_hero_classes(sqlite3*& connection) {
   sqlite3_stmt* statement;
-  sqlite3_prepare(connection, "", -1, &statement, 0);
+  sqlite3_prepare(connection, "select count(*) from 'hero_class_data'", -1, &statement, 0);
   sqlite3_step(statement);
   size_t count = sqlite3_column_int(statement, 0);
   sqlite3_finalize(statement);
@@ -163,6 +163,61 @@ size_t TypeObjectStorage::read_hero_classes(sqlite3*& connection) {
   return RC_OK;
 }
 
+size_t TypeObjectStorage::read_location_namedescrs(sqlite3*& connection, std::vector<LocationTemplate>& result) {
+  sqlite3_stmt* statement;
+  sqlite3_prepare(connection, "select count(*) from 'location_namedescrs'", -1, &statement, 0);
+  sqlite3_step(statement);
+  size_t count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select name, description from 'location_namedescrs'", -1 &statement, 0);
+  for (size_t i = 0; i < count; ++i) {
+    sqlite3_step(statement);
+    result[i]._own_id = FREE_ID;
+    result[i]._name.clear();
+    result[i]._name.append(sqlite3_column_text(statement, 0));
+    result[i]._description.clear();
+    result[i]._description.append(sqlite3_column_text(statement, 1));
+  }
+  sqlite3_finalize(statement);
+  return RC_OK;
+}
+
+size_t TypeObjectStorage::read_location_stats(sqlite3*& connection, std::vector<LocationTemplate>& result) {
+  sqlite3_stmt* statement;
+  sqlite3_prepare(connection, "select count(*) from 'location_stats'", -1, &statement, 0);
+  sqlite3_step(statement);
+  size_t count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  sqlite3_prepare(connection, "select covers, visibility from 'location_stats'", -1, &statement, 0);
+  for (size_t i = 0; i < count; ++i) {
+    sqlite3_step(statement);
+    result[i]._stats.clear();
+    result[i]._stats.resize(LS_SIZE);
+    for (size_t j = 0; j < result[i]._stats.size(); ++j) {
+      result[i]._stats[j] = sqlite3_column_int(statement, j);
+    }
+  }
+  sqlite3(statement);
+  return RC_OK;
+}
+
+size_t TypeObjectStorage::read_locations(sqlite3*& connection) {
+  sqlite3_stmt* statement;
+  sqlite3_prepare(connection, "", -1, &statement, 0);
+  sqlite3_step(statement);
+  size_t count = sqlite3_column_int(statement, 0);
+  sqlite3_finalize(statement);
+  _locations.clear();
+  std::vector<LocationTemplate> buffer(count);
+  read_location_namedescrs(connection, buffer);
+  read_location_stats(connection, buffer);
+  for (size_t i = 0; i < count; ++i) {
+    Location tmp(buffer[i]);
+    _locations.push_back(tmp);
+  }
+  return RC_OK;
+}
+
 size_t TypeObjectStorage::fill_storage(std::string& db_name) {
   if (db_name.empty()) {
     return RC_EMPTY_STRING;
@@ -171,6 +226,7 @@ size_t TypeObjectStorage::fill_storage(std::string& db_name) {
   open_connection(db_name, database);
   read_character_archetypes(database);
   read_hero_classes(database);
+  read_locations(database);
   close_connection();
   return RC_OK;
 }
@@ -178,5 +234,61 @@ size_t TypeObjectStorage::fill_storage(std::string& db_name) {
 size_t TypeObjectStorage::clear_storage() {
   _character_archetypes.clear();
   _hero_classes.clear();
+  _locations.clear();
   return RC_OK;
+}
+
+size_t TypeObjectStorage::get_character_archetype(const size_t& id, CharacterArchetype& result) const {
+  if (id < _character_archetypes.size()) {
+    result = _character_archetypes[id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TypeObjectStorage::get_character_archetype(const size_t& id, CharacterArchetype*& result) {
+  if (id < _character_archetypes.size()) {
+    result = &(_character_archetypes[id]);
+    return RC_OK;
+  } else {
+    result = NULL;
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TypeObjectStorage::get_hero_class(const size_t& id, HeroClass& result) const {
+  if (id < _hero_classes.size()) {
+    result = _hero_classes[id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TypeObjectStorage::get_hero_class(const size_t& id, HeroClass*& result) {
+  if (id < _hero_classes.size()) {
+    result = &(_hero_classes[id]);
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TypeObjectStorage::get_location(const size_t& id, Location& result) const {
+  if (id < _locations.size()) {
+    result = _locations[id];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t TypeObjectStorage::get_location(const size_t& id, Location*& result) {
+  if (id < _locations.size()) {
+    result = &(_locations[id]);
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
 }

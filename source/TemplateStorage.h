@@ -11,6 +11,12 @@ class TemplateStorage: public BaseStorage {
     size_t fill_storage(const std::string& db_name);
     size_t clear_storage();
     
+    size_t get_heroes_count() const { return _heroes.size(); }
+    size_t get_factions_count() const { return _factions.size(); }
+    size_t get_items_count() const { return _items.size(); }
+    size_t get_enemies_count() const { return _enemies.size(); }
+    size_t get_quests_count() const { return _quests.size(); }
+    
     size_t form_name(bool gender, std::string& result) const;
     size_t get_male_name(const size_t& id, std::string& result) const;
     size_t get_female_name(const size_t& id, std::string& result) const;
