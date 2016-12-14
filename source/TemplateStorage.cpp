@@ -277,42 +277,6 @@ size_t TemplateStorage::read_faction_descriptions(sqlite3*& connection) {
   return RC_OK;
 }
 
-size_t TemplateStorage::read_faction_description_middle(sqlite3*& connection) {
-  _faction_description_middle.clear();
-  sqlite3_stmt* statement;
-  size_t names_count = SIZE_T_DEFAULT_VALUE;
-  sqlite3_prepare(connection, "select count(*) from 'faction_description_middle'", -1, &statement, 0);
-  sqlite3_step(statement);
-  names_count = sqlite3_column_int(statement, 0);
-  sqlite3_finalize(statement);
-  sqlite3_prepare(connection, "select description from 'faction_description_middle'", -1, &statement, 0);]
-  for (size_t i = 0; i < names_count; ++i) {
-    sqlite3_step(statement);
-	  _faction_description_middle.push_back();
-	  _faction_description_middle[i].append(sqlite3_column_text(statement, 0));
-  }  
-  sqlite3_finalize(statement);
-  return RC_OK;
-}
-
-size_t TemplateStorage::read_faction_description_ending(sqlite3*& connection) {
-  _faction_description_ending.clear();
-  sqlite3_stmt* statement;
-  size_t names_count = SIZE_T_DEFAULT_VALUE;
-  sqlite3_prepare(connection, "select count(*) from 'faction_description_ending'", -1, &statement, 0);
-  sqlite3_step(statement);
-  names_count = sqlite3_column_int(statement, 0);
-  sqlite3_finalize(statement);
-  sqlite3_prepare(connection, "select description from 'faction_description_ending'", -1, &statement, 0);
-  for (size_t i = 0; i < names_count; ++i) {
-    sqlite3_step(statement);
-	  _faction_description_ending.push_back();
-   	_faction_description_ending[i].append(sqlite3_column_text(statement, 0));
-  }  
-  sqlite3_finalize(statement);
-  return RC_OK;
-}
-
 size_t TemplateStorage::read_factions(sqlite3*& connection) {
   sqlite3_stmt* statement;
   sqlite3_prepare(connection, "select count(*) from 'faction_data'", -1, &statement, 0);
@@ -793,11 +757,11 @@ size_t TemplateStorage::read_quest_bonuses(sqlite3*& connection) {
 
 size_t TemplateStorage::read_quest_enemies(sqlite3*& connection) {
   sqlite3_stmt* statement;
-  sqlite3_prepare(connection, "", -1, &statement, 0);
+  sqlite3_prepare(connection, "select count(*) from 'quest_enemies'", -1, &statement, 0);
   sqlite3_step(statement);
   size_t count = sqlite3_column_int(statement, 0);
   sqlite3_finalize(statement);
-  sqlite3_prepare(connection, "", -1, &statement, 0);
+  sqlite3_prepare(connection, "select enemy_1, enemy_2, enemy_3, enemy_4, enemy_5, enemy_6, enemy_7, enemy_8, enemy_9, enemy_10 from 'quest_enemies'", -1, &statement, 0);
   size_t enemy_id; 
   for (size_t i = 0; i < count; ++i) {
     sqlite3_step(statement);
@@ -815,7 +779,7 @@ size_t TemplateStorage::read_quest_enemies(sqlite3*& connection) {
 
 size_t TemplateStorage::read_quests(sqlite3*& connection) {
   sqlite3_stmt* statement;
-  sqlite3_prepare(connection, "", -1, &statement, 0);
+  sqlite3_prepare(connection, "select count(*) from 'quest_data'", -1, &statement, 0);
   sqlite3_step(statement);
   size_t count = sqlite3_column_int(statement, 0);
   sqlite3_finalize(statement);

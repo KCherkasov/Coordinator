@@ -16,6 +16,7 @@ class GameObject {
     TextStorage* get_dictionary() const { return _dictionary; }
     size_t get_name(std::string& result) const;
     size_t get_description(std::string& result) const;
+    bool to_delete() const { return _to_delete; }
     size_t set_own_id(const size_t& value);
     size_t set_dictionary(TextStorage* value);
     size_t set_name(const std::string& value);
@@ -28,6 +29,7 @@ class GameObject {
     TextStorage* _dictionary;
     std::string _name;
     std::string _description;
+    bool _to_delete;
 };
 
 #endif

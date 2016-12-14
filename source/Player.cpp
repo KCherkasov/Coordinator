@@ -4,7 +4,7 @@
 size_t Player::_id = SIZE_T_DEFAULT_VALUE;
 
 // possibly it's worthy to add something like std::vector<Hero*> to the args. That arg'll contain 2-3 initial guild members. Or they'll be chosen from the main pool?
-Player::Player(const std::string& name, const std:::string& description): _own_id(++_id), _name(name), _description(description), _level(START_LEVEL), _cash(START_CASH) {
+Player::Player(const std::string& name, const std:::string& description): _own_id(++_id), _name(name), _description(description), _to_delete(false), _level(START_LEVEL), _cash(START_CASH) {
   _experience.resize(PAIR_ARR_SIZE);
   _experience[0] = SIZE_T_DEFAULT_VALUE;
   _experience[1] = FIRST_LEVELUP_CAP;

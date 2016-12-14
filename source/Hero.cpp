@@ -4,7 +4,7 @@
 
 size_t Hero::_id = SIZE_T_DEFAULT_VALUE;
 
-Hero::Hero(const HeroTemplate& data, HeroClass& hero_class, Faction& faction): _own_id(data._own_id), _name(data._name), _description(data._description), _level(START_LEVEL), _faction(faction), _health(data._health), _stats(data._stats), _class(hero_class), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
+Hero::Hero(const HeroTemplate& data, HeroClass& hero_class, Faction& faction): _own_id(data._own_id), _name(data._name), _description(data._description), _to_delete(false), _level(START_LEVEL), _faction(faction), _health(data._health), _stats(data._stats), _class(hero_class), _experience(data._experience), _personality(data._personality), _history(data._history), _equipment(data._equipment) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {
@@ -349,9 +349,10 @@ size_t Hero::update() {
   }
   if (_health == CH_DEAD) {
     // some code here to send suicide message
+    _to_delete = true;
   }
-  if (_quest == NULL) {
-    // some code here to process idle activity
+  if (_quest == NULL && _guild != NULL) {
+    // some code here to process idle activity (only for player guild members)
   }
   return RC_OK;
 }

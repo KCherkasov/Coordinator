@@ -2,7 +2,7 @@
 
 size_t Location::_id = FREE_ID;
 
-Location::Location(LocationTemplate& data): _own_id(data._own_id), _name(data._name), _description(data._description), _stats(data._stats) {
+Location::Location(LocationTemplate& data): _own_id(data._own_id), _name(data._name), _description(data._description), _to_delete(false), _stats(data._stats) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {

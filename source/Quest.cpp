@@ -3,7 +3,7 @@
 
 size_t Quest::_id = SIZE_T_DEFAULT_VALUE;
 
-Quest::Quest(QuestTemplate& data, Location& location, Faction& employer, Faction& target): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _employer_faction(employer), _target_faction(target), _phase(data._phase), _life_time(data._life_time), _rewards(data._rewards), _bonuses(data._bonuses) {
+Quest::Quest(QuestTemplate& data, Location& location, Faction& employer, Faction& target): _own_id(data._own_id), _name(data._name), _description(data._description), _to_delete(false), _level(data._level), _employer_faction(employer), _target_faction(target), _phase(data._phase), _life_time(data._life_time), _rewards(data._rewards), _bonuses(data._bonuses) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {
@@ -273,14 +273,34 @@ size_t Quest::what(std::string& result) {
 
 size_t Quest::update() {
   ++_life_time;
+  // code here to simulate battle
+  
+  size_t j = SIZE_T_DEFAULT_VALUE;
+  while (!_enemies.empty() && j < _enemies.size()) {
+    if (_enemies[j] != NULL) {
+      _enemies[j]->update();
+      if (_enemies[j]->to_delete()) {
+        // code to give the rewards for kill
+        delete _enemies[j];
+        _enemies.erase(_enemies.begin() +j);
+      } else {
+        ++j;
+      }
+    } else {
+      _enemies.erase(_enemies.begin() + j);
+    }
+  }
   if (_life_time >= QUEST_LIFE_TIME && (_phase == QP_PENDING || _phase == QP_RECRUITING)) {
     _phase = QP_EXPIRED;
+    _to_delete = true;
   }
   if (_phase == QP_IN_PROGRESS && _heroes.empty()) {
     _phase = QP_FAILED;
+    _to_delete = true;
   }
   if (_phase == QP_IN_PROGRESS && _enemies.empty()) {
     size_t chance = roll_dice();
+    _to_delete = true;
     // maybe chances shall be tweaked or determined algorithm needed
     if (chance % 2 == 0) {
       _phase = QP_SUCCESS_TOTAL;

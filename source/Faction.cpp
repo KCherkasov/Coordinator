@@ -2,7 +2,7 @@
 
 size_t Faction::_id = SIZE_T_DEFAULT_VALUE;
 
-Faction::Faction(const FactionTemplate& data): _own_id(data._own_id), _name(data._name), _description(data._description), _influence(data._influence), _relationship(data._relationship) {
+Faction::Faction(const FactionTemplate& data): _own_id(data._own_id), _name(data._name), _description(data._description), _to_delete(false), _influence(data._influence), _relationship(data._relationship) {
   if (_own_id == FREE_ID) {
     _own_id = ++_id;
   } else {

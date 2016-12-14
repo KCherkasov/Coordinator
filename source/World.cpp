@@ -73,7 +73,10 @@ size_t World::new_game(const std::string& player_name) {
 size_t World::load_game(const WorldTemplate& save_data) {
   cleanup();
   // generate heroes from save data
-  
+  for (size_t i = 0; i < save_data._heroes.size(); ++i) {
+    _heroes.push_back(NULL);
+    _storage->make_hero(_heroes[i], save_data._heroes[i]);
+  }
   // generate quests from save data
   
   // generate the player
@@ -94,4 +97,37 @@ size_t World::clear_storage() {
     return RC_NO_STORAGE;
   }
   return _storage->clear_storage();
+}
+
+size_t World::update() {
+  size_t j = SIZE_T_DEFAULT_VALUE;
+  while (!_quests.empty() && j < _quests.size()) {
+    
+    if (_quests[j] != NULL) {
+      _quests[j]->update();
+      if (_quests[j]->to_delete()) {
+        delete _quests[j];
+        _quests.erase(_quests.begin() + j);
+      } else {
+        ++j; 
+      }
+    } else {
+      _quests.erase(_quests.begin() + j);
+    }
+  }
+  j = SIZE_T_DEFAULT_VALUE;
+  while (!_heroes.empty() && j < _heroes.size()) {
+    if (_heroes[j] != NULL) {
+      _heroes[j]->update();
+      if (_heroes[j]->to_delete()) {
+        delete _heroes[j];
+        _heroes.erase(_heroes.begin() + j);
+      } else {
+        ++j;
+      }
+    } else {
+      _heroes.erase(_heroes.begin() + j);
+    }
+  }
+  return RC_OK;
 }

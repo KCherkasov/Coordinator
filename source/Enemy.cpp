@@ -2,7 +2,7 @@
 
 size_t Enemy::_id = FREE_ID;
 
-Enemy::Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype, const Faction& faction): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _faction(faction), _health(data._health), _stats(data._stats), _archetype(archetype), _loot_list(data._loot_list), _reward(data._reward) {
+Enemy::Enemy(const EnemyTemplate& data, const CharacterArchetype& archetype, const Faction& faction): _own_id(data._own_id), _name(data._name), _description(data._description), _to_delete(false), _level(data._level), _faction(faction), _health(data._health), _stats(data._stats), _archetype(archetype), _loot_list(data._loot_list), _reward(data._reward) {
   if (_own_id == FREE_INDEX) {
     _own_id = ++_id;
   } else {
@@ -188,5 +188,8 @@ size_t Enemy::short_what(std::string& result) const {
 }
 
 size_t Enemy::update() {
+  if (_health == CH_DEAD) {
+    _to_delete = true;
+  }
   return RC_OK;
 }

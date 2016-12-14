@@ -45,7 +45,7 @@ class Player: public LevelableObject {
     std::vector<size_t> _experience;
     std::vector<size_t> _history;
     std::vector<Hero*> _heroes;
-    
+
     size_t level_up();
 };
 
