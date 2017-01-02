@@ -131,3 +131,46 @@ size_t World::update() {
   }
   return RC_OK;
 }
+
+size_t World::take_quest(const size_t& quest_id) {
+  if (quest_id < _quests.size()) {
+    if (_quests[quest_id] != NULL) {
+      if (_quests[quest_id]->get_phase() == QP_PENDING) {
+        _quests[quest_id]->set_phase(QP_RECRUITING);
+      } else {
+        return RC_BAD_INPUT;
+      }
+    }
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t World::decline_quest(const size_t& quest_id) {
+  if (quest_id < _quests.size()) {
+    if (_quests[quest_id] != NULL) {
+      if (_quests[quest_id]->get_phase() > QP_PENDING && _quests[quest_id]->get_phase() < QP_SUCCESS_TOTAL) {
+        _quests[quest_id]->set_phase(QP_DECLINED);
+      } else {
+        return RC_BAD_INPUT;
+      }      
+    }
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t World::assign_hero(const size_t& hero_id, const size_t& quest_id) {
+  if (hero_id < _heroes.size() && quest_id < _quests.size()) {
+    if (_heroes[hero_id] != NULL && _quests[quest_id] != NULL) {
+      if (_quests[quest_id]->get_phase() != QP_RECRUITING || _heroes[hero_id]->get_quest() != NULL || _heroes[hero_id]->get_guild() == NULL) {
+        return RC_BAD_INPUT;
+      }
+    }
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+

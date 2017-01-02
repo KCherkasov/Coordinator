@@ -37,6 +37,17 @@ class World {
     
     size_t update();
     
+    size_t turn_number() const { return _turn_number; }
+    
+    size_t take_quest(const size_t& quest_id);
+    size_t decline_quest(const size_t& quest_id);
+    
+    size_t assign_hero(const size_t& hero_own_id, const size_t& quest_own_id);
+    size_t reject_hero(const size_t& hero_id, const size_t& quest_id);
+    
+    size_t hire_hero(const size_t& hero_id);
+    size_t fire_hero(const size_t& hero_id);
+    
   protected:
     size_t cleanup();
   
