@@ -37,12 +37,52 @@ Quest::~Quest() {
   }
 }
 
-size_t Quest::give_reward(/**/, const bool& with_rep_dmg) {
-  // code here to transfer money reward
+size_t Quest::remove_loot(const size_t& index) {
+  if (index < _loot.size()) {
+    _loot.erase(_loot.begin() + index);
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Quest::count_fees() {
+  srand(static_cast<size_t>(time(0)));
+  size_t fees = SIZE_T_DEFAULT_VALUE;
+  while (_damage > SIZE_T_DEFAULT_VALUE) {
+    size_t index = rand() % LO_SIZE;
+    size_t cost = std::max(1, index * DAMAGE_COST_PER_SIZE);
+    if (_damage >= cost) {
+      _damage -= cost;
+      LocationObject object;
+      _location.get_fees(index, object);
+      fees += object._price;
+    }
+  }
+  return fees;
+}
+
+size_t Quest::give_reward(QuestReward& reward, const bool& with_rep_dmg) {
+  srand(static_cast<size_t>(time(0)));
   size_t experience_grant = _rewards[RI_EXPERIENCE];
+  size_t money_grant = _rewards[RI_MONEY];
   for (size_t i = 0; i < _level; ++i) {
-    experience_grant *= EXPERIENCE_RAISE_PER_LEVEL;
+    experience_grant *= EXP_RAISE_PER_LEVEL;
     experience_grant /= PERCENT_CAP;
+    money_grant *= MONEY_RAISE_PER_LEVEL;
+    money_grant /= PERCENT_CAP;
+  }
+  if (rand() % PERCENT_CAP < PERCENT_CAP / 2) {
+    size_t money_bonuses = _bonuses[RI_MONEY];
+    size_t exp_bonuses = _bonuses[RI_EXPERIENCE];
+    for (size_t i = 0; i < _level; ++i) {
+      money_bonuses *= MONEY_RAISE_PER_LEVEL;
+      money_bonuses /= PERCENT_CAP;
+      exp_bonuses *= EXP_RAISE_PER_LEVEL;
+      exp_bonuses /= PERCENT_CAP;
+    }
+    money_grant += money_bonuses;
+    experience_grant = exp_bonuses;
   }
   for (size_t i = 0; i < _heroes.size(); ++i) {
     if (_heroes[i] != NULL) {
@@ -51,6 +91,13 @@ size_t Quest::give_reward(/**/, const bool& with_rep_dmg) {
       _heroes[i]->add_history(HH_QUESTS_COMPLETED);
     }
   }
+  reward._level;
+  reward._cash = money_grant;
+  reward._fees = count_fees();
+  reward._experience = experience_grant;
+  reward._loot.clear();
+  reward._loot = _loot;
+  return RC_OK;
 }
 
 size_t Quest::get_location(Location& result) {
@@ -161,6 +208,8 @@ size_t Quest::get_save_data(QuestTemplate& save_data) const {
       save_data._enemies.push_back(to_add);
     }
   }
+  save_data._loot.clear();
+  save_data._loot = _loot;
   return RC_OK;
 }
 
@@ -280,7 +329,7 @@ size_t Quest::update() {
     if (_enemies[j] != NULL) {
       _enemies[j]->update();
       if (_enemies[j]->to_delete()) {
-        // code to give the rewards for kill
+        // code to give the rewards for kill ? shall we give it to a whole party, and if not, how shall we determine the one who has killed the monster ?
         delete _enemies[j];
         _enemies.erase(_enemies.begin() +j);
       } else {
@@ -310,26 +359,40 @@ size_t Quest::update() {
   }
   if (_phase == QP_SUCCESS_TOTAL) {
     // code here to process success without relationship damage
+    _employer_faction.increase_relationship(REPUTATION_PER_QUEST);
+    _employer_faction.increase_influence();
+    _target_faction.decrease_influence();
   }
   if (_phase == QP_SUCCESS_REL_DMG) {
     // code here to process success with relationship damage
+    _employer_faction.increase_relationship(REPUTATION_PER_QUEST);
+    _employer_faction.increase_influence();
+    _target_faction.decrease_relationship(REPUTATION_PER_QUEST);
+    _target_faction.decrease_influence();
   }
   if (_phase == QP_FAILED) {
     // code here to process fail
+    _employer_faction.decrease_relationship(REPUTATION_PER_QUEST / 2);
+    _target_faction.decrease_relationship(REPUTATION_PER_QUEST);
+    _rewards[RI_MONEY] = SIZE_T_DEFAULT_VALUE;
+    _rewards[RI_EXPERIENCE] = SIZE_T_DEFAULT_VALUE;
+    _bonuses[RI_MONEY] = SIZE_T_DEFAULT_VALUE;
+    _bonuses[RI_EXPERIENCE] = SIZE_T_DEFAULT_VALUE;
+    _loot.clear();
   }
   if (_phase > QP_IN_PROGRESS) {
-    // code here to send suicide message
+    _to_delete = true;
   }
   return RC_OK;
 }
 
 size_t Quest::increase_phase(const size_t& shift) {
-  _phase = (_phase + shift) / QP_SIZE;
+  _phase = (_phase + shift) % QP_SIZE;
   return RC_OK;
 }
 
 size_t Quest::decrease_phase(const size_t& shift) {
-  _phase = (_phase - shift) / QP_SIZE;
+  _phase = (_phase - shift) % QP_SIZE;
   return RC_OK;
 }
 
@@ -430,6 +493,12 @@ size_t Quest::what(std::string& result) const {
   convert_to_string(_bonuses[RI_EXPERIENCE], buffer);
   buffer.append("Exp\nStatus: ");
   _dictionary->get_quest_phase_name(_phase, buffer);
+  result += buffer;
+  buffer.clear();
+  result.append("\nDamage dealt: ");
+  convert_to_string(_damage, buffer);
+  result += buffer;
+  buffer.clear();
   if (!_enemies.empty()) {
     buffer.append("\nEnemies:\n");
     result += buffer;
@@ -455,7 +524,7 @@ size_t Quest::what(std::string& result) const {
       }
     }
   }
-  buffer.clear();
+  bu  `ffer.clear();
   return RC_OK;
 }
 
@@ -496,6 +565,12 @@ size_t Quest::short_what(std::string& result) const {
   convert_to_string(_bonuses[RI_EXPERIENCE], buffer);
   buffer.append("Exp\nStatus: ");
   _dictionary->get_quest_phase_name(_phase, buffer);
+  result += buffer;
+  buffer.clear();
+  convert_to_string(_damage, buffer);
+  result.append("\nDamage dealt: ");
+  result += buffer;
+  buffer.clear();
   buffer.append("\nEnemies: ");
   result += buffer;
   buffer.clear();

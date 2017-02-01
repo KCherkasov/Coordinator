@@ -357,6 +357,46 @@ size_t Hero::update() {
   return RC_OK;
 }
 
+size_t Hero::equip(Item*& item, const size_t& slot) {
+  if (item != NULL) {
+    // check if hero is able to wear that item
+    if (_level < item->get_level()) {
+      return RC_BAD_INPUT;
+    }
+    if ()
+    // calculating the target slot
+    size_t slot = SIZE_T_DEFAULT_VALUE;
+    bool if_slot = BOOL_DEFAULT_VALUE;
+    for (size_t i = 0; i < IS_SIZE; ++i) {
+      item->get_slot(i, if_slot);
+      if (if_slot) {
+        slot = i;
+        Item* is_free = NULL;
+        _equipment.get_equipment(i, is_free);
+        if (is_free == NULL) {
+          break;
+        }
+      }
+    }
+    _equipment.set_equipment(slot, item);
+    return RC_OK;
+  } else {
+    if (slot < IS_SIZE) {
+      Item* in_slot = NULL;
+      _equipment.get_equipment(slot, in_slot);
+      if (in_slot != NULL) {
+        in_slot->set_owner_id(FREE_ID);
+        _equipment.set_equipment(slot, item);
+        return RC_OK;
+      } else {
+        return RC_OK;
+      }
+    } else {
+      return RC_BAD_INPUT;
+    }
+  }
+}
+
 size_t Hero::add_history(const size_t& index, const size_t& amount) {
   if (index < _history.size()) {
     _history[index] += amount;

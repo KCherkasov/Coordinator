@@ -14,7 +14,7 @@ Player::Player(const std::string& name, const std:::string& description): _own_i
   }
 }
 
-Player::Player(const PlayerTemplate& data, const std::vector<Hero*> heroes): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _cash(data._cash), _experience(data._experience), _history(data._history) {
+Player::Player(const PlayerTemplate& data, const std::vector<Item*>& items, const std::vector<Hero*>& heroes): _own_id(data._own_id), _name(data._name), _description(data._description), _level(data._level), _cash(data._cash), _experience(data._experience), _history(data._history) {
   if (_own_id == FREE_INDEX) {
     _own_id = ++_id;
   } else {
@@ -28,6 +28,17 @@ Player::Player(const PlayerTemplate& data, const std::vector<Hero*> heroes): _ow
         if (heroes[j]->get_own_id() == data._heroes[i]) {
           _heroes.push_back(heroes[j]);
           _heroes[_heroes.size() - 1]->enter_guild(this);
+          break;
+        }
+      }
+    }
+  }
+  for (size_t i = 0; i < data._items.size(); ++i) {
+    for (size_t j = 0; j < items.size(); ++i) {
+      if (items[j] != NULL) {
+        if (items[j]->get_own_id() == data._items[i]) {
+          _items.push_back(items[j]);
+          break;
         }
       }
     }
@@ -79,7 +90,17 @@ size_t Player::get_heroes(std::vector<Hero*>& result) const {
   return RC_OK;
 }
 
-size_t Player::get_free_heroes.count() {
+size_t Player::get_heroes(const size_t& index, Hero*& result) const {
+  if (index < _heroes.size()) {
+    delete result;
+    result = _heroes[index];
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Player::get_free_heroes_count() {
   size_t free_heroes = SIZE_T_DEFAULT_VALUE;
   for (size_t i = 0; i < _heroes.size(); ++i) {
     if (_heroes[i] != NULL) {
@@ -91,13 +112,25 @@ size_t Player::get_free_heroes.count() {
   return free_heroes;
 }
 
-size_t Player::get_heroes(const size_t& index, Hero*& result) const {
-  if (index < _heroes.size()) {
-    result = _heroes[index];
+size_t Player::get_items(const size_t& index, Item*& result) const {
+  if (index < _items.size()) {
+    delete result;
+    result = _items[index];
     return RC_OK;
   } else {
     return RC_BAD_INDEX;
   }
+}
+
+size_t Player::get_items(std::vector<Item*>& result) const {
+  if (!result.empty()) {
+    for (size_t i = 0; i < result.size(); ++i) {
+      delete result[i];
+    }
+  }
+  result.clear();
+  result = _items;
+  return RC_OK;
 }
 
 size_t Player::get_save_data(PlayerTemplate& result) const {
@@ -116,6 +149,12 @@ size_t Player::get_save_data(PlayerTemplate& result) const {
   for (size_t i = 0; i < _heroes.size(); ++i) {
     if (_heroes[i] != NULL) {
       result._heroes.push_back(_heroes[i]->get_own_id());
+    }
+  }
+  result._items.clear();
+  for (size_t i = 0; i < _items.size(); ++i) {
+    if (_items[i] != NULL) {
+      result._items.push_back(_items[i]->get_own_id());
     }
   }
   return RC_OK;
@@ -140,19 +179,23 @@ size_t Player::what(std::string& result) const {
   buffer.append ("Exp)\nHeroes in the guild: ");
   result += buffer;
   buffer.clear();
+  result.append("\nItems in chests: ");
+  convert_to_string(_items.size(), buffer);
+  result += buffer;
+  buffer.clear();
   convert_to_string(_heroes.size(), buffer);
   buffer.append("\n\nGuild statistics:\n");
   result += buffer;
   buffer.clear();
   for (size_t i = 0; i < PH_SIZE; ++i) {
     _dictionary->get_player_history_name(i, buffer);
-   buffer.append(": ");
-   result += buffer;
-   buffer.clear();
-   convert_to_string(_history[i], buffer);
-   buffer.append("\n");
-   result += buffer;
-   buffer.clear();
+    buffer.append(": ");
+    result += buffer;
+    buffer.clear();
+    convert_to_string(_history[i], buffer);
+    buffer.append("\n");
+    result += buffer;
+    buffer.clear();
   }
   buffer.clear();
   return RC_OK;
@@ -173,12 +216,24 @@ size_t Player::short_what(std::string& result) const {
   buffer.append(" heroes in the guild.\n");
   result += buffer;
   buffer.clear();
+  convert_to_string(_items.size(), buffer);
+  buffer.append(" items in chests.\n");
+  result += buffer;
+  buffer.clear();
   return RC_OK;
 }
 
 size_t Player::update() {
   if (_experience[0] >= _experience[1]) {
     level_up();
+  }
+  size_t j = 0;
+  while (!_items.empty() && j < _items.size()) {
+    if (_items[j] == NULL) {
+      _items.erase(_items.begin() + j);
+    } else {
+      ++j;
+    }
   }
   return RC_OK;
 }
@@ -259,6 +314,35 @@ size_t Player::remove_hero(Hero* to_remove) {
   return RC_NOT_FOUND;
 }
 
+size_t Player::add_item(Item* to_add) {
+  if (to_add == NULL) {
+    return RC_BAD_INPUT;
+  }
+  _items.push_back(to_add);
+  return RC_OK;
+}
+
+size_t Player::remove_item(const size_t& index) {
+  if (index < _items.size()) {
+    delete _items[index];
+    _items.erase(_items.begin() + index);
+    return RC_OK;
+  } else {
+    return RC_BAD_INDEX;
+  }
+}
+
+size_t Player::remove_item(Item* to_delete) {
+  for (size_t i = 0; i < _items.size(); ++i) {
+    if (_items[i] == to_delete) {
+      delete _items[i];
+      _items.erase(_items.begin() + i);
+      return RC_OK;
+    }
+  }
+  return RC_NOT_FOUND;
+}
+
 size_t Player::add_cash(const size_t& amount) {
   _cash += amount;
   return RC_OK;
@@ -314,4 +398,3 @@ size_t Player::remove_history(const size_t& index, const size_t& amount) {
     return RC_BAD_INDEX;
   }
 }
-

@@ -24,9 +24,18 @@ const size_t POINTS_PER_LEVEL = 10;
 const size_t FIRST_LEVELUP_CAP = 100;
 const size_t EXP_RAISE_PER_LEVEL = 110;
 const size_t MONEY_RAISE_PER_LEVEL = 110;
+const size_t REPUTATION_PER_QUEST = 5;
 const size_t STAT_POINTS_PER_LEVEL = 5;
 
+const size_t INITIAL_HEROES_COUNT = 15;
+const size_t INITIAL_QUESTS_COUNT = 5;
+const size_t INITIAL_ITEMS_COUNT = 0;
+
 const size_t START_LEVEL = 1;
+const size_t MAX_LEVEL = 100;
+
+const size_t LEVELS_RANGE = 3;
+
 const size_t START_CASH = 1000;
 
 const size_t MAX_HEROES_PER_QUEST = 5;
@@ -42,6 +51,8 @@ const size_t QUEST_LIFE_TIME = 108000; // quest lifetime assumed from 60 updates
 const size_t QUEST_LIFE_TIME_TURNS = 30; // quest lifetime for turn-based mode
 
 const size_t ITEMS_PER_SLOT = 5;
+
+const size_t DMG_POINTS_PER_SIZE = 5;
 
 const size_t MAX_FACTIONS_NUMBER = 6;
 
@@ -67,6 +78,7 @@ enum RewardIndices { RI_MONEY, RI_EXPERIENCE, RI_SIZE };
 
 enum QuestPhase { QP_PENDING, QP_RECRUITING, QP_IN_PROGRESS, QP_SUCCESS_TOTAL, QP_SUCCESS_REL_DMG, QP_FAILED, QP_EXPIRED, QP_DECLINED, QP_SIZE };
 
+enum LocationObjs { LO_TINY, LO_SMALL, LO_MEDIUM, LO_BIG, LO_LARGE, LO_SIZE };
 enum LocationStats { LS_COVERS, LS_VISIBILITY, LS_SIZE };
 
 size_t roll_dice(const size_t& dice = PERCENT_CAP);

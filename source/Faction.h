@@ -16,10 +16,10 @@ class Faction: public GameObject {
     size_t what(std::string& result) const;
     size_t short_what(std::string& result) const;
     size_t update();
-    size_t increase_influence(const size_t& amount);
-    size_t increase_relationship(const size_t& amount);
-    size_t decrease_influence(const size_t& amount);
-    size_t decrease_relationship(const size_t& amount);
+    size_t increase_influence(const size_t& amount = 1);
+    size_t increase_relationship(const size_t& amount = 1);
+    size_t decrease_influence(const size_t& amount = 1);
+    size_t decrease_relationship(const size_t& amount = 1);
 
     Faction& operator = (const Faction& rhs) {
       _own_id = rhs._own_id;

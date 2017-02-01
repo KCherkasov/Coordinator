@@ -235,11 +235,34 @@ struct FactionTemplate {
   friend bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs);
 };
 
+struct LocationObject {
+  std::string _name;
+  std::string _description;
+  size_t _price;
+  
+  LocationObject(const std::string& name, const std::string& description, const size_t& price): _name(name), _description(description), _price(price) {}
+  ~LocationObject() {}
+  
+  LocationObject& operator = (const LocationObject& rhs) {
+    _name.clear();
+    _name = rhs._name;
+    _description.clear();
+    _description = rhs._description;
+    _price = rhs._price;
+    return *this;
+  }
+  
+  friend bool operator == (const LocationObject& lhs, const LocationObject& rhs);
+  friend bool operator < (const LocationObject& lhs, const LocationObject& rhs);
+  friend bool operator > (const LocationObject& lhs, const LocationObject& rhs);
+};
+
 struct LocationTemplate {
   size_t _own_id;
   std::string _name;
   std::string _description;
   std::vector<size_t> _stats;
+  std::vector<LocationObject> _fees;
   
   LocationTemplate& operator = (const LocationTemplate& rhs) {
     _own_id = rhs._own_id;
@@ -249,6 +272,7 @@ struct LocationTemplate {
     _description = rhs._description;
     _stats.clear();
     _stats = rhs._stats;
+    _fees = rhs._fees;
     return *this;
   }
   
@@ -272,7 +296,8 @@ struct QuestTemplate {
   std::vector<size_t> _bonuses;
   std::vector<size_t> _heroes;
   std::vector<EnemyTemplate> _enemies;
-
+  std::vector<ItemTemplate> _loot;
+  
   QuestTemplate& operator = (const QuestTemplate& rhs) {
     _own_id = rhs._own_id;
     _name.clear();
@@ -294,6 +319,8 @@ struct QuestTemplate {
     _heroes = rhs._heroes;
     _enemies.clear();
     _enemies = rhs._enemies;
+    _loot.clear();
+    _loot = rhs._loot;
     return *this;
   }
 
@@ -311,8 +338,18 @@ struct PlayerTemplate {
   std::vector<size_t> _experience;
   std::vector<size_t> _history;
   std::vector<size_t> _heroes;
+  std::vector<size_t> _items;
   
   PlayerTemplate& operator = (const PlayerTemplate& rhs) {
+    _own_id = rhs._own_id;
+    _name.clear();
+    _name = rhs._name;
+    _description = _rhs._description;
+    _level = rhs._level;
+    _heroes.clear();
+    _heroes = rhs._heroes;
+    _items.clear();
+    _items = rhs._items;
     return *this;
   }
   

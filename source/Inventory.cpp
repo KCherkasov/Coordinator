@@ -124,6 +124,21 @@ size_t Inventory::get_save_data(InventoryTemplate& result) const {
 
 size_t Inventory::what(std::string& result) const {
   result.clear();
+  for (size_t i = 0; i < _equipment.size(); ++i) {
+    std::string buffer;
+    _dictionary->get_item_kind_name(i, buffer);
+    result += buffer;
+    result.append(": ");
+    buffer.clear();
+    if (_equipment[i] != NULL) {
+      _equipment[i]->short_what(buffer);
+      buffer.append("\n");
+      result += buffer;
+      buffer.clear();
+    } else {
+      result.append("Nothing\n");
+    }
+  }
   return RC_OK;
 }
 

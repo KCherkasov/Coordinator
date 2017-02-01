@@ -16,6 +16,7 @@ class WorldStorage {
     WorldStorage() {}
     WorldStorage(const std::string& text_db_name, const std::string& template_db_name, const std::string& type_objects_db_name);
     ~WorlStorage() {}
+    
     size_t fill_storage(const std::string& text_db_name, const std::string& template_db_name, const std::string& type_objects_db_name);
     size_t clear_storage();
     

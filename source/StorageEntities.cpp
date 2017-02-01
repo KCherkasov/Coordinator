@@ -237,6 +237,27 @@ bool operator > (const FactionTemplate& lhs, const FactionTemplate& rhs) {
   return lhs._own_id > rhs._own_id;
 }
 
+bool operator == (const LocationObject& lhs, const LocationObject& rhs) {
+  if (lhs._name != rhs._name) {
+    return false;
+  }
+  if (lhs._description != rhs._description) {
+    return false;
+  }
+  if (lhs._price != rhs._price) {
+    return false;
+  }
+  return true;
+}
+
+bool operator < (const LocationObject& lhs, const LocationObject& rhs) {
+  return lhs._price < rhs._price;
+}
+
+bool operator > (const LocationObject& lhs, const LocationObject& rhs) {
+  return lhs._price > rhs._price;
+}
+
 bool operator == (const LocationTemplate& lhs, const LocationTemplate& rhs) {
   if (lhs._own_id != rhs._own_id) {
     return false;
@@ -248,6 +269,9 @@ bool operator == (const LocationTemplate& lhs, const LocationTemplate& rhs) {
     return false;
   }
   if (lhs._stats != rhs._stats) {
+    return false;
+  }
+  if (lhs._fees != rhs._fees) {
     return false;
   }
   return true;
@@ -304,6 +328,9 @@ bool operator == (const QuestTemplate& lhs, const QuestTemplate& rhs) {
   if (lhs._enemies != rhs._enemies) {
     return false;
   }
+  if (lhs._loot != rhs._loot) {
+    return false;
+  }
   return true;
 }
 
@@ -338,6 +365,9 @@ bool operator == (const PlayerTemplate& lhs, const PlayerTemplate& rhs) {
     return false;
   }
   if (lhs._heroes != rhs._heroes) {
+    return false;
+  }
+  if (lhs._items != rhs._items) {
     return false;
   }
   return true;

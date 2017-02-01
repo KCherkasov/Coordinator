@@ -37,6 +37,7 @@ class Hero: public GameCharacter {
     size_t what(std::string& result) const;
     size_t short_what(std::string& result) const;
     size_t update();
+    size_t equip(Item*& item, const size_t& slot = IS_SIZE);
     size_t add_history(const size_t& index, const size_t& amount = 1);
     size_t add_experience(const size_t& amount);
     size_t add_quest(Quest* to_add);

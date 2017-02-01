@@ -8,7 +8,7 @@ class Hero;
 class Player: public LevelableObject {
   public:
     Player(const std::string& name, const std::string& description);
-    Player(const PlayerTemplate& data, const std::vector<Hero*> heroes);
+    Player(const PlayerTemplate& data, const std::vector<Item*>& items, const std::vector<Hero*>& heroes);
     virtual ~Player() {}
     size_t get_cash() const { return _cash; }
     size_t get_experience(std::vector<size_t>& result) const;
@@ -20,6 +20,10 @@ class Player: public LevelableObject {
     Hero* get_heroes(const size_t& index) const { if (index < _heroes.size()) { return _heroes[index]; } else { return NULL; } }
     size_t get_heroes_count() const { return _heroes.size(); }
     size_t get_free_heroes_count() const;
+    size_t get_items(const size_t& index, Item*& result) const;
+    size_t get_items(std::vector<Item*>& result) const;
+    Item* get_items(const size_t& index) { if (index < _items.size()) { return _items[index]; } else { return NULL; } }
+    size_t get_items_count() const { return _items.size(); }
     size_t get_save_data(PlayerTemplate& result) const;
     size_t what(std::string& result) const;
     size_t short_what(std::string& result) const;
@@ -32,6 +36,11 @@ class Player: public LevelableObject {
     size_t add_hero(Hero* to_add);
     size_t remove_hero(const size_t& index);
     size_t remove_hero(Hero* to_remove);
+    size_t add_item(Item* to_add);
+    size_t remove_item(const size_t& index);
+    size_t remove_item(Item* to_remove);
+    size_t remove_hero(const size_t& index);
+    size_t remove_hero(Item* to_remove);
     size_t add_cash(const size_t& amount);
     size_t remove_cash(const size_t& amount);
     size_t add_experience(const size_t amount);
@@ -45,7 +54,7 @@ class Player: public LevelableObject {
     std::vector<size_t> _experience;
     std::vector<size_t> _history;
     std::vector<Hero*> _heroes;
-
+    std::vector<Item*> _items;
     size_t level_up();
 };
 
